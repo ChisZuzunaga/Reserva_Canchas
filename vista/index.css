@@ -3,3 +3,188 @@
     height: 200px;
 }
 
+footer{
+    height: 25vh;
+    width: 205vh;
+    position: absolute;
+    bottom: 0;
+    outline: 2px solid black;
+}
+
+header{
+    height: 20vh;
+    width: 205vh;
+    position: absolute;
+    top: 0;
+    outline: 2px solid black;
+}
+
+.content{
+    margin-top: 20vh;
+    margin-bottom: 20vh;
+    width: 205vh;
+	height: 190vh;
+    outline: 2px solid black;
+}
+
+.main{
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    position: relative;
+    display: flex;
+    width: 205vh;
+	height: 235vh;
+}
+
+body{
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	font-family: 'Jost', sans-serif;
+}
+
+.division{
+    height: 20vh;
+    width: 205vh;
+    display: flex;
+}
+
+.first-half{
+    width: 50%;
+    height: 20vh;
+    display: flex;
+    align-items: center;
+}
+
+.first-half h1{
+    font-size: 4vh;
+    margin-left: 3vh;
+}
+
+.first-half img{
+    width: 15vh;
+    height: 15vh;
+    margin-left: 3vh;
+}
+
+.second-half{
+    width: 50%;
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logoaqui{
+    width: 15vh;
+    height: 15vh;
+}
+
+.ff-h h1{
+    font-size: 4vh;
+}
+
+.ff-h{
+    width: 80%;
+    height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.ss-h{
+    width: 20%;
+    height: 20vh;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#monito{
+	position: absolute;
+    width: 15vh;
+    height: 15vh;
+}
+
+#f-perfil{
+    width: 10vh;
+	height: 10vh;
+	border-radius: 100px;
+	object-fit: cover;
+	position: absolute;
+	outline: 2px solid white;
+	box-shadow: 0px 0px 35px #050505;
+}
+
+.uno-d a{
+    font-size: 2vh;
+}
+
+#uno-d-logo{
+    width: 10vh;
+    height: 10vh;
+    margin-left: 5vh;
+}
+
+.uno-d, .dos-d, .tre-d, .cua-d{
+    width: 25%;
+    height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cnt-d, #cnt-gm{
+    font-size: 2vh;
+    line-height: 0;
+    display: block;
+}
+
+#rrss{
+    font-size: 2vh;
+}
+
+.copy{
+    height: 5vh;
+    width: 205vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#rr-ins1 ,#rr-ins2{
+    margin-top: 1vh;
+    height: 3vh;
+    width: 3vh;
+}
+
+.img-rr{
+    display: flex;
+    justify-content: center;
+}
+
+#a-ref{
+    margin-right: 2vh;
+}
+
+.carru{
+    height: 50vh;
+    width: auto;
+    margin: 10vh;
+    outline: 2px solid black;
+}
+
+.servicios{
+    height: 50vh;
+    width: 205vh;
+    outline: 2px solid green;
+}
+
+.carousel-item img {
+    height: 50vh; /* Ajusta la altura de la imagen al 100% del contenedor */
+    width: 100%;  /* Ajusta el ancho de la imagen al 100% del contenedor */
+    object-fit: cover; /* Esto mantiene la imagen ajustada al contenedor sin distorsionarla */
+}
