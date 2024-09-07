@@ -92,6 +92,8 @@ if (isset($_SESSION['session_email'])) {
 
             </div>
             <div class="servicios">
+                <a href="horarios_dispo.php?cancha_id=1" class="btn">Ver Horarios Cancha 1</a>
+                <a href="horarios_dispo.php?cancha_id=2" class="btn">Ver Horarios Cancha 2</a>
                 <form action="../controlador/controlador.php?action=cerrar" method="post">
                     <button type="submit">Cerrar sesión</button>
                     dd

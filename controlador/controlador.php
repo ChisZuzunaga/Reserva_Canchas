@@ -8,17 +8,6 @@ class Clientes_controller {
         $this->model = new Clientes_Model();
     }
 
-    public function cargarClientes() {
-        // Obtiene la lista de profesores y la muestra en la vista correspondiente
-        $clientes = $this->model->getClientes();
-        include 'profesor_view2.php';
-    }
-
-    public function mostrarFormulario() {
-        // Muestra el formulario para agregar un nuevo profesor
-        include 'crear_profesor.php';
-    }
-
     public function cerrarClientes() {
         session_start();
         
@@ -103,8 +92,91 @@ class Clientes_controller {
         }
     }
     
+    // Función para realizar reservas
+    public function reservar() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $cancha_id = $_POST['cancha_id'];
+            $fecha = $_POST['fecha'];
+            $hora_inicio = $_POST['hora_inicio'];
+            $duracion = $_POST['duracion'];
 
+            $resultado = $this->model->reservarCancha($cancha_id, $fecha, $hora_inicio, $duracion);
+
+            echo $resultado ? "Reserva realizada con éxito." : "El horario no está disponible.";
+        }
+    }
+
+    // Función para mostrar la página de reservas con horarios disponibles
+    public function mostrarReservas() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha']) && isset($_POST['cancha_id'])) {
+            $fecha = $_POST['fecha'];
+            $cancha_id = $_POST['cancha_id'];
+
+            // Obtener reservas para la fecha seleccionada y la cancha seleccionada
+            $reservas = $this->model->getReservasPorFecha($cancha_id, $fecha);
+
+            // Procesar las reservas para visualizar horarios ocupados
+            $horarios_ocupados = [];
+            foreach ($reservas as $reserva) {
+                $hora_inicio = strtotime($reserva['Hora_Inicio']);
+                $hora_fin = strtotime($reserva['Hora_Fin']);
+                while ($hora_inicio < $hora_fin) {
+                    $horarios_ocupados[date('H:i', $hora_inicio)] = true;
+                    $hora_inicio += 1800; // Avanzar en intervalos de 30 minutos
+                }
+            }
+
+            // Guardar la información en sesión
+            session_start();
+            $_SESSION['horarios_ocupados'] = $horarios_ocupados;
+            $_SESSION['fecha'] = $fecha;
+            $_SESSION['cancha_id'] = $cancha_id;
+
+            // Redirigir a la página de disponibilidad
+            header("Location: ../vista/disponibilidad.php");
+            exit();
+        } else {
+            // Si no hay fecha o cancha_id en el POST, redirigir a la página de reservas
+            header("Location: ../vista/reservar.php");
+            exit();
+        }
+    }
+
+    public function mostrarDisponibilidad() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha']) && isset($_POST['cancha_id'])) {
+        $fecha = $_POST['fecha'];
+        $cancha_id = $_POST['cancha_id'];
+
+        // Obtener reservas para la fecha seleccionada y la cancha seleccionada
+        $reservas = $this->model->getReservasPorFecha($cancha_id, $fecha);
+
+        // Procesar las reservas para visualizar horarios ocupados
+        $horarios_ocupados = [];
+        foreach ($reservas as $reserva) {
+            $hora_inicio = strtotime($reserva['Hora_Inicio']);
+            $hora_fin = strtotime($reserva['Hora_Fin']);
+            while ($hora_inicio < $hora_fin) {
+                $horarios_ocupados[date('H:i', $hora_inicio)] = true;
+                $hora_inicio += 1800; // Avanzar en intervalos de 30 minutos
+            }
+        }
+
+        // Guardar la información en sesión
+        $_SESSION['horarios_ocupados'] = $horarios_ocupados;
+        $_SESSION['fecha'] = $fecha;
+        $_SESSION['cancha_id'] = $cancha_id;
+
+        // Redirigir a la página de disponibilidad
+        header("Location: ../vista/disponibilidad.php");
+        exit();
+    } else {
+        // Si no hay fecha o cancha_id en el POST, redirigir a la página de reservas
+        header("Location: ../vista/reservar.php");
+        exit();
+    }
+    }
 }
+
 
 // Uso del controlador
 $clientesController = new Clientes_controller();
@@ -130,6 +202,12 @@ if (isset($_GET['action'])) {
             break;
         case 'cerrar':
             $clientesController->cerrarClientes();
+            break;
+        case 'reservar':
+            $clientesController->reservar(); // Nueva acción para reservas
+            break;
+        case 'mostrar_reservas':
+            $clientesController->mostrarReservas();
             break;
     }
 } else {

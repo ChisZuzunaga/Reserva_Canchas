@@ -38,10 +38,10 @@
                             <div class="sd-second-half">
                                 <div class="canchas">
                                     <a id="text-can">Canchas</a><br>
-                                    <a id="first-tempo">Primer Tiempo</a>
+                                    <a id="first-tempo">Nombre...</a>
                                 </div>
                                 <div class="logo-first-tempo">
-                                    <img id="logo" src="https://dcx13p9dsx90t.cloudfront.net/uploads/logos/page_logo_bfa15c7d704d5b12.png">
+                                    <img id="logo" src="https://st5.depositphotos.com/69915036/62675/v/450/depositphotos_626754468-stock-illustration-your-logo-here-placeholder-symbol.jpg">
                                 </div>
                             </div>
                         </div>
