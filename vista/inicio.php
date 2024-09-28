@@ -23,15 +23,15 @@ if (isset($_SESSION['session_email'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../script.js"></script>
     <link rel="stylesheet" href="index.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    <title>Inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="main">
         <header>
             <div class="division">
                 <div class="first-half">
-                    <img id="logoaqui" src="https://st5.depositphotos.com/69915036/62675/v/450/depositphotos_626754468-stock-illustration-your-logo-here-placeholder-symbol.jpg">
-                    <h1>Tu logo aquí</h1>
+                    <img id="logoaqui" src="https://i.imgur.com/ywwk1E0.png">
+                    <h1>Ceres Padel Club</h1>
                 </div>
                 <div class="second-half">
                     <div class="ff-h">
@@ -45,51 +45,46 @@ if (isset($_SESSION['session_email'])) {
             </div>
         </header>
         <div class="content">
-            <div class="carru">
-
-            <div id="demo" class="carousel slide" data-bs-ride="carousel">
-
-            <!-- Indicators/dots -->
-            <div class="carousel-indicators">
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
-            </div>
-
-            <!-- The slideshow/carousel -->
-            <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://cdn.britannica.com/70/234870-050-D4D024BB/Orange-colored-cat-yawns-displaying-teeth.jpg" alt="Los Angeles" class="d-block w-100">
-                <div class="carousel-caption">
-                    <h3>Imagen 1</h3>
-                    <p>Imagen 1...</p>
+            <div class="megacar">
+                <div class="carru">
+                    <div id="demo" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                            <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                        </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="https://fotografias.lasexta.com/clipping/cmsimages02/2019/01/25/DB41B993-B4C4-4E95-8B01-C445B8544E8E/98.jpg?crop=4156,2338,x0,y219&width=1900&height=1069&optimize=high&format=webply" class="cat-img">
+                            <div class="carousel-caption">
+                                <h3>Imagen 1</h3>
+                                <p>Imagen 1</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://static.nationalgeographicla.com/files/styles/image_3200/public/nationalgeographic_1468962.jpg?w=1600&h=1179" class="cat-img">
+                            <div class="carousel-caption">
+                                <h3>Imagen 2</h3>
+                                <p>Imagen 2</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://es.mypet.com/wp-content/uploads/sites/23/2021/03/GettyImages-623368750-e1582816063521-1.jpg" class="cat-img">
+                            <div class="carousel-caption">
+                                <h3>Imagen 3</h3>
+                                <p>Imagen 3</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                        <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://cdn.britannica.com/34/235834-050-C5843610/two-different-breeds-of-cats-side-by-side-outdoors-in-the-garden.jpg" alt="Chicago" class="d-block w-100">
-                <div class="carousel-caption">
-                    <h3>Imagen 2</h3>
-                    <p>Imagen 2...</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://www.rover.com/blog/wp-content/uploads/group-of-cats-four-cats-outside-960x540.jpg" alt="New York" class="d-block w-100">
-                <div class="carousel-caption">
-                    <h3>Imagen 3</h3>
-                    <p>Imagen 3...</p>
-                </div>
-            </div>
-            </div>
-
-            <!-- Left and right controls/icons -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-            </button>
-            </div>
-
             </div>
             <div class="servicios">
                 <a href="horarios_dispo.php?cancha_id=1" class="btn">Ver Horarios Cancha 1</a>
@@ -101,11 +96,12 @@ if (isset($_SESSION['session_email'])) {
             </div>
 
         </div>
+
         <footer>
-            <div class="division">
+            <div class="divisions">
                 <div class="uno-d">
-                    <img id="uno-d-logo" src="https://st5.depositphotos.com/69915036/62675/v/450/depositphotos_626754468-stock-illustration-your-logo-here-placeholder-symbol.jpg">
-                    <a>Tu logo aquí</a>
+                    <img id="uno-d-logo" src="https://i.imgur.com/ywwk1E0.png"><br>
+                    <a>Ceres Padel Club</a>
                 </div>
                 <div class="dos-d">
                     <div class="dos-d-rr">

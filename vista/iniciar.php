@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Inicio</title>
+    <title>Iniciddo</title>
     <link rel="stylesheet" href="iniciar.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="java.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
 </head>
@@ -21,7 +22,7 @@
                             <div class="rest-input">
                                 <input type="text" id="i-email" name="email" required placeholder=" Email"> 
                                 <input type="password" id="i-password" name="clave" required placeholder=" Contraseña">
-                                <input type="text" id="i-numero" name="numero" required placeholder=" Teléfeno">   
+                                <input type="text" id="i-numero" name="numero" required placeholder=" Teléfono">   
                                 <button>Registrarse</button>  
                                 <div class="label-first">
                                     <a>¿Ya tienes una cuenta?</a><label for="chk" class="login-text" aria-hidden="true">Inicia Sesión</label>              
@@ -37,11 +38,11 @@
                             </div>
                             <div class="sd-second-half">
                                 <div class="canchas">
-                                    <a id="text-can">Canchas</a><br>
-                                    <a id="first-tempo">Nombre...</a>
+                                    <a id="text-can">Ceres</a><br>
+                                    <a id="first-tempo">Padel Club</a>
                                 </div>
                                 <div class="logo-first-tempo">
-                                    <img id="logo" src="https://st5.depositphotos.com/69915036/62675/v/450/depositphotos_626754468-stock-illustration-your-logo-here-placeholder-symbol.jpg">
+                                    <img id="logo" src="https://i.imgur.com/ywwk1E0.png">
                                 </div>
                             </div>
                         </div>
