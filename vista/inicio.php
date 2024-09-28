@@ -87,12 +87,66 @@ if (isset($_SESSION['session_email'])) {
                 </div>
             </div>
             <div class="servicios">
-                <a href="horarios_dispo.php?cancha_id=1" class="btn">Ver Horarios Cancha 1</a>
-                <a href="horarios_dispo.php?cancha_id=2" class="btn">Ver Horarios Cancha 2</a>
+                <div class="agregar-algo">
+                    d
+                </div>
+                <div class="canchas">
+                    <a>Selecciona los servicios que deseas agendar</a><br>
+                    <div class="padel">
+                        <div class="pdel-txt">
+                            <a>Pádel</a>
+                        </div>
+                        <div class="pdel-btn">
+                            <button class="btn-hiden">⁻</button>
+                        </div>
+                    </div>
+
+                    <div class="opciones-padel">
+                        <div class="canchaA">
+                            <div class="tx">
+                                <p>Cancha A</p>
+                            </div>
+                            <div class="tx-1">
+                                <p>60, 90 o 120 minutos</p>
+                            </div>
+                            <div class="tx-2">
+                                <p>$11.111</p>
+                            </div>
+                            <div class="tx-3">
+                                <p>Insertar directrices de la cancha</p>
+                            </div>
+                            <div class="tx-4">
+                                <a href="horarios_dispo.php?cancha_id=1" class="btn">Agendar Servicio</a>
+                            </div>
+                        </div>
+                        <div class="canchaB">
+                            <div class="tx">
+                                <p>Cancha A</p>
+                            </div>
+                            <div class="tx-1">
+                                <p>60, 90 o 120 minutos</p>
+                            </div>
+                            <div class="tx-2">
+                                <p>$11.111</p>
+                            </div>
+                            <div class="tx-3">
+                                <p>Insertar directrices de la cancha</p>
+                            </div>
+                            <div class="tx-4">
+                                <a href="horarios_dispo.php?cancha_id=2" class="btn">Agendar servicio</a>
+                            </div>
+                        </div>
+                    </div>
+                <!--
+                
+
+
+
                 <form action="../controlador/controlador.php?action=cerrar" method="post">
                     <button type="submit">Cerrar sesión</button>
                     dd
-                </form>
+                </form>-->
+                </div>
             </div>
 
         </div>
