@@ -104,7 +104,7 @@ if (isset($_SESSION['session_email'])) {
                     <div class="opciones-padel">
                         <div class="canchaA">
                             <div class="tx">
-                                <p>Cancha A</p>
+                                <p>Cancha 1</p>
                             </div>
                             <div class="tx-1">
                                 <p>60, 90 o 120 minutos</p>
@@ -121,7 +121,7 @@ if (isset($_SESSION['session_email'])) {
                         </div>
                         <div class="canchaB">
                             <div class="tx">
-                                <p>Cancha A</p>
+                                <p>Cancha 2</p>
                             </div>
                             <div class="tx-1">
                                 <p>60, 90 o 120 minutos</p>
