@@ -314,10 +314,6 @@
 
 
 @media only screen and (min-width: 768px){
-	.first-input-half #nom {
-		background: yellow;
-	}
-
 	body{
 		margin: 0;
 		padding: 0;
@@ -330,31 +326,34 @@
 	}
 	
 	.main{
-		width: 110vh;
+		width: 50vw;
 		height: 65vh;
 		overflow: hidden;
 		border-radius: 5px;
 		box-shadow: 5px 20px 50px #000;
-		outline: 2px solid red;
 		background-image: url("../uploads/fondo.png");
 		background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
 		background-position: center; /* Centra la imagen en el contenedor */
 	}
 	
 	.division{
-		width: 110vh;
+		width: 100%;
 		height: 65vh;
 		display: flex;
-		outline: 2px solid blue;
 	}
-	
+
 	.first-half{
-		width: 50%;
+		width: 45%;
 		height: auto;
 		padding: 40px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+
+	.second-division{
+		width: 55%;
+		height: 65vh;
 	}
 	
 	.first-input-half{
@@ -403,11 +402,6 @@
 		background-color: white;
 	}
 	
-	.second-half{
-		width: 50%;
-		height: 65vh;
-	}
-	
 	#chk{
 		display: none;
 	}
@@ -416,7 +410,7 @@
 	}
 	
 	.cnt-login{
-		width: 110vh;
+		width: 50vw;
 		height: 65vh;
 		display: flex;
 	}
@@ -497,7 +491,7 @@
 		background-position: center; /* Centra la imagen en el contenedor */
 		box-shadow: 0px 0px 20px #000;
 		border-radius: 50px 0px 0px 50px;
-		transform: translate(115vh, -65vh);
+		transform: translate(55vw, -65vh);
 		transition: .8s ease-in-out;
 	}
 	
@@ -506,7 +500,7 @@
 	}
 	
 	#chk:checked ~ .login{
-		transform: translate(5vh, -65vh);
+		transform: translate(2vw, -65vh);
 	}
 	#chk:checked ~ .login label{
 		transform: scale(1);	
@@ -545,18 +539,20 @@
 	}
 	
 	#logo{
-		width: 12vh;
-		height: 12vh;
+		width: 16vw;
+		height: 19vh;
 	}
 	
 	.logo-first-tempo{
 		width: 15vh;
 		height: 15vh;
-		margin-top: 20px;
-		margin-bottom: 30px;
+		margin-top: 2vh;
+		margin-bottom: 2vh;
+		margin-right: 2vw;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		position: inherit;
 	}
 	
 	#monito{
@@ -578,13 +574,19 @@
 	}
 	
 	.sd-first-half{
-		width: 55vh;
+		width: 100%;
 		height: 65%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 	}
 	
+	.sd-second-half{
+		width: 100%;
+		height: 35%;
+		display: flex;
+	}
+
 	#text-can{
 		color: white;
 		font-weight: bold;
@@ -601,15 +603,10 @@
 	
 	.canchas{
 		margin-top: 30px;
-		width: 32vh;
+		width: 32vw;
 		margin-bottom: 30px;
 		height: 11.5vh;
-	}
-	
-	.sd-second-half{
-		width: 55vh;
-		height: 35%;
-		display: flex;
+		font-size: 1em;
 	}
 	
 	.rest-input button{
