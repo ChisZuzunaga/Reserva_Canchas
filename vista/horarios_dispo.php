@@ -2,36 +2,31 @@
 require_once '../modelo/modelogod.php'; // Ajusta la ruta según tu estructura de archivos
 session_start();
 
-if (isset($_SESSION['session_email'])) {
-
-
-} else {
+if (!isset($_SESSION['session_email'])) {
     echo "No has iniciado sesión.";
     exit();
 }
 
 // Inicializar variables
 $cancha_id = isset($_GET['cancha_id']) ? $_GET['cancha_id'] : '';
-$fecha = isset($_POST['fecha']) ? $_POST['fecha'] : '';
+$fecha = isset($_POST['fecha']) ? $_POST['fecha'] : date('Y-m-d'); // Fecha predeterminada: hoy
 $duracion = isset($_POST['duracion']) ? intval($_POST['duracion']) : 60; // Duración predeterminada
 
-// Verificar si se ha enviado una solicitud POST con hora_inicio
+// Obtener las reservas para la fecha seleccionada
 $horarios_ocupados = [];
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['hora_inicio'])) {
-    if ($fecha && $cancha_id) {
-        $model = new Clientes_Model();
+if ($fecha && $cancha_id) {
+    $model = new Clientes_Model();
 
-        // Obtener reservas para la fecha seleccionada y la cancha seleccionada
-        $reservas = $model->getReservasPorFecha($cancha_id, $fecha);
+    // Obtener reservas para la fecha seleccionada y la cancha seleccionada
+    $reservas = $model->getReservasPorFecha($cancha_id, $fecha);
 
-        // Procesar las reservas para visualizar horarios ocupados
-        foreach ($reservas as $reserva) {
-            $hora_inicio = strtotime($reserva['Hora_Inicio']);
-            $hora_fin = strtotime($reserva['Hora_Fin']);
-            while ($hora_inicio < $hora_fin) {
-                $horarios_ocupados[date('H:i', $hora_inicio)] = true;
-                $hora_inicio += 1800; // Avanzar en intervalos de 30 minutos
-            }
+    // Procesar las reservas para visualizar horarios ocupados
+    foreach ($reservas as $reserva) {
+        $hora_inicio = strtotime($reserva['Hora_Inicio']);
+        $hora_fin = strtotime($reserva['Hora_Fin']);
+        while ($hora_inicio < $hora_fin) {
+            $horarios_ocupados[date('H:i', $hora_inicio)] = true;
+            $hora_inicio += 1800; // Avanzar en intervalos de 30 minutos
         }
     }
 }
@@ -57,8 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
     $fecha_reserva = $_POST['fecha'];
     $duracion_reserva = $_POST['duracion'];
 
-    // Lógica para manejar la reserva (esto depende de cómo manejes las reservas en tu controlador)
-    // Por ejemplo, podrías redirigir al usuario a otra página para confirmar la reserva
+    // Redirigir al controlador para realizar la reserva
     header("Location: ../controlador/controlador.php?action=reservar&cancha_id={$cancha_id_reserva}&fecha={$fecha_reserva}&hora_inicio={$hora_inicio_reserva}&duracion={$duracion_reserva}");
     exit();
 }
@@ -81,6 +75,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
         .fecha-boton:hover {
             background-color: #ddd;
         }
+
+        .seleccionado {
+            background-color: #4CAF50; /* Color verde, puedes elegir otro */
+            color: white; /* Color del texto */
+        }
+
     </style>
 </head>
 <body>
@@ -88,19 +88,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
     <h1>Disponibilidad de Horarios para la Cancha <?php echo htmlspecialchars($cancha_id); ?></h1>
     
     <form id="formulario" action="" method="POST">
-        <!--<label for="fecha">Fecha:</label>
-        <input type="date" name="fecha" id="fecha" value="<?php echo htmlspecialchars($fecha); ?>" required>!-->
-        <br><br>
-
         <label for="duracion">Duración (minutos):</label>
         <select name="duracion" id="duracion" onchange="this.form.submit()">
             <option value="60" <?php echo $duracion == 60 ? 'selected' : ''; ?>>60 minutos</option>
             <option value="90" <?php echo $duracion == 90 ? 'selected' : ''; ?>>90 minutos</option>
             <option value="120" <?php echo $duracion == 120 ? 'selected' : ''; ?>>120 minutos</option>
         </select>
+        <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>"> <!-- Mantener la fecha seleccionada -->
+        <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>"> <!-- También mantener el id de cancha -->
         <br><br>
     </form>
-
+    
     <div>
         <h2>Selecciona una fecha:</h2>
         <?php foreach ($fechas_disponibles as $fecha_disponible): ?>
@@ -108,12 +106,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
                 <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
                 <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha_disponible); ?>">
                 <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                <button type="submit" class="fecha-boton"><?php echo date('d-m', strtotime($fecha_disponible)); ?></button>
+                <button type="submit" class="fecha-boton <?php echo $fecha_disponible === $fecha ? 'seleccionado' : ''; ?>"><?php echo date('d-m', strtotime($fecha_disponible)); ?></button>
             </form>
         <?php endforeach; ?>
     </div>
 
-    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && $fecha && $cancha_id): ?>
+    <?php if ($fecha && $cancha_id): ?>
         <form action="../controlador/controlador.php?action=reservar" method="POST">
             <table border="1">
                 <thead>

@@ -89,6 +89,10 @@ if (isset($_SESSION['session_email'])) {
             <div class="servicios">
                 <div class="agregar-algo">
                     d
+                    <form action="../controlador/controlador.php?action=cerrar" method="post">
+                        <button type="submit">Cerrar sesión</button>
+                    dd
+                    </form>
                 </div>
                 <div class="canchas">
                     <a>Selecciona los servicios que deseas agendar</a><br>
@@ -137,15 +141,12 @@ if (isset($_SESSION['session_email'])) {
                             </div>
                         </div>
                     </div>
-                <!--
+
+                    
+
+
+
                 
-
-
-
-                <form action="../controlador/controlador.php?action=cerrar" method="post">
-                    <button type="submit">Cerrar sesión</button>
-                    dd
-                </form>-->
                 </div>
             </div>
 
