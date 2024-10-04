@@ -55,21 +55,21 @@ if (isset($_SESSION['session_email'])) {
                         </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="https://fotografias.lasexta.com/clipping/cmsimages02/2019/01/25/DB41B993-B4C4-4E95-8B01-C445B8544E8E/98.jpg?crop=4156,2338,x0,y219&width=1900&height=1069&optimize=high&format=webply" class="cat-img">
+                            <img src="https://sportlink.com.br/wp-content/uploads/2021/12/BANNER-ESPORTES-PADEL.jpg" class="cat-img">
                             <div class="carousel-caption">
                                 <h3>Imagen 1</h3>
                                 <p>Imagen 1</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="https://static.nationalgeographicla.com/files/styles/image_3200/public/nationalgeographic_1468962.jpg?w=1600&h=1179" class="cat-img">
+                            <img src="https://sportbalin.com/sites/default/files/banner%20padel.png?1668518058" class="cat-img">
                             <div class="carousel-caption">
                                 <h3>Imagen 2</h3>
                                 <p>Imagen 2</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="https://es.mypet.com/wp-content/uploads/sites/23/2021/03/GettyImages-623368750-e1582816063521-1.jpg" class="cat-img">
+                            <img src="https://media.babolat.com//image/upload/f_auto,q_auto,c_crop,w_2000,h_751/Website_content/Padel_News/02092020-Launch/padel-equipment/equipment-banner-2.jpg" class="cat-img">
                             <div class="carousel-caption">
                                 <h3>Imagen 3</h3>
                                 <p>Imagen 3</p>

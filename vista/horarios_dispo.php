@@ -208,25 +208,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
     <h2>Horarios disponibles para el <?php echo htmlspecialchars($fecha); ?></h2>
     
     <?php foreach ($jornadas as $jornada => $horas): ?>
-        <div class="bloque-horas">
-            <h3><?php echo ucfirst($jornada); ?></h3>
-            <?php foreach ($horas as $hora): ?>
-                <form action="" method="POST" style="display: inline;">
-                    <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
-                    <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
-                    <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                    <button type="button" 
-                            class="hora-boton <?php echo isset($horarios_ocupados[$hora]) ? 'ocupado' : ''; ?>" 
-                            value="<?php echo htmlspecialchars($hora); ?>" 
-                            data-duracion="<?php echo $duracion; ?>" 
-                            onclick="resaltarHora(this)" 
-                            <?php echo isset($horarios_ocupados[$hora]) ? 'disabled' : ''; ?>>
-                        <?php echo htmlspecialchars($hora); ?>
-                    </button>
-                </form>
-            <?php endforeach; ?>
-        </div>
-    <?php endforeach; ?>
+    <div class="bloque-horas">
+        <h3><?php echo ucfirst($jornada); ?></h3>
+        <?php foreach ($horas as $hora): ?>
+            <?php
+            // Ocultar bloques según la duración seleccionada
+            if ($duracion == 60 && in_array($hora, ["21:30", "22:00"])) continue;
+            if ($duracion == 90 && in_array($hora, ["21:00", "21:30", "22:00"])) continue;
+            if ($duracion == 120 && in_array($hora, ["20:30", "21:00", "21:30", "22:00"])) continue;
+            ?>
+            <form action="" method="POST" style="display: inline;">
+                <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
+                <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
+                <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
+                <button type="button" 
+                        class="hora-boton <?php echo isset($horarios_ocupados[$hora]) ? 'ocupado' : ''; ?>" 
+                        value="<?php echo htmlspecialchars($hora); ?>" 
+                        data-duracion="<?php echo $duracion; ?>" 
+                        onclick="resaltarHora(this)" 
+                        <?php echo isset($horarios_ocupados[$hora]) ? 'disabled' : ''; ?>>
+                    <?php echo htmlspecialchars($hora); ?>
+                </button>
+            </form>
+        <?php endforeach; ?>
+    </div>
+<?php endforeach; ?>
 
     <h2>Reserva tu horario:</h2>
     <form id="reserva-form" action="../controlador/controlador.php?action=reservar" method="POST">
