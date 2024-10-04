@@ -32,19 +32,9 @@ if ($fecha && $cancha_id) {
 }
 
 // Configuración de horarios
-$jornadas = [
-    'mañana' => [
-        "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30"
-    ],
-    'tarde' => [
-        "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"
-    ],
-    'noche' => [
-        "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00"
-    ]
-];
-
-$selected_hours = []; // Arreglo para las horas seleccionadas
+$hora_inicio = "07:00"; // Hora de inicio del día
+$hora_fin = "22:00";   // Hora de fin del día
+$intervalo = 30; // Intervalo en minutos
 
 // Obtener los días disponibles (hasta 10 días adicionales al día actual)
 $fecha_actual = date('Y-m-d');
@@ -126,34 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
             background-color: #4CAF50; /* Verde para reservar */
             color: white; /* Color del texto */
         }
-
-        .resaltado {
-            background-color: #FFC107; /* Color amarillo para resaltado */
-        }
     </style>
-    <script>
-        function resaltarHora(boton) {
-            const horas = document.querySelectorAll('.hora-boton');
-            horas.forEach(hora => {
-                hora.classList.remove('resaltado');
-            });
-
-            // Resaltar la hora seleccionada y las siguientes según la duración
-            let duracion = parseInt(boton.getAttribute('data-duracion'));
-            let inicio = boton.value;
-            let tiempo = inicio.split(':');
-            let horaInicio = new Date(0, 0, 0, parseInt(tiempo[0]), parseInt(tiempo[1]));
-
-            for (let i = 0; i < duracion / 30; i++) {
-                let horaResaltada = new Date(horaInicio.getTime() + (i * 30 * 60000)); // Incrementar 30 minutos
-                let horaResaltadaStr = horaResaltada.toTimeString().substr(0, 5); // Formato HH:mm
-                const botonResaltado = document.querySelector(`button[value='${horaResaltadaStr}']`);
-                if (botonResaltado) {
-                    botonResaltado.classList.add('resaltado');
-                }
-            }
-        }
-    </script>
 </head>
 <body>
     <a href="inicio.php">Volver a página principal</a>
@@ -189,10 +152,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
                 <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
                 <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha_disponible); ?>">
                 <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                <input type="hidden" name="offset" value="<?php echo htmlspecialchars($offset); ?>">
-                <button type="submit" class="fecha-boton <?php echo ($fecha_disponible == $fecha) ? 'seleccionado' : ''; ?>">
-                    <?php echo htmlspecialchars($fecha_disponible); ?>
-                </button>
+                <input type="hidden" name="offset" value="<?php echo $offset; ?>">
+                <button type="submit" class="fecha-boton <?php echo $fecha_disponible === $fecha ? 'seleccionado' : ''; ?>"><?php echo date('d-m', strtotime($fecha_disponible)); ?></button>
             </form>
         <?php endforeach; ?>
 
@@ -201,53 +162,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
             <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
             <input type="hidden" name="offset" value="<?php echo $offset + 10; ?>">
             <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-            <button type="submit" <?php echo ($offset >= $max_offset) ? 'disabled' : ''; ?>>Avanzar</button>
+            <button type="submit" <?php echo ($offset >= $max_offset - 1) ? 'disabled' : ''; ?>>Avanzar</button>
         </form>
     </div>
 
-    <h2>Horarios disponibles para el <?php echo htmlspecialchars($fecha); ?></h2>
-    
-    <?php foreach ($jornadas as $jornada => $horas): ?>
+    <?php if ($fecha && $cancha_id): ?>
+    <form action="../controlador/controlador.php?action=reservar" method="POST">
         <div class="bloque-horas">
-            <h3><?php echo ucfirst($jornada); ?></h3>
-            <?php foreach ($horas as $hora): ?>
-                <form action="" method="POST" style="display: inline;">
-                    <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
-                    <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
-                    <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                    <button type="button" 
-                            class="hora-boton <?php echo isset($horarios_ocupados[$hora]) ? 'ocupado' : ''; ?>" 
-                            value="<?php echo htmlspecialchars($hora); ?>" 
-                            data-duracion="<?php echo $duracion; ?>" 
-                            onclick="resaltarHora(this)" 
-                            <?php echo isset($horarios_ocupados[$hora]) ? 'disabled' : ''; ?>>
-                        <?php echo htmlspecialchars($hora); ?>
-                    </button>
-                </form>
-            <?php endforeach; ?>
+            <h3>Mañana (07:00 - 12:00)</h3>
+            <div>
+                <?php
+                $hora_actual = strtotime($hora_inicio);
+                while ($hora_actual < strtotime('12:00')) {
+                    $hora_formato = date('H:i', $hora_actual);
+                    $disabled = isset($horarios_ocupados[$hora_formato]) ? 'disabled' : '';
+
+                    echo "<button type='submit' name='hora_inicio' value='{$hora_formato}' class='hora-boton " . ($disabled ? "ocupado" : "reservar") . "' " . ($disabled ? "disabled" : "") . ">" .
+                        "{$hora_formato}" .
+                        "</button>";
+                    echo "<input type='hidden' name='fecha' value='{$fecha}'>";
+                    echo "<input type='hidden' name='duracion' value='{$duracion}'>";
+                    echo "<input type='hidden' name='cancha_id' value='{$cancha_id}'>";
+                    $hora_actual = strtotime("+{$intervalo} minutes", $hora_actual);
+                }
+                ?>
+            </div>
         </div>
-    <?php endforeach; ?>
 
-    <h2>Reserva tu horario:</h2>
-    <form id="reserva-form" action="../controlador/controlador.php?action=reservar" method="POST">
-        <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
-        <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
-        <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-        <input type="hidden" name="hora_inicio" id="hora_inicio" value="">
-        <button type="submit" class="reservar" disabled id="boton_reservar">Reservar</button>
+        <div class="bloque-horas">
+            <h3>Tarde (12:00 - 18:00)</h3>
+            <div>
+                <?php
+                $hora_actual = strtotime('12:00');
+                while ($hora_actual < strtotime('18:00')) {
+                    $hora_formato = date('H:i', $hora_actual);
+                    $disabled = isset($horarios_ocupados[$hora_formato]) ? 'disabled' : '';
+
+                    echo "<button type='submit' name='hora_inicio' value='{$hora_formato}' class='hora-boton " . ($disabled ? "ocupado" : "reservar") . "' " . ($disabled ? "disabled" : "") . ">" .
+                        "{$hora_formato}" .
+                        "</button>";
+                    echo "<input type='hidden' name='fecha' value='{$fecha}'>";
+                    echo "<input type='hidden' name='duracion' value='{$duracion}'>";
+                    echo "<input type='hidden' name='cancha_id' value='{$cancha_id}'>";
+                    $hora_actual = strtotime("+{$intervalo} minutes", $hora_actual);
+                }
+                ?>
+            </div>
+        </div>
+
+        <div class="bloque-horas">
+            <h3>Noche (18:00 - 22:00)</h3>
+            <div>
+                <?php
+                $hora_actual = strtotime('18:00');
+                while ($hora_actual < strtotime($hora_fin)) {
+                    $hora_formato = date('H:i', $hora_actual);
+                    $disabled = isset($horarios_ocupados[$hora_formato]) ? 'disabled' : '';
+
+                    echo "<button type='submit' name='hora_inicio' value='{$hora_formato}' class='hora-boton " . ($disabled ? "ocupado" : "reservar") . "' " . ($disabled ? "disabled" : "") . ">" .
+                        "{$hora_formato}" .
+                        "</button>";
+                    echo "<input type='hidden' name='fecha' value='{$fecha}'>";
+                    echo "<input type='hidden' name='duracion' value='{$duracion}'>";
+                    echo "<input type='hidden' name='cancha_id' value='{$cancha_id}'>";
+                    $hora_actual = strtotime("+{$intervalo} minutes", $hora_actual);
+                }
+                ?>
+            </div>
+        </div>
     </form>
-
-    <script>
-        const horas = document.querySelectorAll('.hora-boton');
-        horas.forEach(hora => {
-            hora.addEventListener('click', function() {
-                // Establecer el valor en el campo oculto
-                document.getElementById('hora_inicio').value = this.value;
-
-                // Activar el botón de reservar
-                document.getElementById('boton_reservar').disabled = false;
-            });
-        });
-    </script>
+    <?php endif; ?>
 </body>
 </html>

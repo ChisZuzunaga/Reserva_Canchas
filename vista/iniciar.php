@@ -10,7 +10,7 @@
 <body>
     <div class="main">
         <input type="checkbox" id="chk" aria-hidden="true">
-            <div class="signup">
+            <div class="signup" id="signupForm">
                 <form action="../controlador/controlador.php?action=insertar" method="POST" enctype="multipart/form-data">
                 <div class="division">
                     <div class="first-half">
@@ -50,7 +50,7 @@
                 </form>
             </div>
 
-        <div class="login">
+        <div class="login" id="loginForm">
             <form action="../controlador/controlador.php?action=verificar" method="POST">
                 <div class="cnt-login">
                     <div class="cnt-first-half">
