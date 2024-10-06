@@ -257,9 +257,9 @@
         position: relative;
         display: flex;
         justify-content: center;
-        width: 95%;
-        height: 200vh;
-        outline: 4px solid violet;
+        width: 100%;
+        height: 225vh;
+        outline: 5px solid violet;
     }
 
     footer{
@@ -291,7 +291,7 @@
         margin-top: 20vh;
         margin-bottom: 20vh;
         width: 100%;
-        height: 155vh;
+        height: 180vh;
     }
     
     body{
@@ -442,11 +442,41 @@
     }
     
     .servicios{
-        height: 101vh;
+        height: 126vh;
+        width: 100%;
+        padding: 2vh;
+    }
+
+    .agenda{
+        height: 45vh;
         width: 100%;
         display: flex;
     }
-    
+
+    .ubi-serv{
+        height: 59vh;
+        width: 100%;
+        display: flex;
+        margin-bottom: 15vh;
+    }
+
+    .ubi{
+        height: 59vh;
+        width: 65%;
+        padding-right: 2vh;
+    }
+
+    .servs{
+        height: 59vh;
+        width: 35%;
+    }
+
+    #mapa{
+        width: 100%;
+        height: 59vh;
+        border-radius: 5px;
+    }
+
     .carousel-item img {
         height: 50vh; /* Ajusta la altura de la imagen al 100% del contenedor */
         width: 100%;  /* Ajusta el ancho de la imagen al 100% del contenedor */
@@ -465,18 +495,22 @@
 
     .agregar-algo{
         width: 30%;
-        height: 40vh;
-        outline: 2px solid chartreuse;
+        height: 50vh;
     }
+    
     .canchas{
-        outline: 2px solid crimson;
         width: 70%;
-        height: 40vh;
-        padding: 2vh;
+        height: 50vh;
+        padding-right: 2vh;
+    }
+
+    .agregar-algo {
     }
 
     .padel{
-        outline: 2px solid black;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         width: 100%;
         height: 5vh;
         border-radius: 2px;
@@ -524,7 +558,9 @@
     .canchaA{
         width: 48%;
         height: 20vh;
-        outline: 2px solid black;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         margin-right: 2%;
         border-radius: 7px;
     }
@@ -532,7 +568,9 @@
     .canchaB{
         width: 48%;
         height: 20vh;
-        outline: 2px solid black;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         margin-left: 2%;
         border-radius: 7px;
     }
@@ -584,9 +622,11 @@
 
     .tx-4 a{
         font-size: 0.7em;
-        background-color: #dddddd;
+        background-color: #ccc;
         border-radius: 5px;
-        outline: 2px solid black;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-weight: 500;
     }
 }
 

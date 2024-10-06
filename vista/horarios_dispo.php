@@ -213,9 +213,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
         <?php foreach ($horas as $hora): ?>
             <?php
             // Ocultar bloques según la duración seleccionada
-            if ($duracion == 60 && in_array($hora, ["21:30", "22:00"])) continue;
-            if ($duracion == 90 && in_array($hora, ["21:00", "21:30", "22:00"])) continue;
-            if ($duracion == 120 && in_array($hora, ["20:30", "21:00", "21:30", "22:00"])) continue;
+            if ($duracion == 90 && in_array($hora, ["22:00"])) continue;
+            if ($duracion == 120 && in_array($hora, ["21:30", "22:00"])) continue;
             ?>
             <form action="" method="POST" style="display: inline;">
                 <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">

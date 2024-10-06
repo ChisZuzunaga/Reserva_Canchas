@@ -23,6 +23,8 @@ if (isset($_SESSION['session_email'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../script.js"></script>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="test.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -34,6 +36,9 @@ if (isset($_SESSION['session_email'])) {
                     <h1>Ceres Padel Club</h1>
                 </div>
                 <div class="second-half">
+                    <form action="../controlador/controlador.php?action=cerrar" method="post">
+                        <button type="submit">Cerrar sesión</button>
+                    </form>
                     <div class="ff-h">
                         <h1><?php echo "Bienvenido " ,$nombre?></h1>
                     </div>
@@ -87,66 +92,105 @@ if (isset($_SESSION['session_email'])) {
                 </div>
             </div>
             <div class="servicios">
-                <div class="agregar-algo">
-                    d
-                    <form action="../controlador/controlador.php?action=cerrar" method="post">
-                        <button type="submit">Cerrar sesión</button>
-                    dd
-                    </form>
+                <div class="agenda">
+                    <div class="canchas">
+                        <a>Selecciona los servicios que deseas agendar</a><br>
+                        <div class="padel">
+                            <div class="pdel-txt">
+                                <a>Pádel</a>
+                            </div>
+                        </div>
+
+                        <div class="opciones-padel">
+                            <div class="canchaA">
+                                <div class="tx">
+                                    <p>Cancha 1</p>
+                                </div>
+                                <div class="tx-1">
+                                    <p>60, 90 o 120 minutos</p>
+                                </div>
+                                <div class="tx-2">
+                                    <p>$11.111</p>
+                                </div>
+                                <div class="tx-3">
+                                    <p>Insertar directrices de la cancha</p>
+                                </div>
+                                <div class="tx-4">
+                                    <a href="horarios_dispo.php?cancha_id=1" class="btn">Agendar Servicio</a>
+                                </div>
+                            </div>
+                            <div class="canchaB">
+                                <div class="tx">
+                                    <p>Cancha 2</p>
+                                </div>
+                                <div class="tx-1">
+                                    <p>60, 90 o 120 minutos</p>
+                                </div>
+                                <div class="tx-2">
+                                    <p>$11.111</p>
+                                </div>
+                                <div class="tx-3">
+                                    <p>Insertar directrices de la cancha</p>
+                                </div>
+                                <div class="tx-4">
+                                    <a href="horarios_dispo.php?cancha_id=2" class="btn">Agendar servicio</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="agregar-algo">
+                        <div class="elfsight-app-51441d3c-bcc2-499b-b179-deecfdbe6a58" data-elfsight-app-lazy></div>
+                    </div>
                 </div>
-                <div class="canchas">
-                    <a>Selecciona los servicios que deseas agendar</a><br>
-                    <div class="padel">
-                        <div class="pdel-txt">
-                            <a>Pádel</a>
-                        </div>
-                        <div class="pdel-btn">
-                            <button class="btn-hiden">⁻</button>
+                <h3 id="ubi-donde">Dónde estamos ubicados</h3>
+                <div class="ubi-serv">
+                    <div class="ubi">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3457.9828895920327!2d-71.20232832445089!3d-29.922394774985317!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9691cba177970af5%3A0x5ab495569a432b8e!2sCeres%20P%C3%A1del%20Club!5e0!3m2!1ses!2scl!4v1728229020003!5m2!1ses!2scl"
+                            id="mapa" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <div class="servs">
+                        <div class="bodd">
+                            <div class="card1">
+                                <div class="headerr">
+                                    <h2>Ubicación</h2>
+                                    <i class="fas fa-chevron-up toggle-icon"></i>
+                                </div>
+                                <div class="contenrt">
+                                    <input type="text" placeholder="Los Arándanos, Ceres" class="input" readonly>
+                                </div>
+                            </div>
+
+                            <div class="card2">
+                                <div class="headerr">
+                                    <h2>Horarios del Club</h2>
+                                    <i class="fas fa-chevron-up toggle-icon"></i>
+                                </div>
+                                <div class="contenrt">
+                                    <p class="p">Lunes, Martes, Miércoles, Jueves, Viernes, Sábado: <span>7:00 a 22:00</span></p>
+                                    <p class="p">Domingo: <span>8:00 a 22:00</span></p>
+                                </div>
+                            </div>
+
+                            <div class="card3">
+                                <div class="headerr">
+                                    <h2>Servicios del Club</h2>
+                                    <i class="fas fa-chevron-up toggle-icon"></i>
+                                </div>
+                                <div class="contenrt">
+                                    <div class="services">
+                                        <div class="a">
+                                            <div><i class="fas fa-car"></i> Estacionamiento</div>
+                                            <div><i class="fas fa-birthday-cake"></i> Cumpleaños</div>
+                                        </div>
+                                        <div class="a">
+                                            <div><i class="fas fa-trophy"></i> Torneo</div>
+                                            <div><i class="fas fa-school"></i> Escuela Deportiva</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="opciones-padel">
-                        <div class="canchaA">
-                            <div class="tx">
-                                <p>Cancha 1</p>
-                            </div>
-                            <div class="tx-1">
-                                <p>60, 90 o 120 minutos</p>
-                            </div>
-                            <div class="tx-2">
-                                <p>$11.111</p>
-                            </div>
-                            <div class="tx-3">
-                                <p>Insertar directrices de la cancha</p>
-                            </div>
-                            <div class="tx-4">
-                                <a href="horarios_dispo.php?cancha_id=1" class="btn">Agendar Servicio</a>
-                            </div>
-                        </div>
-                        <div class="canchaB">
-                            <div class="tx">
-                                <p>Cancha 2</p>
-                            </div>
-                            <div class="tx-1">
-                                <p>60, 90 o 120 minutos</p>
-                            </div>
-                            <div class="tx-2">
-                                <p>$11.111</p>
-                            </div>
-                            <div class="tx-3">
-                                <p>Insertar directrices de la cancha</p>
-                            </div>
-                            <div class="tx-4">
-                                <a href="horarios_dispo.php?cancha_id=2" class="btn">Agendar servicio</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-
-
-
-                
                 </div>
             </div>
 
@@ -187,7 +231,8 @@ if (isset($_SESSION['session_email'])) {
         </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+    <script src="test.js"></script>
+    <script src="https://static.elfsight.com/platform/platform.js" async></script>
 </body>
 
 </html>
