@@ -21,7 +21,7 @@
     width: 95%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 1.5vh;
-    transition: height 0.5s ease; /* Transición suave */
+    transition: height 0.15s ease; /* Transición suave */
 }
 
 
@@ -62,12 +62,12 @@
 .headerr i {
     font-size: 1vw;
     color: #999;
-    transition: transform 0.3s ease;
+    transition: transform 0.1s ease;
 }
 
 .contenrt {
     max-height: 10vh;
-    transition: max-height 0.5s ease, opacity 0.5s ease;
+    transition: max-height 0.1s ease, opacity 0.1s ease;
 }
 
 .contenrt.hidden {

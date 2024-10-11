@@ -9,8 +9,6 @@ if (isset($_SESSION['session_email'])) {
 } else {
     echo "No has iniciado sesión.";
     // Puedes redirigir al usuario a la página de inicio de sesión si no está autenticado
-    //agregar si le gustaria crear cuenta
-    //header("Location: ../vista/crear_clientes.php");
     exit();
 }
 ?>
@@ -37,7 +35,7 @@ if (isset($_SESSION['session_email'])) {
                 </div>
                 <div class="second-half">
                     <form action="../controlador/controlador.php?action=cerrar" method="post">
-                        <button type="submit">Cerrar sesión</button>
+                        <button id="ekis" type="submit"></button>
                     </form>
                     <div class="ff-h">
                         <h1><?php echo "Bienvenido " ,$nombre?></h1>
