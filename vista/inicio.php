@@ -33,16 +33,41 @@ if (isset($_SESSION['session_email'])) {
                     <img id="logoaqui" src="https://i.imgur.com/ywwk1E0.png">
                     <h1>Ceres Padel Club</h1>
                 </div>
+                <input type="checkbox" id="chk" aria-hidden="true">
                 <div class="second-half">
-                    <form action="../controlador/controlador.php?action=cerrar" method="post">
-                        <button id="ekis" type="submit"></button>
-                    </form>
-                    <div class="ff-h">
-                        <h1><?php echo "Bienvenido " ,$nombre?></h1>
+                    <div class="first-p">
+                        <div class="perfil-header">
+                            <div class="ff-h">
+                                <h1><?php echo "Bienvenido " ,$nombre?></h1>
+                            </div>
+                            <div class="ss-h">
+                                <label for="chk" class="ppfil" aria-hidden="true">
+                                    <img id="f-perfil" src="<?php echo $img?>">
+                                    <img id="monito" src="../uploads/fondod.png">
+                                </label> 
+                            </div>
+                        </div>
                     </div>
-                    <div class="ss-h">
-                        <img id="f-perfil" src="<?php echo $img?>" id="foto">
-                        <img id="monito" src="../uploads/fondod.png">
+                
+                    <div class="side-perfil">
+                        <div class="colorr">
+                            <div class="separ">
+                                <label for="chk" class="separr" aria-hidden="true">
+                                    <img id="f-perfil-side" src="<?php echo $img?>">
+                                </label>
+                            </div>
+                            <div class="nombrerr">
+                                <a><?php echo $nombre?></a>
+                            </div>
+                        </div>
+                        <div class="asad">
+                            aa
+                        </div>
+                        <div class="cerrar-sin">
+                            <form action="../controlador/controlador.php?action=cerrar" method="post">
+                                <button id="ekis" type="submit">Cerrar Sesión</button>
+                            </form>
+                        </div>                
                     </div>
                 </div>
             </div>
