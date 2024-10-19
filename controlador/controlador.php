@@ -99,8 +99,9 @@ class Clientes_controller {
             $fecha = $_POST['fecha'];
             $hora_inicio = $_POST['hora_inicio'];
             $duracion = $_POST['duracion'];
+            $precio = $_POST['precio'];
 
-            $resultado = $this->model->reservarCancha($cancha_id, $fecha, $hora_inicio, $duracion);
+            $resultado = $this->model->reservarCancha($cancha_id, $fecha, $hora_inicio, $duracion, $precio);
 
             echo $resultado ? "Reserva realizada con éxito." : "El horario no está disponible.";
         }
@@ -143,37 +144,63 @@ class Clientes_controller {
     }
 
     public function mostrarDisponibilidad() {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha']) && isset($_POST['cancha_id'])) {
-        $fecha = $_POST['fecha'];
-        $cancha_id = $_POST['cancha_id'];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['fecha']) && isset($_POST['cancha_id'])) {
+            $fecha = $_POST['fecha'];
+            $cancha_id = $_POST['cancha_id'];
 
-        // Obtener reservas para la fecha seleccionada y la cancha seleccionada
-        $reservas = $this->model->getReservasPorFecha($cancha_id, $fecha);
+            // Obtener reservas para la fecha seleccionada y la cancha seleccionada
+            $reservas = $this->model->getReservasPorFecha($cancha_id, $fecha);
 
-        // Procesar las reservas para visualizar horarios ocupados
-        $horarios_ocupados = [];
-        foreach ($reservas as $reserva) {
-            $hora_inicio = strtotime($reserva['Hora_Inicio']);
-            $hora_fin = strtotime($reserva['Hora_Fin']);
-            while ($hora_inicio < $hora_fin) {
-                $horarios_ocupados[date('H:i', $hora_inicio)] = true;
-                $hora_inicio += 1800; // Avanzar en intervalos de 30 minutos
+            // Procesar las reservas para visualizar horarios ocupados
+            $horarios_ocupados = [];
+            foreach ($reservas as $reserva) {
+                $hora_inicio = strtotime($reserva['Hora_Inicio']);
+                $hora_fin = strtotime($reserva['Hora_Fin']);
+                while ($hora_inicio < $hora_fin) {
+                    $horarios_ocupados[date('H:i', $hora_inicio)] = true;
+                    $hora_inicio += 1800; // Avanzar en intervalos de 30 minutos
+                }
             }
+
+            // Guardar la información en sesión
+            $_SESSION['horarios_ocupados'] = $horarios_ocupados;
+            $_SESSION['fecha'] = $fecha;
+            $_SESSION['cancha_id'] = $cancha_id;
+
+            // Redirigir a la página de disponibilidad
+            header("Location: ../vista/disponibilidad.php");
+            exit();
+        } else {
+            // Si no hay fecha o cancha_id en el POST, redirigir a la página de reservas
+            header("Location: ../vista/reservar.php");
+            exit();
         }
-
-        // Guardar la información en sesión
-        $_SESSION['horarios_ocupados'] = $horarios_ocupados;
-        $_SESSION['fecha'] = $fecha;
-        $_SESSION['cancha_id'] = $cancha_id;
-
-        // Redirigir a la página de disponibilidad
-        header("Location: ../vista/disponibilidad.php");
-        exit();
-    } else {
-        // Si no hay fecha o cancha_id en el POST, redirigir a la página de reservas
-        header("Location: ../vista/reservar.php");
-        exit();
     }
+
+    public function cancelarReserva() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_reserva'])) {
+            $id_reserva = $_POST['id_reserva'];
+            $resultado = $this->model->cancelarReserva($id_reserva);
+            
+            echo $resultado ? "Reserva cancelada con éxito." : "Error al cancelar la reserva.";
+        }
+    }
+    
+    public function confirmarReserva() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_reserva'])) {
+            $id_reserva = $_POST['id_reserva'];
+            $resultado = $this->model->confirmarReserva($id_reserva);
+            
+            echo $resultado ? "Reserva confirmada con éxito." : "Error al confirmar la reserva.";
+        }
+    }
+
+    public function mostrarHorasCanceladas() {
+        // Obtener reservas canceladas desde el modelo
+        $reservasCanceladas = $this->modelo->getReservasCanceladas();
+        
+        // Cargar la vista y pasarle las reservas canceladas
+        require '../vista/horas_canceladas.php'; // Asegúrate de que la ruta sea correcta
     }
 }
 
@@ -209,6 +236,10 @@ if (isset($_GET['action'])) {
         case 'mostrar_reservas':
             $clientesController->mostrarReservas();
             break;
+        case 'mostrar_horas_canceladas':
+            $clientesController->mostrarHorasCanceladas();
+            break;
+            
     }
 } else {
     $clientesController->listarClientes();
