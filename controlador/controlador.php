@@ -27,7 +27,7 @@ class Clientes_controller {
         session_destroy();
         
         // Redirigir al usuario a la página de inicio de sesión u otra página deseada
-        header("Location: ../vista/iniciar.php");
+        header("Location: ../vista/php/login_register.php");
         exit();
     }
 
@@ -64,7 +64,7 @@ class Clientes_controller {
             $_SESSION['session_email']= $emailr;
             $_SESSION['session_nombre'] = $nombrer;
             $_SESSION['ruta_imagen'] = $imagenRuta;
-            header("Location: ../vista/inicio.php");
+            header("Location: ../vista/php/initial_page.php");
         } else {
             echo "Error al crear Usuario";
         }
@@ -82,8 +82,8 @@ class Clientes_controller {
                 echo "Inicio de sesión exitoso";
                 $_SESSION['session_email'] = $email;
                 $_SESSION['session_nombre'] = $cliente['Nombre'];
-                $_SESSION['ruta_imagen'] = $cliente['Imagen'];
-                header("Location: ../vista/inicio.php");
+                $_SESSION['ruta_imagen'] = '../../uploads/' . basename($cliente['Imagen']);
+                header("Location: ../vista/php/initial_page.php");
             } else {
                 echo "Error: Contraseña incorrecta";
             }
@@ -134,11 +134,11 @@ class Clientes_controller {
             $_SESSION['cancha_id'] = $cancha_id;
 
             // Redirigir a la página de disponibilidad
-            header("Location: ../vista/disponibilidad.php");
+            header("Location: ../vista/php/disponibilidad.php");
             exit();
         } else {
             // Si no hay fecha o cancha_id en el POST, redirigir a la página de reservas
-            header("Location: ../vista/reservar.php");
+            header("Location: ../vista/php/reservar.php");
             exit();
         }
     }
@@ -168,11 +168,11 @@ class Clientes_controller {
             $_SESSION['cancha_id'] = $cancha_id;
 
             // Redirigir a la página de disponibilidad
-            header("Location: ../vista/disponibilidad.php");
+            header("Location: ../vista/php/disponibilidad.php");
             exit();
         } else {
             // Si no hay fecha o cancha_id en el POST, redirigir a la página de reservas
-            header("Location: ../vista/reservar.php");
+            header("Location: ../vista/php/reservar.php");
             exit();
         }
     }
@@ -197,10 +197,9 @@ class Clientes_controller {
 
     public function mostrarHorasCanceladas() {
         // Obtener reservas canceladas desde el modelo
-        $reservasCanceladas = $this->modelo->getReservasCanceladas();
-        
+        $reservasCanceladas = $this->model->getReservasCanceladas();
         // Cargar la vista y pasarle las reservas canceladas
-        require '../vista/horas_canceladas.php'; // Asegúrate de que la ruta sea correcta
+        require '../vista/php/horas_canceladas.php'; // Asegúrate de que la ruta sea correcta
     }
 }
 

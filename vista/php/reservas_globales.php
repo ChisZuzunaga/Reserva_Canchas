@@ -1,5 +1,5 @@
 <?php
-require_once '../modelo/modelogod.php';
+require_once '../../modelo/modelogod.php';
 date_default_timezone_set('America/Santiago');
 // Definir todas las horas desde las 07:00 hasta las 22:00
 $horas = [
@@ -187,11 +187,11 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
         <p id="infoReserva"></p>
         
         <div class="modal-buttons">
-            <form id="formCancelarReserva" action="../controlador/controlador.php?action=cancelar_reserva" method="POST" enctype="multipart/form-data">
+            <form id="formCancelarReserva" action="../../controlador/controlador.php?action=cancelar_reserva" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id_reserva" id="idReservaCancelar">
                 <button type="submit" id="canc">Cancelar</button>
             </form>
-            <form id="formConfirmarReserva" action="../controlador/controlador.php?action=confirmar_reserva" method="POST" enctype="multipart/form-data">
+            <form id="formConfirmarReserva" action="../../controlador/controlador.php?action=confirmar_reserva" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id_reserva" id="idReservaConfirmar">
                 <button type="submit" id="conf">Confirmar</button>
             </form>
@@ -264,7 +264,7 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
     </table>
 </div>
 
-<form action="../controlador/controlador.php?action=mostrar_horas_canceladas" method="POST" enctype="multipart/form-data">
+<form action="../../controlador/controlador.php?action=mostrar_horas_canceladas" method="POST" enctype="multipart/form-data">
     <button>Mostrar canceladas</button>
 </form>
 

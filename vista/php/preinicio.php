@@ -1,0 +1,3 @@
+//hacer animacion despues de iniciar sesion para mostrar
+una pantalla con el usuario y la foto preguntando si es correcto
+para si no cambiar el usuario...

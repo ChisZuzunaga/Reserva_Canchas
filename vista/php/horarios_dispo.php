@@ -1,5 +1,5 @@
 <?php
-require_once '../modelo/modelogod.php'; // Ajusta la ruta según tu estructura de archivos
+require_once '../../modelo/modelogod.php'; // Ajusta la ruta según tu estructura de archivos
 session_start();
 
 date_default_timezone_set('America/Santiago');
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
     $duracion_reserva = $_POST['duracion'];
 
     // Redirigir al controlador para realizar la reserva
-    header("Location: ../controlador/controlador.php?action=reservar&cancha_id={$cancha_id_reserva}&fecha={$fecha_reserva}&hora_inicio={$hora_inicio_reserva}&duracion={$duracion_reserva}");
+    header("Location: ../../controlador/controlador.php?action=reservar&cancha_id={$cancha_id_reserva}&fecha={$fecha_reserva}&hora_inicio={$hora_inicio_reserva}&duracion={$duracion_reserva}");
     exit();
 }
 ?>
@@ -189,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
 <body>
     <div class="principal">
         <div class="primera-parte">
-            <a href="inicio.php">Volver a página principal</a>
+            <a href="initial_page.php">Volver a página principal</a>
             <h1>Disponibilidad de Horarios para la Cancha <?php echo htmlspecialchars($cancha_id); ?></h1>
             
             <form id="formulario" action="" method="POST">
@@ -267,7 +267,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
             <?php endforeach; ?>
 
             <h2>Reserva tu horario:</h2>
-            <form id="reserva-form" action="../controlador/controlador.php?action=reservar" method="POST">
+            <form id="reserva-form" action="../../controlador/controlador.php?action=reservar" method="POST">
                 <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
                 <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
                 <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">

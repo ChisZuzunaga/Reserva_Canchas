@@ -1,6 +1,6 @@
 <!-- views/reservas_canceladas.php -->
 <?php
-require_once '../modelo/modelogod.php';
+require_once(__DIR__ . '/../../modelo/modelogod.php');
 
 $reservas_canceladas_model = new Clientes_model(); // Asegúrate de que este modelo esté disponible
 
