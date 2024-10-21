@@ -78,205 +78,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disponibilidad de Horarios</title>
-    <style>
-        .fecha-boton {
-            margin: 5px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #f0f0f0;
-            cursor: pointer;
-        }
-        .fecha-boton:hover {
-            background-color: #ddd;
-        }
-
-        .seleccionado {
-            background-color: #4CAF50; /* Color verde */
-            color: white; /* Color del texto */
-        }
-
-        .bloque-horas {
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-
-        h3 {
-            margin: 0;
-            text-align: center;
-        }
-
-        .hora-boton {
-            margin: 5px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            background-color: #f0f0f0;
-            cursor: pointer;
-        }
-
-        .hora-boton:hover {
-            background-color: #ddd;
-        }
-
-        .ocupado {
-            background-color: #e57373; /* Rojo para ocupado */
-            cursor: not-allowed;
-        }
-
-        .reservar {
-            background-color: #4CAF50; /* Verde para reservar */
-            color: white; /* Color del texto */
-        }
-
-        .resaltado {
-            background-color: #FFC107; /* Color amarillo para resaltado */
-        }
-        .principal {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-        }
-        .primera-parte{
-            width: 70%;
-            height: 100%;
-            outline: 2px solid black;
-        }
-        .segunda-parte{
-            width: 30%;
-            height: 100%;
-            outline: 2px solid black;
-        }
-        .card {
-            background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 20rem;
-        }
-        .card-header {
-            background-color: #22c55e;
-            color: white;
-            text-align: center;
-            border-top-left-radius: 0.5rem;
-            border-top-right-radius: 0.5rem;
-            padding: 0.5rem 0;
-        }
-        .card-header h2 {
-            margin: 0;
-            font-weight: bold;
-        }
-        .card-body {
-            background-color: #d1fae5;
-            padding: 1rem;
-            border-bottom-left-radius: 0.5rem;
-            border-bottom-right-radius: 0.5rem;
-        }
-        .card-body h3 {
-            margin: 0;
-            font-weight: bold;
-        }
-        .card-body p {
-            display: flex;
-            align-items: center;
-            margin: 0.5rem 0 0 0;
-        }
-        .card-body p i {
-            margin-right: 0.5rem;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/horas_dispo.css">
 </head>
 <body>
     <div class="principal">
-        <div class="primera-parte">
-            <a href="initial_page.php">Volver a página principal</a>
-            <h1>Disponibilidad de Horarios para la Cancha <?php echo htmlspecialchars($cancha_id); ?></h1>
-            
-            <form id="formulario" action="" method="POST">
-                <label for="duracion">Duración (minutos):</label>
-                <select name="duracion" id="duracion" onchange="this.form.submit()">
-                    <option value="60" <?php echo $duracion == 60 ? 'selected' : ''; ?>>60 minutos</option>
-                    <option value="90" <?php echo $duracion == 90 ? 'selected' : ''; ?>>90 minutos</option>
-                    <option value="120" <?php echo $duracion == 120 ? 'selected' : ''; ?>>120 minutos</option>
-                </select>
-                <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>"> <!-- Mantener la fecha seleccionada -->
-                <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>"> <!-- También mantener el id de cancha -->
-                <input type="hidden" name="offset" value="<?php echo $offset; ?>"> <!-- Offset para manejar las fechas -->
-                <br><br>
-            </form>
-            
-            <div>
-                <h2>Selecciona una fecha:</h2>
+        <div class="div-1">
+            <div class="primera-parte">
+                <a href="initial_page.php">Volver a página principal</a>
+                <h1>Disponibilidad de Horarios para la Cancha <?php echo htmlspecialchars($cancha_id); ?></h1>
                 
-                <!-- Botón de retroceder -->
-                <form action="" method="POST" style="display: inline;">
-                    <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
-                    <input type="hidden" name="offset" value="<?php echo $offset - 10; ?>">
-                    <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                    <button type="submit" <?php echo ($offset <= 0) ? 'disabled' : ''; ?>>Retroceder</button>
+                <form id="formulario" action="" method="POST">
+                    <label for="duracion">Duración (minutos):</label>
+                    <select name="duracion" id="duracion" onchange="this.form.submit()">
+                        <option value="60" <?php echo $duracion == 60 ? 'selected' : ''; ?>>60 minutos</option>
+                        <option value="90" <?php echo $duracion == 90 ? 'selected' : ''; ?>>90 minutos</option>
+                        <option value="120" <?php echo $duracion == 120 ? 'selected' : ''; ?>>120 minutos</option>
+                    </select>
+                    <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>"> <!-- Mantener la fecha seleccionada -->
+                    <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>"> <!-- También mantener el id de cancha -->
+                    <input type="hidden" name="offset" value="<?php echo $offset; ?>"> <!-- Offset para manejar las fechas -->
+                    <br><br>
                 </form>
-
-                <!-- Botones de fechas disponibles -->
-                <?php foreach ($fechas_disponibles as $fecha_disponible): ?>
+                
+                <div>
+                    <h2>Selecciona una fecha:</h2>
+                    
+                    <!-- Botón de retroceder -->
                     <form action="" method="POST" style="display: inline;">
                         <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
-                        <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha_disponible); ?>">
+                        <input type="hidden" name="offset" value="<?php echo $offset - 10; ?>">
                         <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                        <input type="hidden" name="offset" value="<?php echo htmlspecialchars($offset); ?>">
-                        <button type="submit" class="fecha-boton <?php echo ($fecha_disponible == $fecha) ? 'seleccionado' : ''; ?>">
-                            <?php echo htmlspecialchars($fecha_disponible); ?>
-                        </button>
+                        <button type="submit" <?php echo ($offset <= 0) ? 'disabled' : ''; ?>>Retroceder</button>
                     </form>
+
+                    <!-- Botones de fechas disponibles -->
+                    <?php foreach ($fechas_disponibles as $fecha_disponible): ?>
+                        <form action="" method="POST" style="display: inline;">
+                            <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
+                            <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha_disponible); ?>">
+                            <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
+                            <input type="hidden" name="offset" value="<?php echo htmlspecialchars($offset); ?>">
+                            <button type="submit" class="fecha-boton <?php echo ($fecha_disponible == $fecha) ? 'seleccionado' : ''; ?>">
+                                <?php echo htmlspecialchars($fecha_disponible); ?>
+                            </button>
+                        </form>
+                    <?php endforeach; ?>
+
+                    <!-- Botón de avanzar -->
+                    <form action="" method="POST" style="display: inline;">
+                        <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
+                        <input type="hidden" name="offset" value="<?php echo $offset + 10; ?>">
+                        <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
+                        <button type="submit" <?php echo ($offset >= $max_offset) ? 'disabled' : ''; ?>>Avanzar</button>
+                    </form>
+                </div>
+
+                <h2>Horarios disponibles para el <?php echo htmlspecialchars($fecha); ?></h2>
+                
+                <?php foreach ($jornadas as $jornada => $horas): ?>
+                <div class="bloque-horas">
+                    <h3><?php echo ucfirst($jornada); ?></h3>
+                    <?php foreach ($horas as $hora): ?>
+                        <?php
+                        // Ocultar bloques según la duración seleccionada
+                        if ($duracion == 90 && in_array($hora, ["22:00"])) continue;
+                        if ($duracion == 120 && in_array($hora, ["21:30", "22:00"])) continue;
+                        ?>
+                        <form action="" method="POST" style="display: inline;">
+                            <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
+                            <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
+                            <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
+                            <button type="button" 
+                                    class="hora-boton <?php echo isset($horarios_ocupados[$hora]) ? 'ocupado' : ''; ?>" 
+                                    value="<?php echo htmlspecialchars($hora); ?>" 
+                                    data-duracion="<?php echo $duracion; ?>" 
+                                    onclick="resaltarHora(this)" 
+                                    <?php echo isset($horarios_ocupados[$hora]) ? 'disabled' : ''; ?>>
+                                <?php echo htmlspecialchars($hora); ?>
+                            </button>
+                        </form>
+                    <?php endforeach; ?>
+                </div>
                 <?php endforeach; ?>
 
-                <!-- Botón de avanzar -->
-                <form action="" method="POST" style="display: inline;">
+                <h2>Reserva tu horario:</h2>
+                <form id="reserva-form" action="../../controlador/controlador.php?action=reservar" method="POST">
+                    <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
                     <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
-                    <input type="hidden" name="offset" value="<?php echo $offset + 10; ?>">
                     <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                    <button type="submit" <?php echo ($offset >= $max_offset) ? 'disabled' : ''; ?>>Avanzar</button>
+                    <input type="hidden" name="hora_inicio" id="hora_inicio" value="">
+                    <input type="hidden" name="precio" id="precio_input" value="">
+                    <button type="submit" class="reservar" disabled id="boton_reservar">Reservar</button>
                 </form>
             </div>
-
-            <h2>Horarios disponibles para el <?php echo htmlspecialchars($fecha); ?></h2>
-            
-            <?php foreach ($jornadas as $jornada => $horas): ?>
-            <div class="bloque-horas">
-                <h3><?php echo ucfirst($jornada); ?></h3>
-                <?php foreach ($horas as $hora): ?>
-                    <?php
-                    // Ocultar bloques según la duración seleccionada
-                    if ($duracion == 90 && in_array($hora, ["22:00"])) continue;
-                    if ($duracion == 120 && in_array($hora, ["21:30", "22:00"])) continue;
-                    ?>
-                    <form action="" method="POST" style="display: inline;">
-                        <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
-                        <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
-                        <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                        <button type="button" 
-                                class="hora-boton <?php echo isset($horarios_ocupados[$hora]) ? 'ocupado' : ''; ?>" 
-                                value="<?php echo htmlspecialchars($hora); ?>" 
-                                data-duracion="<?php echo $duracion; ?>" 
-                                onclick="resaltarHora(this)" 
-                                <?php echo isset($horarios_ocupados[$hora]) ? 'disabled' : ''; ?>>
-                            <?php echo htmlspecialchars($hora); ?>
-                        </button>
-                    </form>
-                <?php endforeach; ?>
-            </div>
-            <?php endforeach; ?>
-
-            <h2>Reserva tu horario:</h2>
-            <form id="reserva-form" action="../../controlador/controlador.php?action=reservar" method="POST">
-                <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
-                <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
-                <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                <input type="hidden" name="hora_inicio" id="hora_inicio" value="">
-                <input type="hidden" name="precio" id="precio_input" value="">
-                <button type="submit" class="reservar" disabled id="boton_reservar">Reservar</button>
-            </form>
         </div>
-
         <?php
             $meses = [
                 1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo',
@@ -301,17 +196,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
             $fechaFormateada = "$diaSemana, $dia de $mes de $año";
 
         ?>
-
-        <div class="segunda-parte">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Información de tus servicios</h2>
-                </div>
-                <div class="card-body">
-                    <h3>Cancha 6vs6</h3>
-                    <p>Precio: <span id="precio">$0</span></p>
-                    <p><?php echo htmlspecialchars($fechaFormateada); ?></p>
-                    <p><?php echo htmlspecialchars($duracion); ?> min</p>
+        <div class="div-2">
+            <div class="segunda-parte">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Información de tus servicios</h2>
+                    </div>
+                    <div class="card-body">
+                        <h3>Cancha 6vs6</h3>
+                        <p>Precio: <span id="precio">$0</span></p>
+                        <p><?php echo htmlspecialchars($fechaFormateada); ?></p>
+                        <p><?php echo htmlspecialchars($duracion); ?> min</p>
+                    </div>
                 </div>
             </div>
         </div>
