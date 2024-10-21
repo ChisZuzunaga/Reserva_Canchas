@@ -238,7 +238,12 @@ if (isset($_GET['action'])) {
         case 'mostrar_horas_canceladas':
             $clientesController->mostrarHorasCanceladas();
             break;
-            
+        case 'confirmar_reserva':
+            $clientesController->confirmarReserva();
+            break;
+        case 'cancelar_reserva':
+            $clientesController->cancelarReserva();
+            break;
     }
 } else {
     $clientesController->listarClientes();

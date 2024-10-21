@@ -1,5 +1,5 @@
 <?php
-require_once '../../modelo/modelogod.php'; // Ajusta la ruta según tu estructura de archivos
+require_once(__DIR__ . '/../../modelo/modelogod.php'); // Ajusta la ruta según tu estructura de archivos
 session_start();
 
 date_default_timezone_set('America/Santiago');
@@ -266,7 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
                     precio = (16000*durr); // $16.000 después de las 18:00
                 }
             } else { // Sábado y Domingo
-                if (horaSeleccionada >= "08:00" && horaSeleccionada < "18:00") {
+                if (horaSeleccionada < "18:00") {
                     precio = (10000*durr); // $10.000 de 08:00 a 18:00
                 } else {
                     precio = (12000*durr); // $12.000 después de las 18:00

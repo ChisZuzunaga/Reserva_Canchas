@@ -20,7 +20,6 @@ if (isset($_SESSION['session_email'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/initial_page.css">
-    <link rel="stylesheet" href="../css/test.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -48,7 +47,6 @@ if (isset($_SESSION['session_email'])) {
                                 </div>
                             </div>
                         </div>
-                    
                         <div class="side-perfil">
                             <div class="colorr">
                                 <div class="separ">
@@ -75,33 +73,21 @@ if (isset($_SESSION['session_email'])) {
             <div class="div-2">
                 <div class="megacar">
                     <div class="carru">
-                        <div id="demo" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-indicators">
-                                <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-                                <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-                                <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
-                            </div>
-                        
+                        <div id="demo" class="carousel slide" data-bs-ride="carousel">   
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
                                     <img src="https://sportlink.com.br/wp-content/uploads/2021/12/BANNER-ESPORTES-PADEL.jpg" class="cat-img">
                                     <div class="carousel-caption">
-                                        <h3>Imagen 1</h3>
-                                        <p>Imagen 1</p>
                                     </div>
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="https://sportbalin.com/sites/default/files/banner%20padel.png?1668518058" class="cat-img">
+                                    <img src="https://www.axiswellness.pt/wp-content/uploads/2019/06/banner-padel2_desktop.jpg" class="cat-img">
                                     <div class="carousel-caption">
-                                        <h3>Imagen 2</h3>
-                                        <p>Imagen 2</p>
                                     </div>
                                 </div>
                                 <div class="carousel-item">
                                     <img src="https://media.babolat.com//image/upload/f_auto,q_auto,c_crop,w_2000,h_751/Website_content/Padel_News/02092020-Launch/padel-equipment/equipment-banner-2.jpg" class="cat-img">
                                     <div class="carousel-caption">
-                                        <h3>Imagen 3</h3>
-                                        <p>Imagen 3</p>
                                     </div>
                                 </div>
                             </div>
@@ -116,98 +102,104 @@ if (isset($_SESSION['session_email'])) {
                     </div>
                 </div>
             </div>
-            <div class="div-3">
-                <a>Selecciona los servicios que deseas agendar</a><br>
-                <div class="padel">
-                    <div class="pdel-txt">
-                        <a>Pádel</a>
+            <div class="group">
+                <div class="div-3">
+                    <a id="selecc">Selecciona los servicios que deseas agendar</a><br>
+                    <div class="padel">
+                        <div class="pdel-txt">
+                            <a>Pádel</a>
+                        </div>
                     </div>
-                </div>
 
-                <div class="opciones-padel">
-                    <div class="canchaA">
-                        <div class="tx">
-                            <p>Cancha 1</p>
+                    <div class="opciones-padel">
+                        <div class="canchaA">
+                            <div class="tx">
+                                <p>Cancha 1</p>
+                            </div>
+                            <div class="tx-1">
+                                <p>60, 90 o 120 minutos</p>
+                            </div>
+                            <div class="tx-2">
+                                <p>$10.000 - $16.000</p>
+                            </div>
+                            <div class="tx-3">
+                                <p>Precio varia según día y hora.</p>
+                            </div>
+                            <div class="tx-4">
+                                <a href="horarios_dispo.php?cancha_id=1" class="btn">Agendar Servicio</a>
+                            </div>
                         </div>
-                        <div class="tx-1">
-                            <p>60, 90 o 120 minutos</p>
-                        </div>
-                        <div class="tx-2">
-                            <p>$11.111</p>
-                        </div>
-                        <div class="tx-3">
-                            <p>Insertar directrices de la cancha</p>
-                        </div>
-                        <div class="tx-4">
-                            <a href="horarios_dispo.php?cancha_id=1" class="btn">Agendar Servicio</a>
-                        </div>
-                    </div>
-                    <div class="canchaB">
-                        <div class="tx">
-                            <p>Cancha 2</p>
-                        </div>
-                        <div class="tx-1">
-                            <p>60, 90 o 120 minutos</p>
-                        </div>
-                        <div class="tx-2">
-                            <p>$11.111</p>
-                        </div>
-                        <div class="tx-3">
-                            <p>Insertar directrices de la cancha</p>
-                        </div>
-                        <div class="tx-4">
-                            <a href="horarios_dispo.php?cancha_id=2" class="btn">Agendar servicio</a>
+                        <div class="canchaB">
+                            <div class="tx">
+                                <p>Cancha 2</p>
+                            </div>
+                            <div class="tx-1">
+                                <p>60, 90 o 120 minutos</p>
+                            </div>
+                            <div class="tx-2">
+                                <p>$10.000 - $16.000</p>
+                            </div>
+                            <div class="tx-3">
+                                <p>Precio varia según día y hora.</p>
+                            </div>
+                            <div class="tx-4">
+                                <a href="horarios_dispo.php?cancha_id=2" class="btn">Agendar servicio</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="div-4">
-                <div class="elfsight-app-51441d3c-bcc2-499b-b179-deecfdbe6a58" data-elfsight-app-lazy></div>
+                <div class="div-4">
+                    <!--
+                    <div class="elfsight-app-51441d3c-bcc2-499b-b179-deecfdbe6a58" data-elfsight-app-lazy></div>
+                    !-->
+                </div>
             </div>
             <div class="div-5">
-                <h3 id="ubi-donde">Dónde estamos ubicados</h3>
+                <h1 id="ubi-donde">Dónde estamos ubicados</h1>
             </div>
-            <div class="div-6">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3457.9828895920327!2d-71.20232832445089!3d-29.922394774985317!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9691cba177970af5%3A0x5ab495569a432b8e!2sCeres%20P%C3%A1del%20Club!5e0!3m2!1ses!2scl!4v1728229020003!5m2!1ses!2scl"
-                    id="mapa" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-            <div class="div-7">
-                <div class="bodd">
-                    <div class="card1">
-                        <div class="headerr">
-                            <h2>Ubicación</h2>
-                            <i class="fas fa-chevron-up toggle-icon"></i>
+            <div class="group">
+                <div class="div-6">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3457.9828895920327!2d-71.20232832445089!3d-29.922394774985317!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9691cba177970af5%3A0x5ab495569a432b8e!2sCeres%20P%C3%A1del%20Club!5e0!3m2!1ses!2scl!4v1728229020003!5m2!1ses!2scl"
+                        id="mapa" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div class="div-7">
+                    <div class="bodd">
+                        <div class="card1">
+                            <div class="headerr">
+                                <h2>Ubicación</h2>
+                                <i class="fas fa-chevron-up toggle-icon"></i>
+                            </div>
+                            <div class="contenrt">
+                                <input type="text" placeholder="Los Arándanos, Ceres" class="input" readonly>
+                            </div>
                         </div>
-                        <div class="contenrt">
-                            <input type="text" placeholder="Los Arándanos, Ceres" class="input" readonly>
-                        </div>
-                    </div>
 
-                    <div class="card2">
-                        <div class="headerr">
-                            <h2>Horarios del Club</h2>
-                            <i class="fas fa-chevron-up toggle-icon"></i>
+                        <div class="card2">
+                            <div class="headerr">
+                                <h2>Horarios del Club</h2>
+                                <i class="fas fa-chevron-up toggle-icon"></i>
+                            </div>
+                            <div class="contenrt">
+                                <p class="p">Lunes, Martes, Miércoles, Jueves, Viernes, Sábado: <span class="bold">7:00 a 22:00</span></p>
+                                <p class="p">Domingo: <span class="bold">8:00 a 22:00</span></p>
+                            </div>
                         </div>
-                        <div class="contenrt">
-                            <p class="p">Lunes, Martes, Miércoles, Jueves, Viernes, Sábado: <span>7:00 a 22:00</span></p>
-                            <p class="p">Domingo: <span>8:00 a 22:00</span></p>
-                        </div>
-                    </div>
 
-                    <div class="card3">
-                        <div class="headerr">
-                            <h2>Servicios del Club</h2>
-                            <i class="fas fa-chevron-up toggle-icon"></i>
-                        </div>
-                        <div class="contenrt">
-                            <div class="services">
-                                <div class="a">
-                                    <div><i class="fas fa-car"></i> Estacionamiento</div>
-                                    <div><i class="fas fa-birthday-cake"></i> Cumpleaños</div>
-                                </div>
-                                <div class="a">
-                                    <div><i class="fas fa-trophy"></i> Torneo</div>
-                                    <div><i class="fas fa-school"></i> Escuela Deportiva</div>
+                        <div class="card3">
+                            <div class="headerr">
+                                <h2>Servicios del Club</h2>
+                                <i class="fas fa-chevron-up toggle-icon"></i>
+                            </div>
+                            <div class="contenrt">
+                                <div class="services">
+                                    <div class="a">
+                                        <div><i class="fas fa-car"></i><span class="txt">Estacionamiento</span></div>
+                                        <div><i class="fas fa-birthday-cake"></i><span class="txt">Cumpleaños</span></div>
+                                    </div>
+                                    <div class="a">
+                                        <div><i class="fas fa-trophy"></i><span class="txt">Torneo</span></div>
+                                        <div><i class="fas fa-school"></i><span class="txt">Escuela Deportiva</span></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -245,7 +237,7 @@ if (isset($_SESSION['session_email'])) {
                         </div>
                     </div>
                     <div class="copy">
-                        &copy; Copyright <?php echo date('Y'); ?>, Queso - All Rights Reserved
+                        &copy; Copyright <?php echo date('Y'); ?>, Ceres Padel Club - All Rights Reserved
                     </div>
                 </footer>
             </div>
