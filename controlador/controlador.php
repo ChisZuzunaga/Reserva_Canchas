@@ -43,7 +43,7 @@ class Clientes_controller {
         if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
             $nombreImagen = $_FILES['imagen']['name'];
             $rutaTemporal = $_FILES['imagen']['tmp_name'];
-            $directorioDestino = '../uploads/'.$nombreImagen;
+            $directorioDestino = '../vista/uploads/'.$nombreImagen;
     
             // Mover el archivo subido a la ubicación definitiva
             if (move_uploaded_file($rutaTemporal, $directorioDestino)) {
@@ -63,7 +63,7 @@ class Clientes_controller {
             echo "Usuario agregado correctamente";
             $_SESSION['session_email']= $emailr;
             $_SESSION['session_nombre'] = $nombrer;
-            $_SESSION['ruta_imagen'] = $imagenRuta;
+            $_SESSION['ruta_imagen'] = '../' . $imagenRuta;
             header("Location: ../vista/php/initial_page.php");
         } else {
             echo "Error al crear Usuario";
@@ -82,7 +82,7 @@ class Clientes_controller {
                 echo "Inicio de sesión exitoso";
                 $_SESSION['session_email'] = $email;
                 $_SESSION['session_nombre'] = $cliente['Nombre'];
-                $_SESSION['ruta_imagen'] = '../../uploads/' . basename($cliente['Imagen']);
+                $_SESSION['ruta_imagen'] = '../uploads/' . basename($cliente['Imagen']);
                 header("Location: ../vista/php/initial_page.php");
             } else {
                 echo "Error: Contraseña incorrecta";

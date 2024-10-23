@@ -33,7 +33,7 @@
                         <div class="second-division">
                             <div class="sd-first-half">
                                 <img id="f-perfil" src="https://t4.ftcdn.net/jpg/06/62/07/19/360_F_662071971_7bhQFAgB5CgjXYeLO6LMQCnklyYAsw99.jpg" alt="Imagen de perfil">
-                                <img id="monito" src="../../uploads/fondod.png">
+                                <img id="monito" src="../uploads/fondod.png">
                                 <input type="file" id="input-imagen" name="imagen" required style="display: none;" placeholder="Imagen de perfil..">
                             </div>
                             <div class="sd-second-half">
