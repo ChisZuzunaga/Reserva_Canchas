@@ -1,6 +1,29 @@
 <?php
 require_once '../../modelo/modelogod.php';
+
+session_start();
 date_default_timezone_set('America/Santiago');
+
+$adminEmail = 'prueba@a';
+
+if (isset($_SESSION['session_email'])) {
+    $email = $_SESSION['session_email'];
+    $nombre = $_SESSION['session_nombre'];
+    $img = $_SESSION['ruta_imagen']; // Obtener el nombre almacenado en la sesión
+
+    if ($email !== $adminEmail) {
+        echo "Acceso denegado. No tienes permisos para acceder a esta página.";
+        // Puedes redirigir al usuario a otra página, como la página de inicio:
+        header("Location: ../php/initial_page.php");
+        exit();
+    }
+
+} else {
+    echo "No has iniciado sesión.";
+    // Puedes redirigir al usuario a la página de inicio de sesión si no está autenticado
+    exit();
+}
+
 // Definir todas las horas desde las 07:00 hasta las 22:00
 $horas = [
     "07:00:00", "07:30:00", "08:00:00", "08:30:00", "09:00:00", "09:30:00", "10:00:00", "10:30:00", "11:00:00", "11:30:00",

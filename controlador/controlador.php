@@ -83,7 +83,13 @@ class Clientes_controller {
                 $_SESSION['session_email'] = $email;
                 $_SESSION['session_nombre'] = $cliente['Nombre'];
                 $_SESSION['ruta_imagen'] = '../uploads/' . basename($cliente['Imagen']);
-                header("Location: ../vista/php/initial_page.php");
+                
+                if ($email == 'prueba@a') {
+                    header("Location: ../vista/php/admin_page.php");
+                } else {
+                    header("Location: ../vista/php/initial_page.php");
+                }
+
             } else {
                 echo "Error: Contraseña incorrecta";
             }

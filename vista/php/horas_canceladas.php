@@ -7,6 +7,26 @@ $reservas_canceladas_model = new Clientes_model(); // Asegúrate de que este mod
 // Obtener las reservas canceladas desde el modelo
 $reservasCanceladas = $reservas_canceladas_model->getReservasCanceladas(); // Asegúrate de que este método exista
 
+$adminEmail = 'prueba@a';
+
+if (isset($_SESSION['session_email'])) {
+    $email = $_SESSION['session_email'];
+    $nombre = $_SESSION['session_nombre'];
+    $img = $_SESSION['ruta_imagen']; // Obtener el nombre almacenado en la sesión
+
+    if ($email !== $adminEmail) {
+        echo "Acceso denegado. No tienes permisos para acceder a esta página.";
+        // Puedes redirigir al usuario a otra página, como la página de inicio:
+        header("Location: ../php/initial_page.php");
+        exit();
+    }
+
+} else {
+    echo "No has iniciado sesión.";
+    // Puedes redirigir al usuario a la página de inicio de sesión si no está autenticado
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>

@@ -1,10 +1,19 @@
 <?php
 session_start(); // Asegúrate de iniciar la sesión en la página de destino
 
+$adminEmail = 'prueba@a';
+
 if (isset($_SESSION['session_email'])) {
     $email = $_SESSION['session_email'];
     $nombre = $_SESSION['session_nombre'];
     $img = $_SESSION['ruta_imagen']; // Obtener el nombre almacenado en la sesión
+
+    if ($email !== $adminEmail) {
+        echo "Acceso denegado. No tienes permisos para acceder a esta página.";
+        // Puedes redirigir al usuario a otra página, como la página de inicio:
+        header("Location: ../php/initial_page.php");
+        exit();
+    }
 
 } else {
     echo "No has iniciado sesión.";
@@ -41,7 +50,7 @@ if (isset($_SESSION['session_email'])) {
                             <div class="first-p">
                                 <div class="perfil-header">
                                     <div class="ff-h">
-                                        <h1><?php echo "Bienvenido " ,$nombre?></h1>
+                                        <h1><?php echo "Bienvenido ADMIN " ,$nombre?></h1>
                                     </div>
                                     <div class="ss-h">
                                         <label for="chk" class="ppfil" aria-hidden="true">
