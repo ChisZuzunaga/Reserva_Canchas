@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Iniciddo</title>
+    <title>Ceres Padel Club</title>
+    <link rel="icon" href="../uploads/icono.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/login_register.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="../java/perfil_modal.js" defer></script>

@@ -75,6 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <title>Horas Disponibles</title>
+    <link rel="icon" href="../uploads/icono.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disponibilidad de Horarios</title>

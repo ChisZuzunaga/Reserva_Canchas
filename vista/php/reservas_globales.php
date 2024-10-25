@@ -126,7 +126,8 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Reservas de Canchas</title>
+    <title>Panel de Reservas</title>
+    <link rel="icon" href="../uploads/icono.png" type="image/x-icon">
     <style>
         .reservado {
             background-color: #ffcccc; /* Rojo para reservado */

@@ -16,6 +16,8 @@ if (isset($_SESSION['session_email'])) {
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <title>Inicio</title>
+    <link rel="icon" href="../uploads/icono.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/initial_page.css">
