@@ -63,7 +63,9 @@ if (isset($_SESSION['session_email'])) {
                                     </div>
                                 </div>
                                 <div class="asad">
-                                    aa
+                                    <form action="../../controlador/controlador.php?action=mostrar_horas_usuario" method="post">
+                                        <button type="submit">Ver horas anteriores</button>
+                                    </form>
                                 </div>
                                 <div class="cerrar-sin">
                                     <form action="../../controlador/controlador.php?action=cerrar" method="post">
@@ -253,7 +255,7 @@ if (isset($_SESSION['session_email'])) {
         var myVar;
 
         function myFunction() {
-        myVar = setTimeout(showPage, 3000);
+        myVar = setTimeout(showPage, 1000);
         }
 
         function showPage() {

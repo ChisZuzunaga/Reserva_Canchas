@@ -129,6 +129,16 @@ class Clientes_model {
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getReservasUsuario($emailr) {
+        $query = "SELECT ID_Reserva, Fecha, Hora_Inicio, Hora_Fin, Duracion, ID_Cancha, Email, Estado, Precio
+                  FROM reserva 
+                  WHERE Email = :email";
+        $statement = $this->conexion->prepare($query);
+        $statement->bindParam(':email', $emailr, PDO::PARAM_STR); // Especifica el tipo de parámetro
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 
 ?>

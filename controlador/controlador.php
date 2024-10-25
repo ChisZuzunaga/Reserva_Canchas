@@ -207,6 +207,22 @@ class Clientes_controller {
         // Cargar la vista y pasarle las reservas canceladas
         require '../vista/php/horas_canceladas.php'; // Asegúrate de que la ruta sea correcta
     }
+
+    public function mostrarHorasUsuario() {
+        if (isset($_SESSION['session_email'])) {
+            $email = $_SESSION['session_email'];
+    
+            // Obtener las reservas del usuario
+            $reservasUsuario = $this->model->getReservasUsuario($email);
+    
+            // Cargar la vista y pasarle las reservas del usuario
+            require '../vista/php/horas_usuario.php';
+        } else {
+            // Redirigir si no está autenticado
+            echo "Debes iniciar sesión.";
+            exit();
+        }
+    }
 }
 
 
@@ -243,6 +259,9 @@ if (isset($_GET['action'])) {
             break;
         case 'mostrar_horas_canceladas':
             $clientesController->mostrarHorasCanceladas();
+            break;
+        case 'mostrar_horas_usuario':
+            $clientesController->mostrarHorasUsuario();
             break;
         case 'confirmar_reserva':
             $clientesController->confirmarReserva();
