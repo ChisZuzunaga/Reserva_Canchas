@@ -8,6 +8,7 @@ $reservasCanceladas = $reservas_canceladas_model->getReservasCanceladas(); // As
 
 $adminEmail = 'prueba@a';
 
+
 if (isset($_SESSION['session_email'])) {
     $email = $_SESSION['session_email'];
     $nombre = $_SESSION['session_nombre'];
@@ -64,7 +65,7 @@ $horas = [
 $cancha_id = isset($_GET['cancha_id']) ? $_GET['cancha_id'] : 1; 
 
 // Manejo de la fecha actual
-$fecha_actual = isset($_GET['fecha']) ? new DateTime($_GET['fecha']) : new DateTime(); 
+$fecha_actual = isset($_GET['fecha']) ? new DateTime($_GET['fecha']) : new DateTime();
 
 // Avanzar o retroceder días
 if (isset($_GET['avanzar'])) {
@@ -72,6 +73,30 @@ if (isset($_GET['avanzar'])) {
 } elseif (isset($_GET['retroceder'])) {
     $fecha_actual->modify('-10 day');
 }
+
+$fecha_anter = clone $fecha_actual;
+$fecha_futur = clone $fecha_actual;
+$fecha_futur->modify("+9 day");
+
+// Array de traducción de meses abreviados
+$meses_abreviados = [
+    'Jan' => 'Ene',
+    'Feb' => 'Feb',
+    'Mar' => 'Mar',
+    'Apr' => 'Abr',
+    'May' => 'May',
+    'Jun' => 'Jun',
+    'Jul' => 'Jul',
+    'Aug' => 'Ago',
+    'Sep' => 'Sep',
+    'Oct' => 'Oct',
+    'Nov' => 'Nov',
+    'Dec' => 'Dic'
+];
+
+// Obtén el mes abreviado y día de las fechas en inglés
+$mes_dia_anter = $fecha_anter->format('M-d'); // 'M' para el mes abreviado, 'd' para el día
+$mes_dia_futur = $fecha_futur->format('M-d');
 
 // Calcular las fechas (del día actual a 10 días más)
 $fechas = [];
@@ -157,276 +182,12 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Jost', sans-serif;
-            width: 100%;
-            height: 100vh;
-            background-color: #EBEBEB;
-            overflow: hidden;
-        }
-
-        /* Header styling */
-        .header {
-            width: 100%;
-            background-color: #333;
-            color: white;
-            padding: 15px;
-            top: 0;
-            left: 0;
-            z-index: 20;
-            font-size: 24px;
-            height: 15vh;
-        }
-
-        .main {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .parent {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .div1 {
-            width: 25%;
-            background-color: #f0f0f0;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .div2 {
-            width: 75%;
-            background-color: #d0d0d0;
-            transition: all 0.3s ease-in-out;
-            overflow-y: auto;
-        }
-
-        /* Flecha para ocultar y mostrar */
-        .toggle-arrow {
-            position: absolute;
-            top: 50%;
-            left: calc(25% - 20px);
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 24px;
-            background-color: #00D976;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 50%;
-            transition: all 0.3s ease-in-out;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Clases para ocultar y mostrar */
-        .hidden .div1 {
-            transform: translateX(-200vw);
-            width: 0;
-        }
-
-        .hidden .div2 {
-            width: 100%;
-        }
-
-        /* Mostrar solo mitad derecha del botón cuando sidebar está oculto */
-        .hidden .toggle-arrow {
-            left: -40px;
-            transform: translate(50%, -50%);
-        }
-
-        .login-text {
-            text-decoration: underline;
-            color: #2bc26f;
-            cursor: pointer;
-            margin: 10px;
-        }
-
-        .hrs-can, .hrs-ver {
-            display: none;
-            width: 100%;
-            height: 100%;
-            padding: 20px;
-            text-align: center;
-        }
-
-        /* Mostrar contenido según el checkbox seleccionado */
-        #chk1:checked ~ .parent .hrs-can {
-            display: block;
-        }
-
-        #chk2:checked ~ .parent .hrs-ver {
-            display: block;
-        }
-
-        .division{
-            height: 100%;
-            width: 100%;
-            display: flex;
-        }
-
-        .first-half{
-            width: 50%;
-            display: flex;
-            align-items: center;
-        }
-
-        .second-half{
-            width: 50%;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-
-        .first-p {
-            width: 100%;
-            position: relative;
-        }
-
-        .perfil-header {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .ff-h{
-            width: 70%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding-right: 1%;
-        }
-
-        .ff-h h1{
-            font-size: 2.5vw;
-        }
-
-        .first-half h1{
-            font-size: 2.5vw;
-            margin-left: 2vw;
-        }        
-        
-        #logoaqui{
-            width: 8vw;
-            height: 8vw;
-        }
-
-        #monito{
-            position: absolute;
-            width: 7vw;
-            height: 7vw;
-        }
-
-        #f-perfil{
-            width: 5vw;
-            height: 5vw;
-            border-radius: 100px;
-            object-fit: cover;
-            position: absolute;
-            outline: 2px solid white;
-            box-shadow: 0px 0px 35px #050505;
-        }
-
-        .ss-h{
-            width: 30%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .reservado {
-            background-color: #ffcccc; /* Rojo para reservado */
-            height: 100%;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-            cursor: pointer;
-        }
-
-        .confirmada {
-            background-color: #ccffcc; /* Verde para confirmada */
-            height: 100%;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-            cursor: pointer;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: center;
-            height: 30px;
-        }
-
-        /* Estilos para el modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            max-width: 500px;
-            margin: auto;
-        }
-
-        .modal-buttons {
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .modal-buttons button {
-            margin-left: 10px;
-        }
-
-        #conf{
-            background-color: green;
-            cursor: pointer;
-        }
-
-        #canc{
-            background-color: red;
-            cursor: pointer;
-        }
-
-        .no-transition * {
-            transition: none !important;
-        }
-    </style>
-</head>
-<body>
+    <link rel="stylesheet" href="../css/new_admin_page.css">
+    <link rel="stylesheet" href="../css/admin_page.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <body>
     <div class="header">
         <div class="division">
             <div class="first-half">
@@ -457,8 +218,24 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
             <span class="toggle-arrow" onclick="toggleSidebar()">&#9664;</span>
             <div class="div1">
                 <div class="first-dd">
-                    <span class="login-text" onclick="toggleDiv('chk1', 'chk2')">Horas Canceladas</span>
-                    <span class="login-text" onclick="toggleDiv('chk2', 'chk1')">Horas Reservadas</span>
+                    <div class="btn-1">
+                        <div class="btn-25">
+                            <span class="izq-can"></span>
+                            <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
+                        </div>
+                        <div class="btn-75" onclick="toggleDiv('chk1', 'chk2')">
+                            <span class="btn-chk">Horas Canceladas</span>
+                        </div>
+                    </div>
+                    <div class="btn-2">
+                        <div class="btn-25">
+                            <span class="izq-ver"></span>
+                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                        </div>
+                        <div class="btn-75" onclick="toggleDiv('chk2', 'chk1')">
+                            <span class="btn-chk">Horas Reservadas</span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="div2">
@@ -518,21 +295,51 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                             </div>
                         </div>
                     </div>
+                    <div class="header-container">
+                        <div class="parent-admin">
+                            <div class="contenedor">
+                                <div class="divi-1">
+                                    <div class="btns">
+                                        <form method="GET" action="">
+                                            <button class="cancha1" type="submit" name="cancha_id" value="1">
+                                                Cancha 1
+                                            </button>
+                                            <button class="cancha1" type="submit" name="cancha_id" value="2">
+                                                Cancha 2
+                                            </button>
+                                            <input type="hidden" name="fecha" value="<?= $fecha_actual->format('Y-m-d') ?>">
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="divi-2">
+                                    <img id="foto-padel" src="../uploads/padel-icon.png">
+                                    <span id="txt">Cancha <?= $cancha_id ?></span>
+                                </div>
+                                <div class="divi-3">
+                                    <div class="divi-3-05">
+                                        <h1><?php echo str_replace(array_keys($meses_abreviados), $meses_abreviados, $mes_dia_anter) . ' / ' . str_replace(array_keys($meses_abreviados), $meses_abreviados, $mes_dia_futur); ?></h1>
+                                    </div>
+                                    <div class="divi-3-05-02">
+                                        <form method="get" action="">
+                                            <input type="date" id="fecha" name="fecha" value="<?php echo $fecha_actual->format('Y-m-d'); ?>" onchange="this.form.submit()"></input>
+                                        </form>
+                                        <form method="GET" action="" style="display: inline;">
+                                            <button class="retro" type="submit" name="retroceder" value="1">◀</button>
+                                            <input type="hidden" name="cancha_id" value="<?= $cancha_id ?>">
+                                            <input type="hidden" name="fecha" value="<?= $fecha_actual->format('Y-m-d') ?>">
+                                        </form>
 
-                    <!-- Selector de Cancha -->
-                    <form method="GET" action="">
-                        <label for="cancha_id">Seleccione una cancha:</label>
-                        <select name="cancha_id" id="cancha_id" onchange="this.form.submit()">
-                            <option value="1" <?= ($cancha_id == 1) ? 'selected' : '' ?>>Cancha 1</option>
-                            <option value="2" <?= ($cancha_id == 2) ? 'selected' : '' ?>>Cancha 2</option>
-                        </select>
-                        <input type="hidden" name="fecha" value="<?= $fecha_actual->format('Y-m-d') ?>">
-                    </form>
-
-                    <!-- Botones de avance/retroceso de días -->
-                    <a href="?cancha_id=<?= $cancha_id ?>&fecha=<?= $fecha_actual->format('Y-m-d') ?>&retroceder=1">Anterior</a>
-                    <a href="?cancha_id=<?= $cancha_id ?>&fecha=<?= $fecha_actual->format('Y-m-d') ?>&avanzar=1">Siguiente</a>
-
+                                        <!-- Botón para avanzar 10 días -->
+                                        <form method="GET" action="" style="display: inline;">
+                                            <button class="avanza" type="submit" name="avanzar" value="1" >▶</button>
+                                            <input type="hidden" name="cancha_id" value="<?= $cancha_id ?>">
+                                            <input type="hidden" name="fecha" value="<?= $fecha_actual->format('Y-m-d') ?>">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Contenedor para la tabla de reservas -->
                     <div id="reservas-container">
                         <table>
@@ -608,14 +415,26 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
         function toggleDiv(showCheckboxId, hideCheckboxId) {
             const showDiv = document.querySelector('.hrs-can');
             const hideDiv = document.querySelector('.hrs-ver');
+            const showBtn = document.querySelector('.btn-1'); // Horas canceladas
+            const hideBtn = document.querySelector('.btn-2'); // Horas globales
+            const showIzq = document.querySelector('.izq-can');
+            const hideIzq = document.querySelector('.izq-ver');
 
             if (showCheckboxId === 'chk1') {
                 showDiv.style.display = 'block';
                 hideDiv.style.display = 'none';
+                showBtn.style.backgroundColor = '#D6D6D6';
+                hideBtn.style.backgroundColor = '#FFFFFF';
+                showIzq.style.backgroundColor = '#00D976';
+                hideIzq.style.backgroundColor = '#FFFFFF';
                 localStorage.setItem('selectedDiv', 'chk1');
             } else {
                 showDiv.style.display = 'none';
                 hideDiv.style.display = 'block';
+                showBtn.style.backgroundColor = '#FFFFFF';
+                hideBtn.style.backgroundColor = '#D6D6D6';
+                showIzq.style.backgroundColor = '#FFFFFF';
+                hideIzq.style.backgroundColor = '#00D976';
                 localStorage.setItem('selectedDiv', 'chk2');
             }
         }
@@ -697,6 +516,7 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
             // Lógica para abrir otro modal o mostrar campos de edición
             alert('Editando reserva');
         };
+
     </script>
 </body>
 </html>
