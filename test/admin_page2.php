@@ -1,10 +1,19 @@
 <?php
 session_start(); // Asegúrate de iniciar la sesión en la página de destino
 
+$adminEmail = 'prueba@a';
+
 if (isset($_SESSION['session_email'])) {
     $email = $_SESSION['session_email'];
     $nombre = $_SESSION['session_nombre'];
     $img = $_SESSION['ruta_imagen']; // Obtener el nombre almacenado en la sesión
+
+    if ($email !== $adminEmail) {
+        echo "Acceso denegado. No tienes permisos para acceder a esta página.";
+        // Puedes redirigir al usuario a otra página, como la página de inicio:
+        header("Location: ../php/initial_page.php");
+        exit();
+    }
 
 } else {
     echo "No has iniciado sesión.";
@@ -17,9 +26,9 @@ if (isset($_SESSION['session_email'])) {
 <html lang="es">
 <head>
     <title>Inicio</title>
-    <link rel="icon" href="../uploads/icono.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../uploads/icono.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/initial_page.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -43,7 +52,7 @@ if (isset($_SESSION['session_email'])) {
                             <div class="first-p">
                                 <div class="perfil-header">
                                     <div class="ff-h">
-                                        <h1><?php echo "Bienvenido " ,$nombre?></h1>
+                                        <h1><?php echo "Bienvenido ADMIN " ,$nombre?></h1>
                                     </div>
                                     <div class="ss-h">
                                         <label for="chk" class="ppfil" aria-hidden="true">
@@ -65,12 +74,11 @@ if (isset($_SESSION['session_email'])) {
                                     </div>
                                 </div>
                                 <div class="asad">
-                                    <form action="../../controlador/controlador.php?action=mostrar_horas_usuario" method="post">
-                                        <button type="submit">Ver horas anteriores</button>
-                                    </form>
+                                    <a href="../php/horas_canceladas.php">Horas Canceladas</a><br>
+                                    <a href="../php/reservas_globales.php">Reservas Globales</a>
                                 </div>
                                 <div class="cerrar-sin">
-                                    <form action="../../controlador/controlador.php?action=cerrar" method="post">
+                                    <form action="../../controller/controlador.php?action=cerrar" method="post">
                                         <button id="ekis" type="submit">Cerrar Sesión</button>
                                     </form>
                                 </div>                

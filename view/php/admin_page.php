@@ -1,13 +1,13 @@
 <?php
-require_once(__DIR__ . '/../../modelo/modelogod.php');
-
+require_once(__DIR__ . '/../../model/modelogod.php');
+require_once(__DIR__ . '/../../db/Database.php');
 require_once(__DIR__ . '/../../utils/decrypt.php');
 
 // Obtener las credenciales descifradas
 $credentials = getCredentials();
 $adminEmail = $credentials['admin_email']; // Mover esta línea arriba
-
-$reservas_canceladas_model = new Clientes_model(); // Asegúrate de que este modelo esté disponible
+$database = new Database();
+$reservas_canceladas_model = new Clientes_model($database); // Asegúrate de que este modelo esté disponible
 
 // Obtener las reservas canceladas desde el modelo
 $reservasCanceladas = $reservas_canceladas_model->getReservasCanceladas(); // Asegúrate de que este método exista
@@ -86,7 +86,7 @@ for ($i = 0; $i <= 9; $i++) {
 }
 
 // Obtener reservas para cada fecha seleccionada
-$reservas_model = new Clientes_model(); // Asegúrate de que este modelo esté disponible
+$reservas_model = new Clientes_model($database); // Asegúrate de que este modelo esté disponible
 $reservas = [];
 
 foreach ($fechas as $fecha) {
@@ -218,6 +218,13 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                         </div>
                     </div>
                 </div>
+                <div class="second-dd">
+                    <div class="btn-111">
+                        <form action="../../controller/controlador.php?action=cerrar" method="post">
+                            <button id="ekis" type="submit">Cerrar Sesión</button>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="div2">
                 <div class="hrs-can">
@@ -264,11 +271,11 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                             <p id="infoReserva"></p>
                             
                             <div class="modal-buttons">
-                                <form id="formCancelarReserva" action="../../controlador/controlador.php?action=cancelar_reserva" method="POST" enctype="multipart/form-data">
+                                <form id="formCancelarReserva" action="../../controller/controlador.php?action=cancelar_reserva" method="POST" enctype="multipart/form-data">
                                     <input type="hidden" name="id_reserva" id="idReservaCancelar">
                                     <button type="submit" id="canc">Cancelar</button>
                                 </form>
-                                <form id="formConfirmarReserva" action="../../controlador/controlador.php?action=confirmar_reserva" method="POST" enctype="multipart/form-data">
+                                <form id="formConfirmarReserva" action="../../controller/controlador.php?action=confirmar_reserva" method="POST" enctype="multipart/form-data">
                                     <input type="hidden" name="id_reserva" id="idReservaConfirmar">
                                     <button type="submit" id="conf">Confirmar</button>
                                 </form>

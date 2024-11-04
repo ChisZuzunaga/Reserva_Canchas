@@ -1,8 +1,10 @@
 <!-- views/reservas_canceladas.php -->
 <?php
-require_once(__DIR__ . '/../../modelo/modelogod.php');
+require_once(__DIR__ . '/../db/Database.php');
+require_once(__DIR__ . '/../../model/modelogod.php');
 
-$reservas_canceladas_model = new Clientes_model(); // Asegúrate de que este modelo esté disponible
+$database = new Database();
+$reservas_canceladas_model = new Clientes_model($database); // Asegúrate de que este modelo esté disponible
 
 // Obtener las reservas canceladas desde el modelo
 $reservasCanceladas = $reservas_canceladas_model->getReservasCanceladas(); // Asegúrate de que este método exista

@@ -12,7 +12,7 @@
     <div class="main">
         <input type="checkbox" id="chk" aria-hidden="true">
             <div class="signup" id="signupForm">
-                <form action="../../controlador/controlador.php?action=insertar" method="POST" enctype="multipart/form-data">
+                <form action="../../controller/controlador.php?action=insertar" method="POST" enctype="multipart/form-data">
                 <div class="division">
                     <div class="first-half">
                         <div class="parcial-first-half">
@@ -52,7 +52,7 @@
             </div>
 
         <div class="login" id="loginForm">
-            <form action="../../controlador/controlador.php?action=verificar" method="POST">
+            <form action="../../controller/controlador.php?action=verificar" method="POST">
                 <div class="cnt-login">
                     <div class="cnt-first-half">
                     </div>

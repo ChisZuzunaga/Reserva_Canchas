@@ -1,6 +1,7 @@
 <!-- views/reservas_canceladas.php -->
 <?php
-require_once(__DIR__ . '/../../modelo/modelogod.php');
+require_once(__DIR__ . '/../../db/Database.php');
+require_once(__DIR__ . '/../../model/modelogod.php');
 
 if (isset($_SESSION['session_email'])) {
     $email = $_SESSION['session_email'];
@@ -8,7 +9,9 @@ if (isset($_SESSION['session_email'])) {
     $img = $_SESSION['ruta_imagen']; // Obtener el nombre almacenado en la sesión
 }
 
-$reservas_usuario_model = new Clientes_model(); // Asegúrate de que este modelo esté disponible
+
+$database = new Database();
+$reservas_usuario_model = new Clientes_model($database); // Asegúrate de que este modelo esté disponible
 
 $reservasUsuario = $reservas_usuario_model->getReservasUsuario($email); // Asegúrate de que este método exista
 
@@ -55,7 +58,7 @@ $reservasUsuario = $reservas_usuario_model->getReservasUsuario($email); // Aseg�
             <td>
                 <?php if ($reserva['Estado'] != 'cancelada'): ?>
                     <!-- Formulario para cancelar la reserva -->
-                    <form action="../controlador/controlador.php?action=cancelar_reserva" method="post">
+                    <form action="../controller/controlador.php?action=cancelar_reserva" method="post">
                         <input type="hidden" name="id_reserva" value="<?php echo $reserva['ID_Reserva']; ?>">
                         <button type="submit">Cancelar</button>
                     </form>

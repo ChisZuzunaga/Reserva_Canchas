@@ -1,4 +1,3 @@
-// db/Database.php
 <?php
 
 class Database {

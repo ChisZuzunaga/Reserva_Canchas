@@ -1,10 +1,12 @@
 <?php
-require_once '../../modelo/modelogod.php';
+require_once(__DIR__ . '/../db/Database.php');
+require_once(__DIR__ . '/../modelo/modelogod.php');
 
 session_start();
 date_default_timezone_set('America/Santiago');
 
 $adminEmail = 'prueba@a';
+$database = new Database();
 
 if (isset($_SESSION['session_email'])) {
     $email = $_SESSION['session_email'];
@@ -211,11 +213,11 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
         <p id="infoReserva"></p>
         
         <div class="modal-buttons">
-            <form id="formCancelarReserva" action="../../controlador/controlador.php?action=cancelar_reserva" method="POST" enctype="multipart/form-data">
+            <form id="formCancelarReserva" action="../../controller/controlador.php?action=cancelar_reserva" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id_reserva" id="idReservaCancelar">
                 <button type="submit" id="canc">Cancelar</button>
             </form>
-            <form id="formConfirmarReserva" action="../../controlador/controlador.php?action=confirmar_reserva" method="POST" enctype="multipart/form-data">
+            <form id="formConfirmarReserva" action="../../controller/controlador.php?action=confirmar_reserva" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id_reserva" id="idReservaConfirmar">
                 <button type="submit" id="conf">Confirmar</button>
             </form>
@@ -288,7 +290,7 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
     </table>
 </div>
 
-<form action="../../controlador/controlador.php?action=mostrar_horas_canceladas" method="POST" enctype="multipart/form-data">
+<form action="../../controller/controlador.php?action=mostrar_horas_canceladas" method="POST" enctype="multipart/form-data">
     <button>Mostrar canceladas</button>
 </form>
 

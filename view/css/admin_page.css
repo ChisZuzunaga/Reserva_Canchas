@@ -45,6 +45,7 @@ body {
     width: 25%;
     background-color: #F7F6F6;
     transition: all 0.3s ease-in-out;
+    overflow: hidden;
 }
 
 .div2 {
@@ -300,7 +301,6 @@ th, td {
   border-bottom-style: none;
   border-color: #dadada;
 }
-
 #canc{
     background: red;
     border-radius: 11px;
@@ -327,37 +327,62 @@ th, td {
     word-break: break-word;
     border: 0;
 }
-
 .no-transition * {
     transition: none !important;
 }
-
 .first-dd{
     margin-top: 10vh;
     width: 100%;
     height: 5vh;
 }
-
+.second-dd{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    height: 68vh;
+}
+.btn-111{
+    width: 100%;
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#ekis{
+    width: 15vw;
+    height: 5vh;
+    border-radius: 15px;
+    background-color: #179450;
+    color: white;
+    font-weight: 500;
+    border: 0;
+    font-size: 1em;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+#ekis:hover{
+    background-color: #22a55e;
+    transform: scale(1.1); /* Agrandar el botón ligeramente */
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
 .btn-25{
     width: 25%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
-
 .btn-75{
     width: 75%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 .btn-1, .btn-2{
     width: 100%;
     height: 100%;
     display: flex;
 }
-
 .btn-chk{
 	border-radius: 5px;
 	display: inline-block;
@@ -366,7 +391,6 @@ th, td {
 	font-size: 17px;
 	text-decoration: none;
 }
-
 .izq-can, .izq-ver{
     width: 1vw;
     height: 100%;
@@ -395,7 +419,6 @@ th, td {
     display: flex;
     width: 100%;
     height: 55vh;
-    
 }
 .m-izq{
     width: 40%;
