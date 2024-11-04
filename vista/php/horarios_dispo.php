@@ -278,6 +278,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
             document.getElementById('precio_input').value = precio;
             document.getElementById('precio').innerText = `$${precio}`;
         }
+
+        
     </script>
 </body>
 </html>

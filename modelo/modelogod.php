@@ -78,6 +78,7 @@ class Clientes_model {
             $hora_fin = date('H:i:s', $hora_fin_timestamp);
 
             $email = $_SESSION['session_email'];
+            $nombre = $_SESSION['session_nombre'];
             
             $query = "INSERT INTO reserva (Fecha, Hora_Inicio, Hora_Fin, Duracion, ID_Cancha, Email, Estado, Precio) 
                       VALUES (:fecha, :hora_inicio, :hora_fin, :duracion, :cancha_id, :email, 'reservado', :precio)";

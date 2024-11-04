@@ -1,6 +1,6 @@
 <?php
 require_once '../modelo/modelogod.php';
-
+require_once(__DIR__ . '/../utils/decrypt.php');
 class Clientes_controller {
     private $model;
 
@@ -74,9 +74,14 @@ class Clientes_controller {
         session_start();
         $email = $_POST['rer_email'];
         $clave = $_POST['rer_clave'];
+        $credentials = getCredentials();
+        $adminEmail = $credentials['admin_email'];
+
     
         $cliente = $this->model->verifysClientes($email);
     
+        
+
         if ($cliente) {
             if ($clave == $cliente['Clave']) {
                 echo "Inicio de sesión exitoso";
@@ -84,7 +89,7 @@ class Clientes_controller {
                 $_SESSION['session_nombre'] = $cliente['Nombre'];
                 $_SESSION['ruta_imagen'] = '../uploads/' . basename($cliente['Imagen']);
                 
-                if ($email == 'prueba@a') {
+                if ($email == $adminEmail) {
                     header("Location: ../vista/php/admin_page.php");
                 } else {
                     header("Location: ../vista/php/initial_page.php");
@@ -107,9 +112,28 @@ class Clientes_controller {
             $duracion = $_POST['duracion'];
             $precio = $_POST['precio'];
 
+            // Llamada al modelo para reservar
             $resultado = $this->model->reservarCancha($cancha_id, $fecha, $hora_inicio, $duracion, $precio);
 
-            echo $resultado ? "Reserva realizada con éxito." : "El horario no está disponible.";
+            if ($resultado) {
+                // Si la reserva se realizó con éxito, guarda los datos en la sesión
+                session_start();
+                $_SESSION['reserva'] = [
+                    'nombre' => $nombre,
+                    'cancha_id' => $cancha_id,
+                    'fecha' => $fecha,
+                    'hora_inicio' => $hora_inicio,
+                    'duracion' => $duracion,
+                    'precio' => $precio
+                ];
+
+                // Redirige a la vista de resumen
+                header("Location: ../vista/php/resumen_reserva.php");
+                exit;
+            } else {
+                // Muestra un mensaje de error si el horario no está disponible
+                echo "El horario no está disponible.";
+            }
         }
     }
 

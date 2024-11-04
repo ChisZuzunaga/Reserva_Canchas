@@ -1,0 +1,4 @@
+config/config.php
+config/credentials.php
+config/credentials_encrypted.php
+encrypt_credentials.php
