@@ -1,6 +1,31 @@
 <?php
-require_once '../../modelo/modelogod.php';
+require_once(__DIR__ . '/../db/Database.php');
+require_once(__DIR__ . '/../modelo/modelogod.php');
+
+session_start();
 date_default_timezone_set('America/Santiago');
+
+$adminEmail = 'prueba@a';
+$database = new Database();
+
+if (isset($_SESSION['session_email'])) {
+    $email = $_SESSION['session_email'];
+    $nombre = $_SESSION['session_nombre'];
+    $img = $_SESSION['ruta_imagen']; // Obtener el nombre almacenado en la sesión
+
+    if ($email !== $adminEmail) {
+        echo "Acceso denegado. No tienes permisos para acceder a esta página.";
+        // Puedes redirigir al usuario a otra página, como la página de inicio:
+        header("Location: ../php/initial_page.php");
+        exit();
+    }
+
+} else {
+    echo "No has iniciado sesión.";
+    // Puedes redirigir al usuario a la página de inicio de sesión si no está autenticado
+    exit();
+}
+
 // Definir todas las horas desde las 07:00 hasta las 22:00
 $horas = [
     "07:00:00", "07:30:00", "08:00:00", "08:30:00", "09:00:00", "09:30:00", "10:00:00", "10:30:00", "11:00:00", "11:30:00",
@@ -103,7 +128,8 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Reservas de Canchas</title>
+    <title>Panel de Reservas</title>
+    <link rel="icon" href="../uploads/icono.png" type="image/x-icon">
     <style>
         .reservado {
             background-color: #ffcccc; /* Rojo para reservado */
@@ -187,11 +213,11 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
         <p id="infoReserva"></p>
         
         <div class="modal-buttons">
-            <form id="formCancelarReserva" action="../../controlador/controlador.php?action=cancelar_reserva" method="POST" enctype="multipart/form-data">
+            <form id="formCancelarReserva" action="../../controller/controlador.php?action=cancelar_reserva" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id_reserva" id="idReservaCancelar">
                 <button type="submit" id="canc">Cancelar</button>
             </form>
-            <form id="formConfirmarReserva" action="../../controlador/controlador.php?action=confirmar_reserva" method="POST" enctype="multipart/form-data">
+            <form id="formConfirmarReserva" action="../../controller/controlador.php?action=confirmar_reserva" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id_reserva" id="idReservaConfirmar">
                 <button type="submit" id="conf">Confirmar</button>
             </form>
@@ -264,7 +290,7 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
     </table>
 </div>
 
-<form action="../../controlador/controlador.php?action=mostrar_horas_canceladas" method="POST" enctype="multipart/form-data">
+<form action="../../controller/controlador.php?action=mostrar_horas_canceladas" method="POST" enctype="multipart/form-data">
     <button>Mostrar canceladas</button>
 </form>
 

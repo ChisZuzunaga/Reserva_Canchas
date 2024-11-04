@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Iniciddo</title>
+    <title>Ceres Padel Club</title>
+    <link rel="icon" href="../uploads/icono.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/login_register.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="../java/perfil_modal.js" defer></script>
@@ -11,7 +12,7 @@
     <div class="main">
         <input type="checkbox" id="chk" aria-hidden="true">
             <div class="signup" id="signupForm">
-                <form action="../../controlador/controlador.php?action=insertar" method="POST" enctype="multipart/form-data">
+                <form action="../../controller/controlador.php?action=insertar" method="POST" enctype="multipart/form-data">
                 <div class="division">
                     <div class="first-half">
                         <div class="parcial-first-half">
@@ -51,7 +52,7 @@
             </div>
 
         <div class="login" id="loginForm">
-            <form action="../../controlador/controlador.php?action=verificar" method="POST">
+            <form action="../../controller/controlador.php?action=verificar" method="POST">
                 <div class="cnt-login">
                     <div class="cnt-first-half">
                     </div>
