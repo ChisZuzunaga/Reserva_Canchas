@@ -21,7 +21,7 @@
                                 <input type="text" id="ape" name="apellido" required placeholder=" Apellido">
                             </div>
                             <div class="rest-input">
-                                <input type="text" id="i-email" name="email" required placeholder=" Email"> 
+                                <input type="email" id="i-email" name="email" required placeholder=" Email"> 
                                 <input type="password" id="i-password" name="clave" required placeholder=" Contraseña">
                                 <input type="text" id="i-numero" name="numero" required placeholder=" Teléfono">   
                                 <button>Registrarse</button>  

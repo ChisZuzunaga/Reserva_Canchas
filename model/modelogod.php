@@ -127,7 +127,7 @@ class Clientes_model {
     public function getReservasCanceladas() {
         $query = "SELECT ID_Reserva, Fecha, Hora_Inicio, Hora_Fin, Duracion, ID_Cancha, Email, Estado, Precio
                   FROM reserva 
-                  WHERE Estado = 'cancelada'";
+                  WHERE Estado = 'cancelada' ORDER BY Fecha";
         $statement = $this->conexion->prepare($query);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);

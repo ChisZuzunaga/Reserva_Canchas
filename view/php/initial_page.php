@@ -63,6 +63,7 @@ if (isset($_SESSION['session_email'])) {
                                     <div class="nombrerr">
                                         <a><?php echo $nombre?></a>
                                     </div>
+                                    
                                 </div>
                                 <div class="asad">
                                     <form action="../../controller/controlador.php?action=mostrar_horas_usuario" method="post">
@@ -134,7 +135,7 @@ if (isset($_SESSION['session_email'])) {
                                     <p>Precio varia según día y hora.</p>
                                 </div>
                                 <div class="tx-4">
-                                    <a href="horarios_dispo.php?cancha_id=1" class="btn">Agendar Servicio</a>
+                                    <a href="reservar.php?cancha_id=1" class="btn">Agendar Servicio</a>
                                 </div>
                             </div>
                             <div class="canchaB">
@@ -151,7 +152,7 @@ if (isset($_SESSION['session_email'])) {
                                     <p>Precio varia según día y hora.</p>
                                 </div>
                                 <div class="tx-4">
-                                    <a href="horarios_dispo.php?cancha_id=2" class="btn">Agendar servicio</a>
+                                    <a href="reservar.php?cancha_id=2" class="btn">Agendar servicio</a>
                                 </div>
                             </div>
                         </div>
