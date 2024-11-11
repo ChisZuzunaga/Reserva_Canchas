@@ -26,10 +26,11 @@ $reservasUsuario = $reservas_usuario_model->getReservasUsuario($email); // Aseg√
     <link rel="icon" href="../uploads/icono.png" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/estilo.css">
+    <link rel="stylesheet" href="../view/css/estilo.css">
     <title>Horas Reservadas</title>
 </head>
 <body>
+    <a href="../view/php/initial_page.php">Volver</a>
     <h1>Horas reservadas por <?php echo $_SESSION['session_nombre']; ?></h1>
     <table>
     <thead>
@@ -46,28 +47,33 @@ $reservasUsuario = $reservas_usuario_model->getReservasUsuario($email); // Aseg√
     </thead>
     <tbody>
         <?php foreach ($reservasUsuario as $reserva): ?>
-        <tr>
-            <!--<td><?php echo $reserva['ID_Reserva']; ?></td>!-->
-            <td><?php echo $reserva['Fecha']; ?></td>
-            <td><?php echo $reserva['Hora_Inicio']; ?></td>
-            <td><?php echo $reserva['Hora_Fin']; ?></td>
-            <td><?php echo $reserva['Duracion']; ?></td>
-            <td><?php echo $reserva['ID_Cancha']; ?></td>
-            <td>$<?php echo $reserva['Precio']; ?></td>
-            <td><?php echo $reserva['Estado']; ?></td>
-            <td>
-                <?php if ($reserva['Estado'] != 'cancelada'): ?>
-                    <!-- Formulario para cancelar la reserva -->
-                    <form action="../controller/controlador.php?action=cancelar_reserva" method="post">
-                        <input type="hidden" name="id_reserva" value="<?php echo $reserva['ID_Reserva']; ?>">
-                        <button type="submit">Cancelar</button>
-                    </form>
-                <?php else: ?>
-                    <!-- Si la reserva ya est√° cancelada, mostrar texto "Cancelada" -->
-                    <span></span>
-                <?php endif; ?>
-            </td>
-        </tr>
+            <?php 
+            $row_class = '';
+            if ($reserva['Estado'] === 'cancelada') {
+                $row_class = 'cancelada';
+            } elseif ($reserva['Estado'] === 'confirmada') {
+                $row_class = 'confirmada';
+            }
+            
+            // Solo mostrar filas que no est√©n canceladas
+            if ($reserva['Estado'] != 'cancelada'):
+            ?>
+                <tr class="<?php echo $row_class; ?>">
+                    <td><?php echo $reserva['Fecha']; ?></td>
+                    <td><?php echo $reserva['Hora_Inicio']; ?></td>
+                    <td><?php echo $reserva['Hora_Fin']; ?></td>
+                    <td><?php echo $reserva['Duracion']; ?></td>
+                    <td><?php echo $reserva['ID_Cancha']; ?></td>
+                    <td>$<?php echo $reserva['Precio']; ?></td>
+                    <td><?php echo $reserva['Estado']; ?></td>
+                    <td>
+                        <form action="../controller/controlador.php?action=cancelar_reserva" method="post">
+                            <input type="hidden" name="id_reserva" value="<?php echo $reserva['ID_Reserva']; ?>">
+                            <button type="submit">Cancelar</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endif; ?>
         <?php endforeach; ?>
     </tbody>
 </table>

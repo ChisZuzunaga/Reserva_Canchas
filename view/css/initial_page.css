@@ -259,7 +259,7 @@ header{
 }
 
 #chk:checked ~ .second-half .side-perfil {
-    transform: translate(26vw, 18vh);
+    transform: translate(26vw, 16vh);
 }
 
 #chk:checked ~ .second-half .side-perfil label {

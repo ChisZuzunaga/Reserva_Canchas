@@ -93,31 +93,31 @@ if (isset($_SESSION['reserva'])) {
 
     <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-md" id="resumen-contenido">
         <div class="text-center mb-6">
-            <i class="fas fa-check-circle text-4xl text-black"></i>
+            <i class="fas fa-check-circle text-4xl text-green"></i>
             <h1 class="text-2xl font-semibold mt-2">Reserva realizada con éxito!</h1>
         </div>
         <div class="border-t border-gray-300 pt-4">
             <div class="flex items-center mb-4">
-                <i class="fas fa-user-circle text-xl text-gray-700 mr-2"></i>
+                <i class="fas fa-user-circle text-xl text-green-700 mr-2"></i>
                 <div>
                     <p class="font-semibold"><?php echo $nombre?></p>
                     <p class="text-gray-600"><?php echo $email?></p>
                 </div>
             </div>
             <div class="flex items-center mb-4">
-                <i class="fas fa-clock text-xl text-gray-700 mr-2"></i>
+                <i class="fas fa-clock text-xl text-green-700 mr-2"></i>
                 <div>
-                    <p class="font-semibold"><?php echo $hora_inicio?> - <?php echo $hora_fin?> el <span class="font-bold"><?php echo $dia_semana_es , $dia_mes?> - <?php echo $mes_es?></span></p>
+                    <p class="font-semibold"><?php echo $hora_inicio?> - <?php echo $hora_fin?> el día <span class="font-bold"><?php echo $dia_semana_es , $dia_mes?> - <?php echo $mes_es?></span></p>
                 </div>
             </div>
             <div class="flex items-center mb-4">
-                <i class="fas fa-hourglass-end text-xl text-gray-700 mr-2"></i>
+                <i class="fas fa-hourglass-end text-xl text-green-700 mr-2"></i>
                 <div>
                     <p class="font-semibold"><?php echo $duracion?> minutos</p>
                 </div>
             </div>
             <div class="flex items-center mb-4">
-                <i class="fas fa-dollar-sign text-xl text-gray-700 mr-2"></i>
+                <i class="fas fa-dollar-sign text-xl text-green-700 mr-2"></i>
                 <div>
                     <p class="font-semibold">$<?php echo $precio?></p>
                 </div>
@@ -125,7 +125,7 @@ if (isset($_SESSION['reserva'])) {
         </div>
         <div class="border-t border-gray-300 pt-4">
             <div class="flex items-center mb-4">
-                <i class="fas fa-map-marker-alt text-xl text-gray-700 mr-2"></i>
+                <i class="fas fa-map-marker-alt text-xl text-green-700 mr-2"></i>
                 <div>
                     <p class="font-semibold">La serena</p>
                     <p class="text-gray-600">Los Arándanos, Ceres s/n</p>

@@ -36,58 +36,59 @@ class Clientes_controller {
 
     public function agregarClientes() {
         session_start();
-        // Obtiene los datos del formulario y los inserta en la base de datos
+        // Verificar que todos los datos estén presentes
+        if (empty($_POST['nombre']) || empty($_POST['apellido']) || empty($_POST['email']) || empty($_POST['clave']) || empty($_POST['numero'])) {
+            header("Location: ../view/php/login_register.php?error=missing_data");
+            exit();
+        }
+    
+        // Continuar con la lógica actual
         $nombrer = $_POST['nombre'];
         $apellidor = $_POST['apellido'];
         $emailr = $_POST['email'];
         $claver = $_POST['clave'];
         $numeror = $_POST['numero'];
+    
         // Manejo de la imagen subida
         if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
             $nombreImagen = $_FILES['imagen']['name'];
             $rutaTemporal = $_FILES['imagen']['tmp_name'];
             $directorioDestino = '../view/uploads/'.$nombreImagen;
     
-            // Mover el archivo subido a la ubicación definitiva
             if (move_uploaded_file($rutaTemporal, $directorioDestino)) {
                 $imagenRuta = $directorioDestino;
             } else {
-                echo "Error al mover la imagen";
-                return;
+                header("Location: ../view/php/login_register.php?error=image_upload");
+                exit();
             }
         } else {
-            echo "Error al subir la imagen";
-            return;
+            header("Location: ../view/php/login_register.php?error=image_upload");
+            exit();
         }
-        
+    
         $resultado = $this->model->insertClientes($nombrer, $apellidor, $emailr, $claver, $numeror, $imagenRuta);
-
+    
         if ($resultado) {
-            echo "Usuario agregado correctamente";
             $_SESSION['session_email']= $emailr;
             $_SESSION['session_nombre'] = $nombrer;
             $_SESSION['ruta_imagen'] = '../' . $imagenRuta;
             header("Location: ../view/php/initial_page.php");
         } else {
-            echo "Error al crear Usuario";
+            header("Location: ../view/php/login_register.php?error=registration_failed");
         }
     }
-
+    
     public function verificarClientes() {
         session_start();
         $email = $_POST['rer_email'];
         $clave = $_POST['rer_clave'];
         $credentials = getCredentials();
         $adminEmail = $credentials['admin_email'];
-
     
         $cliente = $this->model->verifysClientes($email);
     
-        
-
         if ($cliente) {
             if ($clave == $cliente['Clave']) {
-                echo "Inicio de sesión exitoso";
                 $_SESSION['session_email'] = $email;
                 $_SESSION['session_nombre'] = $cliente['Nombre'];
                 $_SESSION['ruta_imagen'] = '../uploads/' . basename($cliente['Imagen']);
@@ -97,14 +98,15 @@ class Clientes_controller {
                 } else {
                     header("Location: ../view/php/initial_page.php");
                 }
-
             } else {
-                echo "Error: Contraseña incorrecta";
+                header("Location: ../view/php/login_register.php?error=incorrect_password");
             }
         } else {
-            echo "Error: Usuario no encontrado";
+            header("Location: ../view/php/login_register.php?error=user_not_found");
         }
     }
+    
+
     
     // Función para realizar reservas
     public function reservar() {
@@ -134,9 +136,10 @@ class Clientes_controller {
                 header("Location: ../view/php/resumen_reserva.php");
                 exit;
             } else {
-                // Muestra un mensaje de error si el horario no está disponible
-                echo "El horario no está disponible.";
-            }
+                // Redirigir con error y cancha_id
+                header("Location: ../view/php/reservar.php?cancha_id=$cancha_id&error=reservation_fail");
+                exit();
+            }            
         }
     }
 

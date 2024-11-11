@@ -1,0 +1,85 @@
+/* estilos.css */
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700');
+
+
+h1 {
+    text-align: center;
+    font-size: 1.8em;
+    color: #333;
+    font-family: sans-serif;
+}
+
+/* estilos.css */
+
+/* Estilo para las filas de reservas canceladas */
+tr.cancelada {
+    background-color: #ffe5e5 !important; /* Rojo claro */
+}
+
+/* Estilo para las filas de reservas confirmadas */
+tr.confirmada {
+    background-color: #e5ffe5 !important; /* Verde claro */
+}
+
+/* Estilos generales para la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el encabezado */
+table thead th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Estilos para las filas */
+table tbody tr {
+    transition: background-color 0.2s;
+}
+
+table tbody tr:nth-child(even):not(.cancelada):not(.confirmada) {
+    background-color: #f2f2f2;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilos para las celdas */
+table tbody td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* Botón Cancelar */
+button[type="submit"] {
+    background-color: #d9534f;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #c9302c;
+}
+
+/* Texto para las reservas canceladas */
+span {
+    color: #999;
+    font-style: italic;
+}

@@ -79,9 +79,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
     <title>Service Booking</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="../css/reservar.css">
+    <style>
+        /* Estilos para el modal */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5);
+        }
 
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
+
+    <div id="errorModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <p id="errorMessage">Hubo un problema al iniciar sesión. Por favor, intenta de nuevo.</p>
+        </div>
+    </div>
+
     <?php
         $meses = [
             1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo',
@@ -118,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
                 <!-- Botón de retroceder -->
                 <form action="" method="POST" style="display: inline;">
                     <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
-                    <input type="hidden" name="offset" value="<?php echo $offset - 10; ?>">
+                    <input type="hidden" name="offset" value="<?php echo $offset - 15; ?>">
                     <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
                     <button type="submit" <?php echo ($offset <= 0) ? 'disabled' : ''; ?>>◀</button>
                 </form>
@@ -159,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
                 <!-- Botón de avanzar -->
                 <form action="" method="POST" style="display: inline;">
                     <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
-                    <input type="hidden" name="offset" value="<?php echo $offset + 10; ?>">
+                    <input type="hidden" name="offset" value="<?php echo $offset + 15; ?>">
                     <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
                     <button type="submit" <?php echo ($offset >= $max_offset) ? 'disabled' : ''; ?>>▶</button>
                 </form>
@@ -234,6 +279,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            const cancha_id = urlParams.get('cancha_id');
+            const modal = document.getElementById("errorModal");
+            const errorMessage = document.getElementById("errorMessage");
+            const closeModalButton = document.querySelector(".close-btn");
+
+            // Mostrar el modal con el mensaje si hay un error
+            if (error) {
+                switch(error) {
+                    case 'reservation_fail':
+                        errorMessage.textContent = "Error: El horario seleccionado no está disponible.";
+                        break;
+                    default:
+                        errorMessage.textContent = "Hubo un problema al procesar la reserva.";
+                }
+                modal.style.display = "block";
+            }
+
+            // Función para cerrar el modal y actualizar la URL
+            const closeModal = () => {
+                modal.style.display = "none";
+                urlParams.delete('error'); // Eliminar solo el parámetro de error
+                window.history.replaceState({}, document.title, `${window.location.pathname}?${urlParams}`);
+            };
+
+            // Cerrar el modal al hacer clic en la "X"
+            closeModalButton.onclick = closeModal;
+
+            // Cerrar el modal al hacer clic fuera de la ventana del modal
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    closeModal();
+                }
+            }
+        });
+
         function resaltarHora(boton) {
             const horas = document.querySelectorAll('.hora-boton');
             horas.forEach(hora => {
