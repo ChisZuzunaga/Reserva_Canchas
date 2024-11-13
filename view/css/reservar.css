@@ -1,3 +1,4 @@
+/* Estilos base */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f5f7f9;
@@ -55,15 +56,13 @@ body {
     font-weight: bold;
 }
 .days {
-    display: flex;
+    display: ruby;
     gap: 10px;
 }
-
 .day {
     text-align: center;
     margin: 5px;
 }
-
 .fecha-boton {
     background-color: white;
     color: black;
@@ -75,26 +74,21 @@ body {
     flex-direction: column;
     align-items: center;
 }
-
 .fecha-boton .dia-semana {
     font-size: 14px;
     font-weight: bold;
 }
-
 .fecha-boton .numero-dia {
     font-size: 18px;
 }
-
 .fecha-boton:hover {
     background-color: #4BC588;
     color: white;
 }
-
 .active .fecha-boton {
     background-color: #4BC588;
     color: white;
 }
-
 .calendar .day.active {
     background-color: #4BC588;
     color: #ffffff;
@@ -148,18 +142,16 @@ body {
     background-color: #e57373; /* Rojo para ocupado */
     cursor: not-allowed;
 }
-.reservar{
+.reservar {
     margin-top: 5px;
     font-size: 0.9em;
     background-color: #00D976;
     border-radius: 5px;
     color: white;
     border: 1px solid #00D976;
-    border-radius: 5px;
     font-weight: 500;
     width: 100%;
 }
-
 .reservar:hover {
     background-color: #22a55e;
     border: 1px solid #22a55e;
@@ -167,10 +159,52 @@ body {
     transform: scale(1.01); /* Agrandar el botón ligeramente */
     transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
-
-.arrow{
+.arrow {
     background-color: #ffffff;
     border: none;
     cursor: pointer;
     font-size: 1.2em;
+}
+
+/* Media Query para pantallas pequeñas (100px - 767px) */
+@media only screen and (min-width: 100px) and (max-width: 767px) {
+    .container {
+        flex-direction: column;
+        padding: 10px;
+    }
+    .left-panel, .right-panel {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .calendar {
+        flex-direction: column;
+    }
+    .days {
+        flex-wrap: wrap;
+        overflow: hidden;
+        max-width: calc(100% - 20px); /* Ajusta el ancho para mostrar solo 6 días */
+    }
+    .day {
+        flex: 1 0 calc(100% / 6); /* Solo 6 días visibles */
+    }
+    .bloque-horas {
+        gap: 5px;
+    }
+    .hora-boton {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+}
+
+/* Media Query para pantallas medianas y grandes (768px o más) */
+@media only screen and (min-width: 768px) {
+    .bloque-horas {
+        display: flex;
+        gap: 10px;
+        flex-wrap: nowrap; /* Mantiene las horas en una línea horizontal */
+        overflow-x: auto; /* Permite desplazamiento horizontal para ver más horas */
+    }
+    .hora-boton {
+        padding: 10px 15px;
+    }
 }
