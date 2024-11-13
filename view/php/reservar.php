@@ -52,6 +52,9 @@ $selected_hours = []; // Arreglo para las horas seleccionadas
 // Obtener los días disponibles (hasta 10 días adicionales al día actual)
 $fecha_actual = date('Y-m-d');
 $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0; // Para controlar las fechas a mostrar
+// Obtener la hora actual y sumar una hora
+$hora_actual = date('H:i');
+$hora_limite = date('H:i', strtotime('+1 hour', strtotime($hora_actual)));
 $max_offset = 15; // Límite de días que se pueden mostrar (10 días adicionales)
 $fechas_disponibles = [];
 
@@ -154,7 +157,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
 
     <div class="container">
         <div class="left-panel">
-            <div class="header">Selecciona fecha y hora de tu servicio</div>
+            <div class="header">
+                <a>Selecciona fecha y hora de tu servicio</a>
+                <a href="../php/initial_page.php" class="back">Volver</a></div>
             <div class="tabs">
                 <div class="tab active">Fecha y hora</div>
             </div>
@@ -165,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
                     <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
                     <input type="hidden" name="offset" value="<?php echo $offset - 15; ?>">
                     <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                    <button type="submit" <?php echo ($offset <= 0) ? 'disabled' : ''; ?>>◀</button>
+                    <button type="submit" class="arrow" <?php echo ($offset <= 0) ? 'disabled' : ''; ?>><</button>
                 </form>
                 <div class="days">
                     <?php foreach ($fechas_disponibles as $fecha_disponible): ?>
@@ -206,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
                     <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
                     <input type="hidden" name="offset" value="<?php echo $offset + 15; ?>">
                     <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                    <button type="submit" <?php echo ($offset >= $max_offset) ? 'disabled' : ''; ?>>▶</button>
+                    <button type="submit" class="arrow" <?php echo ($offset >= $max_offset) ? 'disabled' : ''; ?>>></button>
                 </form>
             </div>
 
@@ -227,24 +232,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
                     <div class="period"><?php echo ucfirst($jornada); ?></div>
                     <div class="bloque-horas">
                         <?php foreach ($horas as $hora): ?>
-                            <?php if (($duracion == 90 && $hora == "22:00") || ($duracion == 120 && in_array($hora, ["21:30", "22:00"]))) continue; ?>
-                            <form action="" method="POST" style="display: inline;">
-                                <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
-                                <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
-                                <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                                <button type="button"
-                                        class="hora-boton <?php echo isset($horarios_ocupados[$hora]) ? 'ocupado' : ''; ?>" 
-                                        value="<?php echo htmlspecialchars($hora); ?>" 
-                                        data-duracion="<?php echo $duracion; ?>" 
-                                        onclick="resaltarHora(this)" 
-                                        <?php echo isset($horarios_ocupados[$hora]) ? 'disabled' : ''; ?>>
-                                    <?php echo htmlspecialchars($hora); ?>
-                                </button>
-                            </form>
+                            <?php
+                            // Define los límites según la duración seleccionada
+                            $horaLimite = match ($duracion) {
+                                120 => "20:00", // Duración de 120 minutos permite reservar hasta las 20:00
+                                90  => "20:30", // Duración de 90 minutos permite reservar hasta las 20:30
+                                60  => "21:00", // Duración de 60 minutos permite reservar hasta las 21:00
+                                default => "22:00" // Límite general
+                            };
+
+                            // Comprobar si la hora está ocupada o si ya pasó en el día actual
+                            $horaBloque = strtotime($hora);
+                            $horaActualBloque = strtotime($hora_actual);
+                            $esHoy = ($fecha == date('Y-m-d'));
+                            $horaPasada = ($esHoy && $horaBloque < $horaActualBloque);
+
+                            if ($horaPasada || $hora > $horaLimite) {
+                                continue; // Saltar esta hora si ya pasó o excede el límite permitido
+                            }
+                            ?>
+                            <div class="hora <?php echo isset($horarios_ocupados[$hora]) ? 'ocupada' : ''; ?>">
+                                <form action="" method="POST">
+                                    <input type="hidden" name="hora_inicio" value="<?php echo htmlspecialchars($hora); ?>">
+                                    <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
+                                    <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
+                                    <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
+                                    <button type="submit" class="hora-boton"><?php echo htmlspecialchars($hora); ?></button>
+                                </form>
+                            </div>
                         <?php endforeach; ?>
                     </div>
                 <?php endforeach; ?>
+
             </div>
+
 
         </div>
         <div class="right-panel">
