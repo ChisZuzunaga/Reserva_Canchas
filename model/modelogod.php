@@ -37,6 +37,19 @@ class Clientes_model {
         $statement->execute();
         return $statement->fetch(PDO::FETCH_ASSOC); // Devuelve los datos del usuario, incluyendo el hash de la contraseña
     }
+
+    public function contarClientes($emailr) {
+        $query = "SELECT count(*) FROM cliente WHERE Email = :email";
+        $statement = $this->conexion->prepare($query);
+        $statement->bindParam(':email', $emailr);
+        
+        if ($statement->execute()) {
+            return $statement->fetchColumn(); // Devuelve el conteo de registros
+        }
+        
+        return false; // Retorna false si la ejecución falla
+    }
+    
     
     public function verificarDisponibilidad($cancha_id, $fecha, $hora_inicio, $duracion) {
         // Define el horario de cierre de la cancha

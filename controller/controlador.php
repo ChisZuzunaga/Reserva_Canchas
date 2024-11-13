@@ -41,13 +41,21 @@ class Clientes_controller {
             header("Location: ../view/php/login_register.php?error=missing_data");
             exit();
         }
-    
+
         // Continuar con la lógica actual
         $nombrer = $_POST['nombre'];
         $apellidor = $_POST['apellido'];
         $emailr = $_POST['email'];
         $claver = $_POST['clave'];
         $numeror = $_POST['numero'];
+
+        $queryCheck = $this->model->contarClientes($emailr);   
+        if ($queryCheck > 0) {
+            // Redirige o maneja el error de duplicado
+            header("Location: ../view/php/login_register.php?error=email_exists");
+            exit();
+        }
+
     
         // Manejo de la imagen subida
         if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
