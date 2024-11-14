@@ -257,7 +257,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hora_inicio'])) {
                                     <input type="hidden" name="cancha_id" value="<?php echo htmlspecialchars($cancha_id); ?>">
                                     <input type="hidden" name="fecha" value="<?php echo htmlspecialchars($fecha); ?>">
                                     <input type="hidden" name="duracion" value="<?php echo htmlspecialchars($duracion); ?>">
-                                    <button type="submit" class="hora-boton"><?php echo htmlspecialchars($hora); ?></button>
+                                    <button type="button"
+                                        class="hora-boton <?php echo isset($horarios_ocupados[$hora]) ? 'ocupado' : ''; ?>" 
+                                        value="<?php echo htmlspecialchars($hora); ?>" 
+                                        data-duracion="<?php echo $duracion; ?>" 
+                                        onclick="resaltarHora(this)" 
+                                        <?php echo isset($horarios_ocupados[$hora]) ? 'disabled' : ''; ?>>
+                                        <?php echo htmlspecialchars($hora); ?>
+                                    </button>
                                 </form>
                             </div>
                         <?php endforeach; ?>
