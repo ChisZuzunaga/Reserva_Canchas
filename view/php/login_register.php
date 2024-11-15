@@ -214,6 +214,9 @@
                     case 'registration_failed':
                         errorMessage.textContent = "Error: Fallo en el registro de usuario.";
                         break;
+                    case 'email_exists':
+                        errorMessage.textContent = "Error: Email ya registrado en el sistema.";
+                        break;
                     default:
                         errorMessage.textContent = "Hubo un problema al iniciar sesión.";
                 }
