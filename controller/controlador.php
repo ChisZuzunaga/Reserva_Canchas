@@ -226,16 +226,37 @@ class Clientes_controller {
             $id_reserva = $_POST['id_reserva'];
             $resultado = $this->model->cancelarReserva($id_reserva);
             
-            echo $resultado ? "Reserva cancelada con éxito." : "Error al cancelar la reserva.";
+            // Generar mensaje para el usuario
+            $mensaje = $resultado 
+                ? "Reserva cancelada con éxito."
+                : "Error al cancelar la reserva.";
+            
+            // Responder con un script de redirección y el mensaje emergente
+            echo "<script>
+                    alert('$mensaje');
+                    window.location.href = '{$_SERVER['HTTP_REFERER']}';
+                  </script>";
+            exit; // Finaliza para evitar cualquier salida adicional
         }
     }
+    
     
     public function confirmarReserva() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_reserva'])) {
             $id_reserva = $_POST['id_reserva'];
             $resultado = $this->model->confirmarReserva($id_reserva);
             
-            echo $resultado ? "Reserva confirmada con éxito." : "Error al confirmar la reserva.";
+            // Generar mensaje para el usuario
+            $mensaje = $resultado 
+                ? "Reserva confirmada con éxito."
+                : "Error al confirmar la reserva.";
+            
+            // Responder con un script de redirección y el mensaje emergente
+            echo "<script>
+                    alert('$mensaje');
+                    window.location.href = '{$_SERVER['HTTP_REFERER']}';
+                  </script>";
+            exit; // Finaliza para evitar cualquier salida adicional
         }
     }
 
