@@ -1,7 +1,10 @@
 <?php
+use Twilio\Rest\Client;
 require_once(__DIR__ . '/../db/Database.php');
 require_once(__DIR__ . '/../model/modelogod.php');
 require_once(__DIR__ . '/../utils/decrypt.php');
+require_once __DIR__ . '/../vendor/autoload.php';  // Ajusta la ruta si es necesario
+
 
 class Clientes_controller {
     private $model;
@@ -80,6 +83,7 @@ class Clientes_controller {
             $_SESSION['session_email']= $emailr;
             $_SESSION['session_nombre'] = $nombrer;
             $_SESSION['ruta_imagen'] = '../' . $imagenRuta;
+            $_SESSION['nnumero'] = $numeror;
             header("Location: ../view/php/initial_page.php");
         } else {
             header("Location: ../view/php/login_register.php?error=registration_failed");
@@ -98,6 +102,7 @@ class Clientes_controller {
         if ($cliente) {
             if ($clave == $cliente['Clave']) {
                 $_SESSION['session_email'] = $email;
+                $_SESSION['nnumero'] = $cliente['Numero'];
                 $_SESSION['session_nombre'] = $cliente['Nombre'];
                 $_SESSION['ruta_imagen'] = '../uploads/' . basename($cliente['Imagen']);
                 
@@ -124,6 +129,15 @@ class Clientes_controller {
             $hora_inicio = $_POST['hora_inicio'];
             $duracion = $_POST['duracion'];
             $precio = $_POST['precio'];
+            $telefonor = $_SESSION['nnumero']; // Número de teléfono del cliente
+            $nombrers = $_SESSION['session_nombre']; // Correo electrónico del cliente
+
+            $hora_inicio_obj = DateTime::createFromFormat('H:i', $hora_inicio);
+            // Sumar la duración (en minutos)
+            $hora_inicio_obj->modify("+$duracion minutes");
+
+            // Obtener la hora de término en el formato deseado (HH:mm)
+            $hora_termino = $hora_inicio_obj->format('H:i');
 
             // Llamada al modelo para reservar
             $resultado = $this->model->reservarCancha($cancha_id, $fecha, $hora_inicio, $duracion, $precio);
@@ -139,6 +153,10 @@ class Clientes_controller {
                     'duracion' => $duracion,
                     'precio' => $precio
                 ];
+
+                $telefono = "+56966222508"; // Número del administrador o cliente
+                $mensaje = "Nueva reserva realizada a nombre de: $nombrers\nTelefono: $telefonor\nCancha: $cancha_id\nFecha: $fecha\nDesde las: $hora_inicio - $hora_termino\nDuración: $duracion minutos.\nValor: $precio";
+                $this->enviarMensajeWhatsApp($telefono, $mensaje);
 
                 // Redirige a la vista de resumen
                 header("Location: ../view/php/resumen_reserva.php");
@@ -252,7 +270,29 @@ class Clientes_controller {
         }
     }
     
+    public function enviarMensajeWhatsApp($telefono, $mensaje) {
+        $credentials = getCredentials();
+        $sid = $credentials['twilio_sid'];
+        $token = $credentials['twilio_token'];
+        $twilio = new Client($sid, $token);
     
+        try {
+            $twilio->messages->create(
+                "whatsapp:" . $telefono, 
+                [
+                    'from' => "whatsapp:+14155238886", 
+                    'body' => $mensaje
+                ]
+            );
+            error_log("Mensaje enviado exitosamente a: " . $telefono);  // Log exitoso
+            return true; 
+        } catch (Exception $e) {
+            error_log("Error al enviar mensaje: " . $e->getMessage()); // Log de error
+            return false;
+        }
+    }
+    
+
     public function confirmarReserva() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_reserva'])) {
             $id_reserva = $_POST['id_reserva'];

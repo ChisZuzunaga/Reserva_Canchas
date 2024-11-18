@@ -71,7 +71,7 @@ if (isset($_SESSION['session_email'])) {
                                     </form>
                                 </div>
                                 <div class="cerrar-sin">
-                                    <form action="../../Reserva_canchas/controller/controlador.php?action=cerrar" method="post">
+                                    <form action="../../controller/controlador.php?action=cerrar" method="post">
                                         <button id="ekis" type="submit">Cerrar Sesión</button>
                                     </form>
                                 </div>                
@@ -266,7 +266,6 @@ if (isset($_SESSION['session_email'])) {
         document.getElementById("myDiv").style.display = "block";
         }
 
-        window.history.pushState({}, '', '/cerespadel/inicio');
 
     </script>
 </body>
