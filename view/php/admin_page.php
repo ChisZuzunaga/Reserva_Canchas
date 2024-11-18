@@ -237,7 +237,9 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                                 <th>Hora de Inicio</th>
                                 <th>Hora de Fin</th>
                                 <th>Duración</th>
+                                <th>Nombre</th>
                                 <th>Email</th>
+                                <th>Numero</th>
                                 <th>Estado</th>
                                 <th>Precio</th>
                             </tr>
@@ -245,7 +247,7 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                         <tbody>
                             <?php if (empty($reservasCanceladas)): ?>
                                 <tr>
-                                    <td colspan="7">No hay reservas canceladas.</td>
+                                    <td colspan="9">No hay reservas canceladas.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($reservasCanceladas as $cancelada): ?>
@@ -255,7 +257,9 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                                         <td><?= htmlspecialchars($cancelada['Hora_Inicio']) ?></td>
                                         <td><?= htmlspecialchars($cancelada['Hora_Fin']) ?></td>
                                         <td><?= htmlspecialchars($cancelada['Duracion']) ?> minutos</td>
+                                        <td><?= htmlspecialchars($cancelada['Nombre']) ?></td>
                                         <td><?= htmlspecialchars($cancelada['Email']) ?></td>
+                                        <td><?= htmlspecialchars($cancelada['Numero']) ?></td>
                                         <td><?= htmlspecialchars($cancelada['Estado']) ?></td>
                                         <td>$ <?= htmlspecialchars($cancelada['Precio']) ?></td>
                                     </tr>
@@ -265,6 +269,7 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                     </table>   
                 </div>
                 <div class="hrs-ver">
+                    
                     <!-- Modal para editar reservas -->
                     <div id="modalReserva" class="modal">
                         <div class="modal-content">

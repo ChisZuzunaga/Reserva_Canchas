@@ -130,6 +130,13 @@ class Clientes_model {
         return $stmt->execute();
     }
     
+    public function cancelarReservaUSU($id_reserva) {
+        $query = "UPDATE reserva SET Estado = 'cancelada' WHERE ID_Reserva = :id_reserva";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bindParam(':id_reserva', $id_reserva);
+        return $stmt->execute();
+    }
+
     public function confirmarReserva($id_reserva) {
         $query = "UPDATE reserva SET Estado = 'confirmada' WHERE ID_Reserva = :id_reserva";
         $stmt = $this->conexion->prepare($query);
@@ -138,8 +145,10 @@ class Clientes_model {
     }
     
     public function getReservasCanceladas() {
-        $query = "SELECT ID_Reserva, Fecha, Hora_Inicio, Hora_Fin, Duracion, ID_Cancha, Email, Estado, Precio
-                  FROM reserva 
+        $query = "SELECT reserva.ID_Reserva as ID_Reserva, reserva.Fecha as Fecha, reserva.Hora_Inicio as Hora_Inicio, reserva.Hora_Fin as Hora_Fin,
+                  reserva.Duracion as Duracion, reserva.ID_Cancha as ID_Cancha, cliente.Email as Email, reserva.Estado as Estado, reserva.Precio as Precio,
+                  cliente.Nombre as Nombre, cliente.Numero as Numero
+                  FROM reserva INNER JOIN cliente ON cliente.Email = reserva.Email
                   WHERE Estado = 'cancelada' ORDER BY Fecha";
         $statement = $this->conexion->prepare($query);
         $statement->execute();
