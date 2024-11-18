@@ -155,7 +155,17 @@ class Clientes_controller {
                 ];
 
                 $telefono = "+56966222508"; // Número del administrador o cliente
-                $mensaje = "Nueva reserva realizada a nombre de: $nombrers\nTelefono: $telefonor\nCancha: $cancha_id\nFecha: $fecha\nDesde las: $hora_inicio - $hora_termino\nDuración: $duracion minutos.\nValor: $precio";
+                $mensaje = "🗓️ *Nueva reserva pendiente de confirmación*:\n\n"
+                . "👤 *Cliente*: $nombrers\n"
+                . "📞 *Teléfono*: $telefonor\n"
+                . "🎾 *Cancha solicitada*: $cancha_id\n"
+                . "📅 *Fecha de la reserva*: $fecha\n"
+                . "⏰ *Horario solicitado*: Desde las $hora_inicio hasta las $hora_termino\n"
+                . "⏳ *Duración*: $duracion minutos\n"
+                . "💰 *Valor estimado de la reserva*: $$precio\n\n"
+                . "📲 *Por favor, contacta al cliente* para confirmar si asistirá a la reserva. "
+                . "Una vez confirmado, accede al panel de administrador para *confirmar* ✅ o *cancelar* ❌ la reserva.";
+
                 $this->enviarMensajeWhatsApp($telefono, $mensaje);
 
                 // Redirige a la vista de resumen
