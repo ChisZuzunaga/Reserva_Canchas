@@ -165,6 +165,140 @@ class Clientes_model {
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function obtenerInformePorDia($fecha) {
+        $query = "SELECT * FROM Reserva WHERE Fecha = :fecha";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bindParam(':fecha', $fecha);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obtenerInformePorSemana($fechaInicio, $fechaFin) {
+        $query = "SELECT * FROM Reserva WHERE Fecha BETWEEN :inicio AND :fin";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bindParam(':inicio', $fechaInicio);
+        $stmt->bindParam(':fin', $fechaFin);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obtenerInformePorMes($mes, $año) {
+        $query = "SELECT * FROM Reserva WHERE MONTH(Fecha) = :mes AND YEAR(Fecha) = :anio";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bindParam(':mes', $mes);
+        $stmt->bindParam(':anio', $año);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obtenerInformePorRango($fechaInicio, $fechaFin) {
+        $query = "SELECT * FROM Reserva WHERE Fecha BETWEEN :inicio AND :fin";
+        $stmt = $this->conexion->prepare($query);
+        $stmt->bindParam(':inicio', $fechaInicio);
+        $stmt->bindParam(':fin', $fechaFin);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function obtenerTotalClientes() {
+        $stmt = $this->conexion->prepare("SELECT COUNT(*) FROM cliente");
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+    
+    //consulta mala
+    public function obtenerNuevosClientes() {
+        $stmt = $this->conexion->prepare("SELECT COUNT(DISTINCT cliente.Email) AS cantidad_clientes FROM cliente JOIN reserva ON cliente.Email = reserva.Email GROUP BY cliente.Email HAVING COUNT(reserva.Email) = 1;");
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+    
+    public function obtenerClientesAntiguos() {
+        $stmt = $this->conexion->prepare("SELECT COUNT(*) FROM (SELECT reserva.Email FROM reserva GROUP BY reserva.Email HAVING COUNT(reserva.Email) > 1) AS usuarios_con_varias_reservas;");
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+
+    public function obtenerClientesSinReservas() {
+        $stmt = $this->conexion->prepare("SELECT COUNT(*) FROM cliente c LEFT JOIN reserva r ON c.Email = r.Email WHERE r.Email IS NULL;");
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+    
+    public function obtenerTotalReservas() {
+        $stmt = $this->conexion->prepare("SELECT COUNT(*) FROM reserva");
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+    
+    public function obtenerReservasConfirmadas() {
+        $stmt = $this->conexion->prepare("SELECT COUNT(*) FROM reserva WHERE estado = 'confirmada'");
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+
+    public function obtenerReservasPendientes() {
+        $stmt = $this->conexion->prepare("SELECT COUNT(*) FROM reserva WHERE estado = 'reservado'");
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+    
+    public function obtenerReservasCanceladas() {
+        $stmt = $this->conexion->prepare("SELECT COUNT(*) FROM reserva WHERE estado = 'cancelada'");
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+    
+    public function obtenerUsoCancha($id_cancha) {
+        $stmt = $this->conexion->prepare("SELECT COUNT(*) FROM reserva WHERE id_cancha = ?");
+        $stmt->execute([$id_cancha]);
+        return $stmt->fetchColumn();
+    }
+    
+    public function obtenerHorariosFrecuentes() {
+        $stmt = $this->conexion->prepare("SELECT hora_inicio, COUNT(*) as cantidad FROM reserva GROUP BY hora_inicio ORDER BY cantidad DESC");
+        $stmt->execute();
+        $horarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Calcular porcentaje de cada horario
+        $total_reservas = array_sum(array_column($horarios, 'cantidad'));
+        foreach ($horarios as &$horario) {
+            $horario['porcentaje'] = round(($horario['cantidad'] / $total_reservas) * 100, 2); // Agregar porcentaje
+        }
+        
+        return $horarios;
+    }
+    
+    public function obtenerDiasFrecuentes() {
+        $stmt = $this->conexion->prepare("SELECT DAYNAME(fecha) as dia, COUNT(*) as cantidad FROM reserva GROUP BY dia ORDER BY cantidad DESC");
+        $stmt->execute();
+        $dias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Traducir los días de inglés a español
+        $dias_traducidos = [
+            "Monday" => "Lunes",
+            "Tuesday" => "Martes",
+            "Wednesday" => "Miércoles",
+            "Thursday" => "Jueves",
+            "Friday" => "Viernes",
+            "Saturday" => "Sábado",
+            "Sunday" => "Domingo"
+        ];
+    
+        foreach ($dias as &$dia) {
+            // Traducir cada día
+            $dia['dia'] = $dias_traducidos[$dia['dia']] ?? $dia['dia']; 
+        }
+        
+        // Calcular porcentaje de cada día
+        $total_reservas = array_sum(array_column($dias, 'cantidad'));
+        foreach ($dias as &$dia) {
+            $dia['porcentaje'] = round(($dia['cantidad'] / $total_reservas) * 100, 2); // Agregar porcentaje
+        }
+    
+        return $dias;
+    }
+    
 }
 
 ?>

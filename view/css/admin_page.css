@@ -378,7 +378,7 @@ th, td {
     justify-content: center;
     align-items: center;
 }
-.btn-1, .btn-2{
+.btn-1, .btn-2, .btn-3{
     width: 100%;
     height: 100%;
     display: flex;
@@ -391,7 +391,7 @@ th, td {
 	font-size: 17px;
 	text-decoration: none;
 }
-.izq-can, .izq-ver{
+.izq-can, .izq-ver, .izq-inf{
     width: 1vw;
     height: 100%;
     margin-right: 1vw;

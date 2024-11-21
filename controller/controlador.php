@@ -395,6 +395,9 @@ if (isset($_GET['action'])) {
         case 'cancelar_reserva_usu':
             $clientesController->cancelarReservaUSU();
             break;
+        case 'generar_informe':
+            $clientesController->generarInforme();
+            break;
     }
 } else {
     $clientesController->listarClientes();

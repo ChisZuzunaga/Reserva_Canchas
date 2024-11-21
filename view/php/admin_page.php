@@ -9,8 +9,26 @@ $adminEmail = $credentials['admin_email']; // Mover esta línea arriba
 $database = new Database();
 $reservas_canceladas_model = new Clientes_model($database); // Asegúrate de que este modelo esté disponible
 
+
 // Obtener las reservas canceladas desde el modelo
 $reservasCanceladas = $reservas_canceladas_model->getReservasCanceladas(); // Asegúrate de que este método exista
+
+$database = new Database();
+$modelo = new Clientes_model($database);
+
+$clientes_totales = $modelo->obtenerTotalClientes();
+$clientes_nuevos = $modelo->obtenerNuevosClientes();
+$clientes_antiguos = $modelo->obtenerClientesAntiguos();
+$clientes_sin_reservas = $modelo->obtenerClientesSinReservas();
+$reservas_totales = $modelo->obtenerTotalReservas();
+$reservas_canceladas = $modelo->obtenerReservasCanceladas();
+$reservas_confirmadas = $modelo->obtenerReservasConfirmadas();
+$reservas_pendientes = $modelo->obtenerReservasPendientes();
+$cancha_1 = $modelo->obtenerUsoCancha(1);
+$cancha_2 = $modelo->obtenerUsoCancha(2);
+$horarios_frecuentes = $modelo->obtenerHorariosFrecuentes();
+$dias_frecuentes = $modelo->obtenerDiasFrecuentes();
+
 
 
 if (isset($_SESSION['session_email'])) {
@@ -194,6 +212,7 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
     <div class="main">
         <input type="checkbox" id="chk1" style="display:none;">
         <input type="checkbox" id="chk2" style="display:none;">
+        <input type="checkbox" id="chk3" style="display:none;">
 
         <div class="parent">
             <span class="toggle-arrow" onclick="toggleSidebar()">&#9664;</span>
@@ -204,7 +223,7 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                             <span class="izq-can"></span>
                             <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
                         </div>
-                        <div class="btn-75" onclick="toggleDiv('chk1', 'chk2')">
+                        <div class="btn-75" onclick="toggleDiv('chk1', 'chk2', 'chk3')">
                             <span class="btn-chk">Horas Canceladas</span>
                         </div>
                     </div>
@@ -213,8 +232,17 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                             <span class="izq-ver"></span>
                             <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
                         </div>
-                        <div class="btn-75" onclick="toggleDiv('chk2', 'chk1')">
+                        <div class="btn-75" onclick="toggleDiv('chk2', 'chk1', 'chk3')">
                             <span class="btn-chk">Horas Reservadas</span>
+                        </div>
+                    </div>
+                    <div class="btn-3">
+                        <div class="btn-25">
+                            <span class="izq-inf"></span>
+                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                        </div>
+                        <div class="btn-75" onclick="toggleDiv('chk3', 'chk2', 'chk1')">
+                            <span class="btn-chk">Informe</span>
                         </div>
                     </div>
                 </div>
@@ -383,6 +411,8 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                         </table>
                     </div>
                 </div>
+                <div class="hrs-informe">
+                      dsad                              
                 </div>
             </div>
         </div>   
@@ -404,31 +434,52 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
             }
         }
 
-        function toggleDiv(showCheckboxId, hideCheckboxId) {
-            const showDiv = document.querySelector('.hrs-can');
+        function toggleDiv(showCheckboxId, hideCheckboxId, hideCheckboxId) {
+            const showDiv = document.querySelector('.hrs-can'); // Horas canceladas
             const hideDiv = document.querySelector('.hrs-ver');
+            const infDiv = document.querySelector('.hrs-informe');
             const showBtn = document.querySelector('.btn-1'); // Horas canceladas
             const hideBtn = document.querySelector('.btn-2'); // Horas globales
-            const showIzq = document.querySelector('.izq-can');
+            const infBtn = document.querySelector('.btn-3'); // Informe
+            const showIzq = document.querySelector('.izq-can'); // Horas canceladas
             const hideIzq = document.querySelector('.izq-ver');
+            const infIzq = document.querySelector('.izq-inf');
 
             if (showCheckboxId === 'chk1') {
                 showDiv.style.display = 'block';
                 hideDiv.style.display = 'none';
-                showBtn.style.backgroundColor = '#D6D6D6';
+                infDiv.style.display = 'none';
+                showBtn.style.backgroundColor = '#D6D6D6'; // seleccionado
                 hideBtn.style.backgroundColor = '#FFFFFF';
                 showIzq.style.backgroundColor = '#00D976';
                 hideIzq.style.backgroundColor = '#FFFFFF';
+                infBtn.style.backgroundColor = '#FFFFFF';
+                infIzq.style.backgroundColor = '#FFFFFF';
                 localStorage.setItem('selectedDiv', 'chk1');
-            } else {
+            } else if (showCheckboxId == 'chk2') {
                 showDiv.style.display = 'none';
                 hideDiv.style.display = 'block';
+                infDiv.style.display = 'none';
                 showBtn.style.backgroundColor = '#FFFFFF';
                 hideBtn.style.backgroundColor = '#D6D6D6';
                 showIzq.style.backgroundColor = '#FFFFFF';
                 hideIzq.style.backgroundColor = '#00D976';
+                infBtn.style.backgroundColor = '#FFFFFF';
+                infIzq.style.backgroundColor = '#FFFFFF';
                 localStorage.setItem('selectedDiv', 'chk2');
+            } else {
+                showDiv.style.display = 'none';
+                hideDiv.style.display = 'none';
+                infDiv.style.display = 'block';
+                showBtn.style.backgroundColor = '#FFFFFF'; // seleccionado
+                hideBtn.style.backgroundColor = '#FFFFFF';
+                showIzq.style.backgroundColor = '#FFFFFF';
+                hideIzq.style.backgroundColor = '#FFFFFF';
+                infBtn.style.backgroundColor = '#D6D6D6';
+                infIzq.style.backgroundColor = '#00D976';
+                localStorage.setItem('selectedDiv', 'chk3');
             }
+
         }
 
         window.onload = function() {
@@ -448,9 +499,11 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
             // Restaurar el estado del contenido seleccionado
             const savedSelection = localStorage.getItem('selectedDiv');
             if (savedSelection === 'chk1') {
-                toggleDiv('chk1', 'chk2');
+                toggleDiv('chk1', 'chk2', 'chk3');
             } else if (savedSelection === 'chk2') {
-                toggleDiv('chk2', 'chk1');
+                toggleDiv('chk2', 'chk1', 'chk3');
+            } else if (savedSelection === 'chk3') {
+                toggleDiv('chk3', 'chk1', 'chk2');
             }
 
             // Reactiva la animación después de 100 ms
