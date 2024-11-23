@@ -1,0 +1,98 @@
+/* Asegura que los gráficos se ajusten al 100% del contenedor */
+.grafico > canvas {
+    width: 100% !important;    /* Asegura que el gráfico ocupe todo el ancho disponible */
+    height: 400px;             /* Establece una altura fija para los gráficos */
+    max-width: 100%;           /* Evita que el gráfico se estire más allá del contenedor */
+}
+
+/* Títulos */
+.h2 {
+    font-family: Arial, sans-serif; /* Establece una fuente limpia para los títulos */
+    color: #333;  
+    background-color: #f4f4f4;   /* Fondo gris claro para los títulos de cada sección */
+    padding: 10px;                /* Agrega padding alrededor de los títulos */
+    border-radius: 8px;           /* Bordes redondeados */                 /* Color oscuro para los títulos */
+}
+
+.h22 {
+    font-family: Arial, sans-serif; /* Establece una fuente limpia para los títulos */
+    color: #333;  
+    background-color: rgb(214, 214, 214);   /* Fondo gris claro para los títulos de cada sección */
+    padding: 10px;                /* Agrega padding alrededor de los títulos */
+    border-radius: 3px;    
+    display: flex;
+    justify-content: center;
+    align-items: center;       /* Bordes redondeados */                 /* Color oscuro para los títulos */
+}
+
+/* Asegura que los textos dentro de los párrafos estén bien alineados */
+.p {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #666;                /* Texto de color gris para los párrafos */
+    margin: 5px 0;              /* Espaciado vertical entre los párrafos */
+}
+
+.grafico{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+.informe-contenedor{
+    width: 100%;
+    height: auto;
+    padding: 10px;
+}
+
+
+/* Media Query para pantallas pequeñas */
+@media (max-width: 768px) {
+    .parenter {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(5, auto);
+        gap: 0px;
+    }
+
+    canvas {
+        height: 250px; /* Hacer los gráficos más pequeños en pantallas móviles */
+    }
+
+    .grafico {
+        padding: 20px; /* Reducir padding en dispositivos pequeños */
+    }
+}
+
+@media (min-width: 769px) {
+    .parenter {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, auto);
+    gap: 0;
+    }
+        
+    .div--1 {
+        grid-column: span 2 / span 2;
+        grid-row-start: 1;
+    }
+
+    .div--2 {
+        grid-column: span 2 / span 2;
+        grid-row-start: 2;
+    }
+
+    .div--3 {
+        grid-column: span 2 / span 2;
+        grid-row-start: 3;
+    }
+
+    .div--4 {
+        grid-row-start: 4;
+    }
+
+    .div--5 {
+        grid-row-start: 4;
+    }
+}

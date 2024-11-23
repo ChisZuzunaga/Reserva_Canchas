@@ -13,21 +13,18 @@ $reservas_canceladas_model = new Clientes_model($database); // Asegúrate de que
 // Obtener las reservas canceladas desde el modelo
 $reservasCanceladas = $reservas_canceladas_model->getReservasCanceladas(); // Asegúrate de que este método exista
 
-$database = new Database();
-$modelo = new Clientes_model($database);
-
-$clientes_totales = $modelo->obtenerTotalClientes();
-$clientes_nuevos = $modelo->obtenerNuevosClientes();
-$clientes_antiguos = $modelo->obtenerClientesAntiguos();
-$clientes_sin_reservas = $modelo->obtenerClientesSinReservas();
-$reservas_totales = $modelo->obtenerTotalReservas();
-$reservas_canceladas = $modelo->obtenerReservasCanceladas();
-$reservas_confirmadas = $modelo->obtenerReservasConfirmadas();
-$reservas_pendientes = $modelo->obtenerReservasPendientes();
-$cancha_1 = $modelo->obtenerUsoCancha(1);
-$cancha_2 = $modelo->obtenerUsoCancha(2);
-$horarios_frecuentes = $modelo->obtenerHorariosFrecuentes();
-$dias_frecuentes = $modelo->obtenerDiasFrecuentes();
+$clientes_totales = $reservas_canceladas_model->obtenerTotalClientes();
+$clientes_nuevos = $reservas_canceladas_model->obtenerNuevosClientes();
+$clientes_antiguos = $reservas_canceladas_model->obtenerClientesAntiguos();
+$clientes_sin_reservas = $reservas_canceladas_model->obtenerClientesSinReservas();
+$reservas_totales = $reservas_canceladas_model->obtenerTotalReservas();
+$reservas_canceladas = $reservas_canceladas_model->obtenerReservasCanceladas();
+$reservas_confirmadas = $reservas_canceladas_model->obtenerReservasConfirmadas();
+$reservas_pendientes = $reservas_canceladas_model->obtenerReservasPendientes();
+$cancha_1 = $reservas_canceladas_model->obtenerUsoCancha(1);
+$cancha_2 = $reservas_canceladas_model->obtenerUsoCancha(2);
+$horarios_frecuentes = $reservas_canceladas_model->obtenerHorariosFrecuentes();
+$dias_frecuentes = $reservas_canceladas_model->obtenerDiasFrecuentes();
 
 
 
@@ -183,9 +180,12 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
     <title>Admin Page</title>
     <link rel="stylesheet" href="../css/new_admin_page.css">
     <link rel="stylesheet" href="../css/admin_page.css">
+    <link rel="stylesheet" href="../css/informe.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
     <body>
     <div class="header">
         <div class="division">
@@ -239,7 +239,7 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                     <div class="btn-3">
                         <div class="btn-25">
                             <span class="izq-inf"></span>
-                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                            <i class="fa fa-bar-chart" aria-hidden="true"></i>
                         </div>
                         <div class="btn-75" onclick="toggleDiv('chk3', 'chk2', 'chk1')">
                             <span class="btn-chk">Informe</span>
@@ -412,13 +412,118 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                     </div>
                 </div>
                 <div class="hrs-informe">
-                      dsad                              
+                <h1 class = "h22">Informe de Reservas</h1>
+                    <div class="informe-contenedor">
+                        <div class="parenter">
+                            <div class="div--1">
+                                <h2 class = "h2">Clientes</h2>
+                                <p class="p">Total Clientes: <?php echo $clientes_totales; ?></p>
+                                <p class="p">Nuevos Clientes: <?php echo $clientes_nuevos; ?></p>
+                                <p class="p">Clientes Antiguos: <?php echo $clientes_antiguos; ?></p>
+                                <p class="p">Clientes Sin Reservas: <?php echo $clientes_sin_reservas; ?></p>
+                            </div>
+                            <div class="div--2">
+                            <h2 class = "h2">Reservas</h2>
+                                <p class="p">Total Reservas: <?php echo $reservas_totales; ?></p>
+                                <p class="p">Reservas Confirmadas: <?php echo $reservas_confirmadas; ?></p>
+                                <p class="p">Reservas Canceladas: <?php echo $reservas_canceladas; ?></p>
+                                <p class="p">Reservas Pendientes: <?php echo $reservas_pendientes; ?></p>
+                            </div>
+                            <div class="div--3">
+                                <h2 class = "h2">Canchas Más Usadas</h2>
+                                <p class="p">Cancha 1: <?php echo $cancha_1; ?></p>
+                                <p class="p">Cancha 2: <?php echo $cancha_2; ?></p>
+                            </div>
+                            <div class="div--4">
+                                <div class="horas">
+                                    <h2 class = "h2">Horarios Más Frecuentes</h2>
+                                    <div class="grafico">
+                                        <canvas id="graficoHorarios"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="div--5">
+                                <div class="dias">
+                                    <h2 class = "h2">Días Más Frecuentes</h2>
+                                    <div class="grafico">
+                                        <canvas id="graficoDias"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                      
                 </div>
             </div>
         </div>   
     </div>
 
     <script>
+        // Función para agregar el porcentaje a las etiquetas del gráfico
+        function porcentajeLabel(context) {
+            const dataset = context.chart.data.datasets[0];
+            const data = dataset.data;
+            const index = context.dataIndex;
+            const value = data[index];
+            const total = data.reduce((a, b) => a + b, 0);
+            const porcentaje = Math.round((value / total) * 100);
+            return `${porcentaje}%`;
+        }
+
+        const ctxDias = document.getElementById('graficoDias').getContext('2d');
+        new Chart(ctxDias, {
+            type: 'pie',
+            data: {
+                labels: <?php echo json_encode(array_column($dias_frecuentes, 'dia')); ?>,
+                datasets: [{
+                    label: 'Reservas por Día',
+                    data: <?php echo json_encode(array_column($dias_frecuentes, 'cantidad')); ?>,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#C9CBCF'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const dataset = context.chart.data.datasets[0];
+                                const data = dataset.data;
+                                const index = context.dataIndex;
+                                const value = data[index];
+                                const total = data.reduce((a, b) => a + b, 0);
+                                const porcentaje = Math.round((value / total) * 100);
+                                return `${porcentaje}%`; // Muestra el porcentaje en el tooltip
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfico de Horarios
+        const ctxHorarios = document.getElementById('graficoHorarios').getContext('2d');
+        new Chart(ctxHorarios, {
+            type: 'pie',
+            data: {
+                labels: <?php echo json_encode(array_column($horarios_frecuentes, 'hora_inicio')); ?>,
+                datasets: [{
+                    label: 'Reservas por Horario',
+                    data: <?php echo json_encode(array_column($horarios_frecuentes, 'porcentaje')); ?>,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#C9CBCF'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: porcentajeLabel
+                        }
+                    }
+                }
+            }
+        });
+
         function toggleSidebar() {
             const parentDiv = document.querySelector('.parent');
             parentDiv.classList.toggle('hidden');
