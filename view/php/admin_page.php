@@ -2,7 +2,7 @@
 require_once(__DIR__ . '/../../model/modelogod.php');
 require_once(__DIR__ . '/../../db/Database.php');
 require_once(__DIR__ . '/../../utils/decrypt.php');
-
+define('BASE_URL', '../');
 // Obtener las credenciales descifradas
 $credentials = getCredentials();
 $adminEmail = $credentials['admin_email']; // Mover esta línea arriba
@@ -25,7 +25,7 @@ $cancha_1 = $reservas_canceladas_model->obtenerUsoCancha(1);
 $cancha_2 = $reservas_canceladas_model->obtenerUsoCancha(2);
 $horarios_frecuentes = $reservas_canceladas_model->obtenerHorariosFrecuentes();
 $dias_frecuentes = $reservas_canceladas_model->obtenerDiasFrecuentes();
-
+$usuarios_reservas = $reservas_canceladas_model->obtenerUsuariosReservas();
 
 
 if (isset($_SESSION['session_email'])) {
@@ -185,6 +185,8 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
     <body>
     <div class="header">
@@ -215,7 +217,9 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
         <input type="checkbox" id="chk3" style="display:none;">
 
         <div class="parent">
-            <span class="toggle-arrow" onclick="toggleSidebar()">&#9664;</span>
+            <div class="toggle-arrow" onclick="toggleSidebar()">
+                <i class="fas fa-arrow-right"></i> <!-- Flecha a la derecha -->
+            </div>
             <div class="div1">
                 <div class="first-dd">
                     <div class="btn-1">
@@ -223,26 +227,38 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                             <span class="izq-can"></span>
                             <i class="fa fa-calendar-times-o" aria-hidden="true"></i>
                         </div>
-                        <div class="btn-75" onclick="toggleDiv('chk1', 'chk2', 'chk3')">
+                        <div class="btn-75" onclick="toggleDiv('chk1', 'chk2', 'chk3', 'chk4')">
                             <span class="btn-chk">Horas Canceladas</span>
                         </div>
                     </div>
+
                     <div class="btn-2">
                         <div class="btn-25">
                             <span class="izq-ver"></span>
                             <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
                         </div>
-                        <div class="btn-75" onclick="toggleDiv('chk2', 'chk1', 'chk3')">
+                        <div class="btn-75" onclick="toggleDiv('chk2', 'chk1', 'chk3', 'chk4')">
                             <span class="btn-chk">Horas Reservadas</span>
                         </div>
                     </div>
+
                     <div class="btn-3">
                         <div class="btn-25">
                             <span class="izq-inf"></span>
                             <i class="fa fa-bar-chart" aria-hidden="true"></i>
                         </div>
-                        <div class="btn-75" onclick="toggleDiv('chk3', 'chk2', 'chk1')">
+                        <div class="btn-75" onclick="toggleDiv('chk3', 'chk1', 'chk2', 'chk4')">
                             <span class="btn-chk">Informe</span>
+                        </div>
+                    </div>
+
+                    <div class="btn-4">
+                        <div class="btn-25">
+                            <span class="izq-usu"></span>
+                            <i class="fa fa-address-book" aria-hidden="true"></i>
+                        </div>
+                        <div class="btn-75" onclick="toggleDiv('chk4', 'chk1', 'chk2', 'chk3')">
+                            <span class="btn-chk">Usuarios Frecuentes</span>
                         </div>
                     </div>
                 </div>
@@ -344,14 +360,14 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                                             <input type="date" id="fecha" name="fecha" value="<?php echo $fecha_actual->format('Y-m-d'); ?>" onchange="this.form.submit()"></input>
                                         </form>
                                         <form method="GET" action="" style="display: inline;">
-                                            <button class="retro" type="submit" name="retroceder" value="1">◀</button>
+                                            <button class="retro" type="submit" name="retroceder" value="1"><i class="fas fa-arrow-left"></i></button>
                                             <input type="hidden" name="cancha_id" value="<?= $cancha_id ?>">
                                             <input type="hidden" name="fecha" value="<?= $fecha_actual->format('Y-m-d') ?>">
                                         </form>
 
                                         <!-- Botón para avanzar 10 días -->
                                         <form method="GET" action="" style="display: inline;">
-                                            <button class="avanza" type="submit" name="avanzar" value="1" >▶</button>
+                                            <button class="avanza" type="submit" name="avanzar" value="1" ><i class="fas fa-arrow-right"></i></button>
                                             <input type="hidden" name="cancha_id" value="<?= $cancha_id ?>">
                                             <input type="hidden" name="fecha" value="<?= $fecha_actual->format('Y-m-d') ?>">
                                         </form>
@@ -412,7 +428,7 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                     </div>
                 </div>
                 <div class="hrs-informe">
-                <h1 class = "h22">Informe de Reservas</h1>
+                    <h1 class = "h22">Informe de Reservas</h1>
                     <div class="informe-contenedor">
                         <div class="parenter">
                             <div class="div--1">
@@ -453,10 +469,78 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
                         </div>
                     </div>                      
                 </div>
+                <div class="usu-frecuente">
+                    <div class="container mt-4">
+                        <h1 class="mb-4">Usuarios y sus Reservas</h1>
+                        <?php foreach ($usuarios_reservas as $usuario): ?>
+                            <div class="usuario-card">
+                                <!-- Imagen del usuario -->
+                                <img src="<?php echo BASE_URL . $usuario['Imagen']; ?>" alt="Imagen Usuario" class="usuario-imagen">
+
+                                <!-- Información del usuario -->
+                                <div class="usuario-info">
+                                    <p class="usuario-nombre">
+                                        <?php echo htmlspecialchars($usuario['Nombre'] . ' ' . $usuario['Apellido']); ?>
+                                    </p>
+                                    <div class="barra-estado">
+
+                                        <?php
+                                            $total_reservas = $usuario['canceladas'] + $usuario['reservadas'] + $usuario['confirmadas'];
+                                            $porcentaje_canceladas = $total_reservas ? ($usuario['canceladas'] / $total_reservas) * 100 : 0;
+                                            $porcentaje_reservadas = $total_reservas ? ($usuario['reservadas'] / $total_reservas) * 100 : 0;
+                                            $porcentaje_confirmadas = $total_reservas ? ($usuario['confirmadas'] / $total_reservas) * 100 : 0;
+                                            $total_canchas = $usuario['canceladas'] + $usuario['reservadas'] + $usuario['confirmadas'];
+                                        ?>
+                                        <div class="barra w-100 d-flex">
+                                            <div class="cancelada" style="width: <?php echo $porcentaje_canceladas; ?>%;">
+                                                <?php echo $porcentaje_canceladas > 0 ? round($porcentaje_canceladas) . '%' : ''; ?>
+                                            </div>
+                                            <div class="reservada" style="width: <?php echo $porcentaje_reservadas; ?>%;">
+                                                <?php echo $porcentaje_reservadas > 0 ? round($porcentaje_reservadas) . '%' : ''; ?>
+                                            </div>
+                                            <div class="confirmada" style="width: <?php echo $porcentaje_confirmadas; ?>%;">
+                                                <?php echo $porcentaje_confirmadas > 0 ? round($porcentaje_confirmadas) . '%' : ''; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Botón para ver más detalles -->
+                                <button 
+                                    class="detalles-btn" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modalUsuario<?php echo md5($usuario['Email']); ?>">
+                                    Detalles
+                                </button>
+                            </div>
+
+                            <!-- Modal para mostrar detalles -->
+                            <div class="modal fade" id="modalUsuario<?php echo md5($usuario['Email']); ?>" tabindex="-1" aria-labelledby="modalLabel<?php echo md5($usuario['Email']); ?>" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalLabel<?php echo md5($usuario['Email']); ?>">
+                                                Detalles de <?php echo htmlspecialchars($usuario['Nombre'] . ' ' . $usuario['Apellido']); ?>
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>Email:</strong> <?php echo htmlspecialchars($usuario['Email']); ?></p>
+                                            <p><strong>Telefono:</strong> <?php echo htmlspecialchars($usuario['Numero']); ?></p>
+                                            <p><strong>Canchas Canceladas:</strong> <?php echo $usuario['canceladas']; ?></p>
+                                            <p><strong>Canchas Reservadas:</strong> <?php echo $usuario['reservadas']; ?></p>
+                                            <p><strong>Canchas Confirmadas:</strong> <?php echo $usuario['confirmadas']; ?></p>
+                                            <p><strong>Canchas Totales:</strong> <?php echo $total_canchas ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
             </div>
         </div>   
     </div>
-
     <script>
         // Función para agregar el porcentaje a las etiquetas del gráfico
         function porcentajeLabel(context) {
@@ -528,8 +612,16 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
             const parentDiv = document.querySelector('.parent');
             parentDiv.classList.toggle('hidden');
             
-            const arrow = document.querySelector('.toggle-arrow');
-            arrow.innerHTML = arrow.innerHTML === '▶' ? '◀' : '▶';
+            const arrow = document.querySelector('.toggle-arrow i'); // Seleccionar el icono <i> dentro del contenedor
+
+            // Cambiar el icono de flecha
+            if (parentDiv.classList.contains('hidden')) {
+                arrow.classList.remove('fa-arrow-right');
+                arrow.classList.add('fa-arrow-left');
+            } else {
+                arrow.classList.remove('fa-arrow-left');
+                arrow.classList.add('fa-arrow-right');
+            }
 
             // Guardar el estado del sidebar en localStorage
             if (parentDiv.classList.contains('hidden')) {
@@ -539,52 +631,94 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
             }
         }
 
-        function toggleDiv(showCheckboxId, hideCheckboxId, hideCheckboxId) {
+
+
+        function toggleDiv(showCheckboxId, hideCheckboxId1, hideCheckboxId2, hideCheckboxId3) {
+            console.log("toggleDiv called with:", showCheckboxId);
             const showDiv = document.querySelector('.hrs-can'); // Horas canceladas
             const hideDiv = document.querySelector('.hrs-ver');
             const infDiv = document.querySelector('.hrs-informe');
+            const usuFre = document.querySelector('.usu-frecuente');
+
             const showBtn = document.querySelector('.btn-1'); // Horas canceladas
             const hideBtn = document.querySelector('.btn-2'); // Horas globales
             const infBtn = document.querySelector('.btn-3'); // Informe
+            const usuBtn = document.querySelector('.btn-4'); // Usuarios
+
             const showIzq = document.querySelector('.izq-can'); // Horas canceladas
             const hideIzq = document.querySelector('.izq-ver');
             const infIzq = document.querySelector('.izq-inf');
+            const usuIzq = document.querySelector('.izq-usu');
 
             if (showCheckboxId === 'chk1') {
                 showDiv.style.display = 'block';
                 hideDiv.style.display = 'none';
                 infDiv.style.display = 'none';
+                usuFre.style.display = 'none';
+
                 showBtn.style.backgroundColor = '#D6D6D6'; // seleccionado
                 hideBtn.style.backgroundColor = '#FFFFFF';
+                infBtn.style.backgroundColor = '#FFFFFF';
+                usuBtn.style.backgroundColor = '#FFFFFF';
+
                 showIzq.style.backgroundColor = '#00D976';
                 hideIzq.style.backgroundColor = '#FFFFFF';
-                infBtn.style.backgroundColor = '#FFFFFF';
                 infIzq.style.backgroundColor = '#FFFFFF';
+                usuIzq.style.backgroundColor = '#FFFFFF';
+
                 localStorage.setItem('selectedDiv', 'chk1');
             } else if (showCheckboxId == 'chk2') {
                 showDiv.style.display = 'none';
                 hideDiv.style.display = 'block';
                 infDiv.style.display = 'none';
+                usuFre.style.display = 'none';
+
                 showBtn.style.backgroundColor = '#FFFFFF';
                 hideBtn.style.backgroundColor = '#D6D6D6';
+                infBtn.style.backgroundColor = '#FFFFFF';
+                usuBtn.style.backgroundColor = '#FFFFFF';
+
                 showIzq.style.backgroundColor = '#FFFFFF';
                 hideIzq.style.backgroundColor = '#00D976';
-                infBtn.style.backgroundColor = '#FFFFFF';
                 infIzq.style.backgroundColor = '#FFFFFF';
+                usuIzq.style.backgroundColor = '#FFFFFF';
+
                 localStorage.setItem('selectedDiv', 'chk2');
-            } else {
+            } else if (showCheckboxId == 'chk3') {
                 showDiv.style.display = 'none';
                 hideDiv.style.display = 'none';
                 infDiv.style.display = 'block';
+                usuFre.style.display = 'none';
+
                 showBtn.style.backgroundColor = '#FFFFFF'; // seleccionado
                 hideBtn.style.backgroundColor = '#FFFFFF';
+                infBtn.style.backgroundColor = '#D6D6D6';
+                usuBtn.style.backgroundColor = '#FFFFFF';
+
                 showIzq.style.backgroundColor = '#FFFFFF';
                 hideIzq.style.backgroundColor = '#FFFFFF';
-                infBtn.style.backgroundColor = '#D6D6D6';
                 infIzq.style.backgroundColor = '#00D976';
-                localStorage.setItem('selectedDiv', 'chk3');
-            }
+                usuIzq.style.backgroundColor = '#FFFFFF';
 
+                localStorage.setItem('selectedDiv', 'chk3');
+            } else {
+                showDiv.style.display = 'none';
+                hideDiv.style.display = 'none';
+                infDiv.style.display = 'none';
+                usuFre.style.display = 'block';
+
+                showBtn.style.backgroundColor = '#FFFFFF'; // seleccionado
+                hideBtn.style.backgroundColor = '#FFFFFF';
+                infBtn.style.backgroundColor = '#FFFFFF';
+                usuBtn.style.backgroundColor = '#D6D6D6';
+
+                showIzq.style.backgroundColor = '#FFFFFF';
+                hideIzq.style.backgroundColor = '#FFFFFF';
+                infIzq.style.backgroundColor = '#FFFFFF';
+                usuIzq.style.backgroundColor = '#00D976';
+
+                localStorage.setItem('selectedDiv', 'chk4');
+            }
         }
 
         window.onload = function() {
@@ -592,28 +726,23 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
 
             // Quita la animación temporalmente al cargar la página
             document.body.classList.add('no-transition');
-            
-            const sidebarState = localStorage.getItem('sidebarState');
-            if (sidebarState === 'hidden') {
-                parentDiv.classList.add('hidden');
-                document.querySelector('.toggle-arrow').innerHTML = '▶';
-            } else {
-                document.querySelector('.toggle-arrow').innerHTML = '◀';
-            }
 
             // Restaurar el estado del contenido seleccionado
             const savedSelection = localStorage.getItem('selectedDiv');
             if (savedSelection === 'chk1') {
-                toggleDiv('chk1', 'chk2', 'chk3');
+                toggleDiv('chk1', 'chk2', 'chk3', 'chk4');
             } else if (savedSelection === 'chk2') {
-                toggleDiv('chk2', 'chk1', 'chk3');
+                toggleDiv('chk2', 'chk1', 'chk3', 'chk4');
             } else if (savedSelection === 'chk3') {
-                toggleDiv('chk3', 'chk1', 'chk2');
+                toggleDiv('chk3', 'chk1', 'chk2', 'chk4');
+            } else {
+                toggleDiv('chk4', 'chk1', 'chk2', 'chk3');
             }
 
             // Reactiva la animación después de 100 ms
             setTimeout(() => document.body.classList.remove('no-transition'), 100);
         }
+
 
         // Función para abrir el modal
         function abrirModal(reservaJson) {
@@ -733,5 +862,6 @@ $rowspan_data = calcularRowspan($reservas_por_hora, $horas);
 
         
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

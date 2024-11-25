@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../css/login_register.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="../java/perfil_modal.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
     <style>
         /* Estilos para el modal */
@@ -122,9 +123,19 @@
                                         <input type="text" id="ape" name="apellido"  placeholder=" Apellido">
                                     </div>
                                     <div class="rest-input">
-                                        <input type="email" id="i-email" name="email"  placeholder=" Email"> 
-                                        <input type="password" id="i-password" name="clave"  placeholder=" Contraseña">
-                                        <input type="number" id="i-numero" name="numero"  placeholder=" Teléfono">   
+                                        <input type="hidden" id="i-codigo-pais" name="codigo_pais">
+                                        <input type="email" id="i-email" name="email" placeholder="Email"> 
+                                        <input type="password" id="i-password" name="clave" placeholder="Contraseña">
+                                        <!-- Input para teléfono con código de país -->
+                                        <input  type="tel" 
+                                                id="i-numero" 
+                                                name="numero" 
+                                                placeholder="Teléfono"
+                                                maxlength="9"               
+                                                inputmode="numeric"        
+                                                pattern="[0-9]{9}"          
+                                                oninput="validarTelefono(this)"
+                                                id="i-numero" name="numero" placeholder="Teléfono">
                                         <button>Registrarse</button>  
                                         <div class="label-first">
                                             <a>¿Ya tienes una cuenta?</a><label for="chk" class="login-text" aria-hidden="true">Inicia Sesión</label>              
@@ -175,7 +186,7 @@
                 </form>
             </div>
         </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <script>
         var myVar;
 
@@ -217,6 +228,9 @@
                     case 'email_exists':
                         errorMessage.textContent = "Error: Email ya registrado en el sistema.";
                         break;
+                    case 'invalid_image_extension':
+                        errorMessage.textContent = "Error: Extensión de imágen no admitida.";
+                        break;
                     default:
                         errorMessage.textContent = "Hubo un problema al iniciar sesión.";
                 }
@@ -238,6 +252,39 @@
             }
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Inicializar intl-tel-input
+            var input = document.querySelector("#i-numero");
+            var iti = window.intlTelInput(input, {
+                preferredCountries: ["cl"],  // Puedes agregar los países preferidos aquí
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // Este script es necesario para la validación
+            });
 
+            // Actualizar el número de teléfono con el código del país antes de enviar
+            document.querySelector("form").addEventListener("submit", function(event) {
+                // Obtener el número de teléfono completo (con código de país)
+                var fullNumber = iti.getNumber();  // Esto incluye el código de país
+                var countryCode = iti.getSelectedCountryData().dialCode;  // Código del país sin '+'
+                
+                // Colocar el número con el código en el campo de teléfono
+                document.querySelector("#i-numero").value = fullNumber;
+
+                // Colocar el código del país en el campo oculto
+                document.querySelector("#i-codigo-pais").value = countryCode;
+            });
+        });
+    </script>
+    <script>
+        function validarTelefono(input) {
+            // Eliminar cualquier cosa que no sea un número
+            input.value = input.value.replace(/\D/g, '');
+            
+            // Limitar la longitud a 9 caracteres
+            if (input.value.length > 9) {
+                input.value = input.value.slice(0, 9);
+            }
+        }
+    </script>
 </body>
 </html>

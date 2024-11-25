@@ -210,16 +210,34 @@ body {
     cursor: pointer;
 }
 
+/* Estilo general para la tabla */
 table {
-    border-collapse: collapse;
     width: 100%;
+    border-collapse: collapse; /* Elimina los espacios entre las celdas */
 }
 
+/* Estilo para las celdas */
 th, td {
-    border: 1px solid #ccc;
     padding: 8px;
     text-align: center;
+    border: 1px solid #ddd; /* Borde gris claro */
     height: 30px;
+}
+
+/* Fondo de las celdas del encabezado */
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+/* Fondo alternado para las filas del cuerpo */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Hover sobre las filas */
+tr:hover {
+    background-color: #a8a8a8;
 }
 
 /* Estilos para el modal */
@@ -378,7 +396,7 @@ th, td {
     justify-content: center;
     align-items: center;
 }
-.btn-1, .btn-2, .btn-3{
+.btn-1, .btn-2, .btn-3, .btn-4{
     width: 100%;
     height: 100%;
     display: flex;
@@ -391,7 +409,7 @@ th, td {
 	font-size: 17px;
 	text-decoration: none;
 }
-.izq-can, .izq-ver, .izq-inf{
+.izq-can, .izq-ver, .izq-inf, .izq-usu{
     width: 1vw;
     height: 100%;
     margin-right: 1vw;
@@ -471,4 +489,81 @@ th, td {
     font-weight: 600;
     padding: 1vw;
     display: flex;
+}
+
+.usuario-card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.usuario-imagen {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.usuario-info {
+    flex: 1;
+}
+
+.usuario-nombre {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.barra-estado {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+.barra-estado .barra {
+    height: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    position: relative;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+}
+.barra-estado .cancelada {
+    background-color: #FF4C4C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.barra-estado .reservada {
+    background-color: #FFA500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.barra-estado .confirmada {
+    background-color: #4CAF50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detalles-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.detalles-btn:hover {
+    background-color: #0056b3;
 }

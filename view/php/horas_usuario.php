@@ -10,6 +10,7 @@ if (isset($_SESSION['session_email'])) {
     $img = $_SESSION['ruta_imagen']; // Obtener el nombre almacenado en la sesión
 } else {
     echo "No has iniciado sesión.";
+    header("Location: ../php/login_register.php");
     // Puedes redirigir al usuario a la página de inicio de sesión si no está autenticado
     exit();
 }

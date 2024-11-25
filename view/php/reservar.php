@@ -6,7 +6,8 @@ session_start();
 date_default_timezone_set('America/Santiago');
 if (!isset($_SESSION['session_email'])) {
     echo "No has iniciado sesión.";
-    exit();
+    header("Location: ../php/login_register.php");
+
 }
 
 // Inicializar variables

@@ -16,7 +16,7 @@ class Clientes_model {
         }
     }
 
-    public function insertClientes($nombrer, $apellidor, $emailr, $claver, $numeror, $imagenr) {
+    public function insertClientes($nombrer, $apellidor, $emailr, $claver, $numero, $imagenr) {
         // Inserta un nuevo profesor en la base de datos
         $query = "INSERT INTO cliente (Nombre, Apellido, Email, Clave, Numero, Imagen) VALUES (:nombre, :apellido, :email, :clave, :numero, :imagen)";
         $statement = $this->conexion->prepare($query);
@@ -24,7 +24,7 @@ class Clientes_model {
         $statement->bindParam(':apellido', $apellidor);
         $statement->bindParam(':email', $emailr);
         $statement->bindParam(':clave', $claver);
-        $statement->bindParam(':numero', $numeror);
+        $statement->bindParam(':numero', $numero);
         $statement->bindParam(':imagen', $imagenr);
         $result = $statement->execute();
         return $result;
@@ -253,6 +253,29 @@ class Clientes_model {
         $stmt = $this->conexion->prepare("SELECT COUNT(*) FROM reserva WHERE id_cancha = ?");
         $stmt->execute([$id_cancha]);
         return $stmt->fetchColumn();
+    }
+
+    public function obtenerUsuariosReservas() {
+        $stmt = $this->conexion->prepare("
+        SELECT 
+            cliente.Nombre, 
+            cliente.Apellido,
+            cliente.Numero, 
+            cliente.Imagen, 
+            cliente.Email,
+            COUNT(CASE WHEN reserva.Estado = 'cancelada' THEN 1 END) AS canceladas,
+            COUNT(CASE WHEN reserva.Estado = 'reservado' THEN 1 END) AS reservadas,
+            COUNT(CASE WHEN reserva.Estado = 'confirmada' THEN 1 END) AS confirmadas
+        FROM cliente
+        LEFT JOIN reserva ON cliente.Email = reserva.Email
+        WHERE cliente.Email != 'cerespadel@admin.com'
+        AND reserva.Email IS NOT NULL
+        GROUP BY cliente.Email
+        ORDER BY confirmadas DESC;
+
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     public function obtenerHorariosFrecuentes() {

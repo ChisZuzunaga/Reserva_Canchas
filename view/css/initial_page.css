@@ -240,9 +240,9 @@ header{
 .asad{
     width: 100%;
     height: 25vh;
-    /*display: flex;
+    display: flex;
     justify-content: center;
-    align-items: center;*/
+    align-items: center;
 }
 
 .cerrar-sin{
@@ -251,6 +251,29 @@ header{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.ver-horas-btn {
+    background-color: #4CAF50; /* Verde brillante para el fondo */
+    color: white;               /* Color del texto */
+    font-size: 1em;           /* Tamaño del texto */
+    padding: 5px;
+    border-radius: 10px;       /* Bordes redondeados */
+    border: none;              /* Sin borde por defecto */
+    cursor: pointer;           /* Cambiar el cursor a mano cuando pase por encima */
+    transition: all 0.3s ease-in-out;  /* Transición suave */
+    font-weight: bold;         /* Texto en negrita */
+    text-align: center;        /* Centrar el texto */
+    width: 100%;               /* Que ocupe el 100% del ancho del contenedor */
+}
+
+.ver-horas-btn:hover {
+    background-color: #45a049; /* Color más oscuro en hover */
+    transform: translateY(-4px); /* Efecto de elevación al pasar el mouse */
+}
+
+.ver-horas-btn:focus {
+    outline: none; /* Remover el contorno cuando se hace foco */
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2); /* Añadir sombra al hacer clic */
 }
 
 .side-perfil label {

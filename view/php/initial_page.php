@@ -8,6 +8,7 @@ if (isset($_SESSION['session_email'])) {
 
 } else {
     echo "No has iniciado sesión.";
+    header("Location: ../php/initial_page.php");
     // Puedes redirigir al usuario a la página de inicio de sesión si no está autenticado
     exit();
 }
@@ -67,7 +68,7 @@ if (isset($_SESSION['session_email'])) {
                                 </div>
                                 <div class="asad">
                                     <form action="\Reserva_Canchas\view\php\horas_usuario.php" method="post">
-                                        <button type="submit">Ver horas anteriores</button>
+                                        <button type="submit" class="ver-horas-btn">Ver horas anteriores</button>
                                     </form>
                                 </div>
                                 <div class="cerrar-sin">

@@ -50,7 +50,7 @@ class Clientes_controller {
         $apellidor = $_POST['apellido'];
         $emailr = $_POST['email'];
         $claver = $_POST['clave'];
-        $numeror = $_POST['numero'];
+        $numero = $_POST['numero'];
 
         $queryCheck = $this->model->contarClientes($emailr);   
         if ($queryCheck > 0) {
@@ -66,6 +66,15 @@ class Clientes_controller {
             $rutaTemporal = $_FILES['imagen']['tmp_name'];
             $directorioDestino = '../view/uploads/'.$nombreImagen;
     
+            // Validar la extensión de la imagen
+            $extensionesPermitidas = ['jpg', 'jpeg', 'png'];
+            $extension = pathinfo($nombreImagen, PATHINFO_EXTENSION);
+            
+            if (!in_array(strtolower($extension), $extensionesPermitidas)) {
+                header("Location: ../view/php/login_register.php?error=invalid_image_extension");
+                exit();
+            }
+            
             if (move_uploaded_file($rutaTemporal, $directorioDestino)) {
                 $imagenRuta = $directorioDestino;
             } else {
@@ -77,13 +86,13 @@ class Clientes_controller {
             exit();
         }
     
-        $resultado = $this->model->insertClientes($nombrer, $apellidor, $emailr, $claver, $numeror, $imagenRuta);
+        $resultado = $this->model->insertClientes($nombrer, $apellidor, $emailr, $claver, $numero, $imagenRuta);
     
         if ($resultado) {
             $_SESSION['session_email']= $emailr;
             $_SESSION['session_nombre'] = $nombrer;
             $_SESSION['ruta_imagen'] = '../' . $imagenRuta;
-            $_SESSION['nnumero'] = $numeror;
+            $_SESSION['nnumero'] = $numero;
             header("Location: ../view/php/initial_page.php");
         } else {
             header("Location: ../view/php/login_register.php?error=registration_failed");
